@@ -1,3 +1,6 @@
 *.pyc
 *.swp
 build/
+toy_ros_space/build/
+toy_ros_space/devel/
+

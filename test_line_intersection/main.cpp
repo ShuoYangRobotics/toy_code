@@ -10,7 +10,7 @@ using namespace std;
 using namespace Eigen;
 
 Gnuplot gp;
-enum INTERSECT_TYPE = {
+enum INTERSECT_TYPE  {
 	OVERLAP,
 	COLLINEAR,
 	PARALLEL,
