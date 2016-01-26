@@ -8,7 +8,6 @@ namespace odeint = boost::numeric::odeint;
 
 ROV::ROV()
 {
-  dt = 0.02;  //default dt is 50Hz
   ticks = 0;
 
   /* following data is obtained from shaojie simulator */
@@ -23,7 +22,7 @@ ROV::ROV()
 
   attitude = Eigen::Quaterniond(Eigen::Matrix3d::Identity());
   angularVelocity = Eigen::Vector3d::Zero();
-  moment = Eigen::Vector3d::Zero();
+  torque = Eigen::Vector3d::Zero();
 
   updateInternalState();
 }
