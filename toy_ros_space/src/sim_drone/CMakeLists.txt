@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  tf
+  geometry_msgs 
 )
 
 ## System dependencies are found with CMake's conventions
@@ -113,7 +115,11 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(sim_test src/main.cpp src/rov.cpp)
+add_executable(sim_test 
+	src/main.cpp 
+	src/rigidBody.cpp
+	src/utils.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

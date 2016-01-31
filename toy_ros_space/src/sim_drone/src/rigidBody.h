@@ -1,15 +1,14 @@
-#ifndef CLASS_ROV_H
-#define CLASS_ROV_H
+#ifndef CLASS_RIGIDBODY_H
+#define CLASS_RIGIDBODY_H
 
 #include <Eigen/Dense>
 #include <boost/array.hpp>
 
 
-class ROV
+class RigidBody
 {
   private:
     /* sim */
-    double lifeTime;
     double ticks;    // dt * ticks = total life time
 
     double mass;
@@ -32,10 +31,14 @@ class ROV
     // For internal use, but needs to be public for odeint
     typedef boost::array<double, 13> InternalState;
     InternalState internalState;
-    void operator()(const ROV::InternalState &x, ROV::InternalState &dxdt, const double /* t */);
+    void operator()(const RigidBody::InternalState &x, RigidBody::InternalState &dxdt, const double /* t */);
 
-    ROV();
+    RigidBody();
     void sim_step(double dt);
+	void set_force(Eigen::Vector3d _force);
+	void set_torque(Eigen::Vector3d _torque);
+	
+	Eigen::Quaterniond get_attitude();
 };
 
 #endif
