@@ -130,3 +130,7 @@ Eigen::Quaterniond RigidBody::get_attitude()
 	return q;
 }
 
+Eigen::Vector3d RigidBody::get_position()
+{
+	return Eigen::Vector3d(position(0), position(1), position(2));
+}

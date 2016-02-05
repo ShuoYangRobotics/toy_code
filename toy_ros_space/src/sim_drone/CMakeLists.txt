@@ -115,8 +115,8 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(sim_test 
-	src/main.cpp 
+add_executable(sim_test_body 
+	src/test_body.cpp 
 	src/rigidBody.cpp
 	src/utils.cpp
 )
@@ -126,7 +126,7 @@ add_executable(sim_test
 # add_dependencies(rc_sim_oub_node rc_sim_oub_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(sim_test
+target_link_libraries(sim_test_body
    ${catkin_LIBRARIES}
    ${Boost_LIBRARIES}
 )

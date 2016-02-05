@@ -39,6 +39,9 @@ class RigidBody
 	void set_torque(Eigen::Vector3d _torque);
 	
 	Eigen::Quaterniond get_attitude();
+	Eigen::Vector3d get_position();
+
 };
 
 #endif
+
