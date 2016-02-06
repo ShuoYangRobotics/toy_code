@@ -23,3 +23,15 @@ Matrix4d Omega(const Vector3d& v)
     return m;
 }
 
+double double_limit(double num, double min, double max)
+{
+	if (num > max)
+	{
+		num = max;
+	}
+	else if (num < min)
+	{
+		num = min;
+	}
+	return num;
+}

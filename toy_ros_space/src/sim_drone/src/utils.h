@@ -9,5 +9,6 @@ const double chi2Inv[] = {0, 3.84145882069413, 5.99146454710798, 7.8147279032511
 
 Matrix3d crossMat(const Vector3d& v);
 Matrix4d Omega(const Vector3d& v);
+double double_limit(double num, double min, double max);
 
 #endif//_UTILS_H_

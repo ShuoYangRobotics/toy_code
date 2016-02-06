@@ -1,6 +1,7 @@
 #ifndef CLASS_QUADROTOR_H
 #define CLASS_QUADROTOR_H
 
+#include <Eigen/Core>
 #include <Eigen/Dense>
 #include <boost/array.hpp>
 #include "rigidBody.h"
@@ -33,6 +34,11 @@ class Quadrotor
 	public:
 		Quadrotor();
     	void sim_step(double dt);
+		void set_motor_rpms(double m1, double m2, double m3, double m4);
+		void set_external_force(Eigen::Vector3d _force);
+		void set_external_torque(Eigen::Vector3d _torque);
+		Eigen::Quaterniond get_attitude();
+		Eigen::Vector3d get_position();
 };
 
 

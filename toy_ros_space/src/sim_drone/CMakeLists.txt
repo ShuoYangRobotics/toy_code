@@ -120,6 +120,12 @@ add_executable(sim_test_body
 	src/rigidBody.cpp
 	src/utils.cpp
 )
+add_executable(sim_test_quad 
+	src/test_quad.cpp 
+	src/rigidBody.cpp
+	src/utils.cpp 
+	src/Quadrotor.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
