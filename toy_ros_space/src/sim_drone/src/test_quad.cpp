@@ -30,15 +30,7 @@ int main ( int argc, char** argv)
 		/* set input */
 		if (publish_count % 50 == 0)
 		{
-			a->set_motor_rpms(1800,1200,1200,1200);
-		}
-		else if (publish_count % 50 == 18)
-		{
-			a->set_motor_rpms(1200,1200,1800,1200);
-		}
-		else if (publish_count % 50 == 36)
-		{
-			a->set_motor_rpms(1800,1200,1200,1200);
+			a->set_motor_rpms(1200,1200,1200,1200);
 		}
 
 		/* simulation step */

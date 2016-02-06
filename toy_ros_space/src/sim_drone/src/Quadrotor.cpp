@@ -18,11 +18,12 @@ Quadrotor::Quadrotor()
 void Quadrotor::sim_step(double dt)
 {
 	Eigen::Array4d motor_rpm_dot;
-	Eigen::Array4d motor_rpm_sq = motor_rpm.square();
+	Eigen::Array4d motor_rpm_sq = motor_rpm.array().square();
 
 	double thrust = kf*motor_rpm_sq.sum();
 	Eigen::Vector3d force;
 	Eigen::Vector3d torque;
+	Eigen::Quaterniond my_attitude = physics.get_attitude();
 	/* different torque if we have different type of quadrotor */
 	if (type == QUAD_MOTOR_CROSS)
 	{
@@ -32,7 +33,7 @@ void Quadrotor::sim_step(double dt)
 					motor_rpm_sq(2) - motor_rpm_sq(3));
 	}
 
-	force = physics.get_attitude().toRotationMatrix()*thrust + external_force;
+	force = my_attitude.toRotationMatrix().col(2)*thrust + external_force;
 	torque = torque + external_torque;
 
 	/* physics simulation */

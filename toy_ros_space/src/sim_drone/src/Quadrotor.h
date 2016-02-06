@@ -15,8 +15,8 @@ class Quadrotor
 {
 	private:
 		RigidBody physics;
-		Eigen::Array4d motor_rpm[4];
-		Eigen::Array4d target_motor_rpm[4];
+		Eigen::Array4d motor_rpm;
+		Eigen::Array4d target_motor_rpm;
 		QUAD_MOTOR_TYPE type;
 		/* quad parameters */
 		double prop_radius;

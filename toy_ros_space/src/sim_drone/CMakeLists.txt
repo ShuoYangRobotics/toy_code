@@ -136,6 +136,10 @@ target_link_libraries(sim_test_body
    ${catkin_LIBRARIES}
    ${Boost_LIBRARIES}
 )
+target_link_libraries(sim_test_quad
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+)
 
 #############
 ## Install ##
