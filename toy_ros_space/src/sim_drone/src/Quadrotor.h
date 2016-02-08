@@ -2,8 +2,6 @@
 #define CLASS_QUADROTOR_H
 
 #include <Eigen/Core>
-#include <Eigen/Dense>
-#include <boost/array.hpp>
 #include "rigidBody.h"
 
 enum QUAD_MOTOR_TYPE {
@@ -15,6 +13,7 @@ class Quadrotor
 {
 	private:
 		RigidBody physics;
+		//Sensor sensor;
 		Eigen::Array4d motor_rpm;
 		Eigen::Array4d target_motor_rpm;
 		QUAD_MOTOR_TYPE type;
@@ -39,6 +38,10 @@ class Quadrotor
 		void set_external_torque(Eigen::Vector3d _torque);
 		Eigen::Quaterniond get_attitude();
 		Eigen::Vector3d get_position();
+		Eigen::Vector3d get_velocity();
+		double get_mass();
+		double get_propeller_thrust_coefficient(void) const;
+		double get_propeller_moment_coefficient(void) const; 
 };
 
 

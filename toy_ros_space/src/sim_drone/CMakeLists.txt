@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   geometry_msgs 
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -125,6 +126,7 @@ add_executable(sim_test_quad
 	src/rigidBody.cpp
 	src/utils.cpp 
 	src/Quadrotor.cpp
+	src/Drone.cpp
 )
 
 ## Add cmake target dependencies of the executable/library

@@ -40,6 +40,8 @@ class RigidBody
 	
 	Eigen::Quaterniond get_attitude();
 	Eigen::Vector3d get_position();
+	Eigen::Vector3d get_velocity();
+	double get_mass();
 
 };
 

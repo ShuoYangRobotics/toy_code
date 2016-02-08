@@ -134,3 +134,13 @@ Eigen::Vector3d RigidBody::get_position()
 {
 	return Eigen::Vector3d(position(0), position(1), position(2));
 }
+
+Eigen::Vector3d RigidBody::get_velocity()
+{
+	return Eigen::Vector3d(velocity(0), velocity(1), velocity(2));
+}
+
+double RigidBody::get_mass()
+{
+	return mass;
+}

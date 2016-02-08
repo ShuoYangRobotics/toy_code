@@ -4,6 +4,7 @@
 
 Quadrotor::Quadrotor()
 {
+	physics = RigidBody();
 	prop_radius = 0.099;
 	kf = 5.55e-8;
 	km = 0.07*(2*prop_radius)*kf;
@@ -74,4 +75,24 @@ Eigen::Quaterniond Quadrotor::get_attitude()
 Eigen::Vector3d Quadrotor::get_position()
 {
 	return physics.get_position();
+}
+
+Eigen::Vector3d Quadrotor::get_velocity()
+{
+	return physics.get_velocity();
+}
+
+double Quadrotor::get_mass()
+{
+	return physics.get_mass();
+}
+
+double Quadrotor::get_propeller_thrust_coefficient(void) const
+{
+  return kf;
+}
+
+double Quadrotor::get_propeller_moment_coefficient(void) const
+{
+  return km;
 }

@@ -2,7 +2,7 @@
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
 #include <visualization_msgs/Marker.h>
-#include "Quadrotor.h"
+#include "Drone.h"
 #include <Eigen/Dense>
 using namespace std;
 
@@ -10,6 +10,8 @@ ros::Publisher pub_body;
 visualization_msgs::Marker marker;
 void setVizMarker();
 void updateVizMarker(Eigen::Vector3d _pose, Eigen::Quaterniond _attitude);
+void obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg);
+Drone* a;
 
 int main ( int argc, char** argv)
 {
@@ -21,7 +23,10 @@ int main ( int argc, char** argv)
 	ros::Rate loop_rate(50);
 
 	/* set up rigidbody and its visulization */
-	Quadrotor* a = new Quadrotor();
+	// bug record: initally I wrote Drone* a = new Drone() here, conflict with line 14, resulted in segmentation fault.
+	// because line 98 cannot find right a
+	a = new Drone();
+	ros::Subscriber sub = n.subscribe("/joy", 1000, obtain_joy);
 	setVizMarker();
 
 	/* ROS loop */
@@ -30,7 +35,7 @@ int main ( int argc, char** argv)
 		/* set input */
 		if (publish_count % 50 == 0)
 		{
-			a->set_motor_rpms(1200,1200,1200,1200);
+			//a->set_motor_rpms(1200,1200,1200,1200);
 		}
 
 		/* simulation step */
@@ -67,9 +72,9 @@ void setVizMarker()
 	marker.id = 0;
 	marker.type = visualization_msgs::Marker::CUBE;
 	marker.action = visualization_msgs::Marker::ADD;
-	marker.scale.x = 1;
-	marker.scale.y = 1;
-	marker.scale.z = 1.7;
+	marker.scale.x = 0.5;
+	marker.scale.y = 0.5;
+	marker.scale.z = 0.2;
 	marker.color.a = 1.0; // Don't forget to set the alpha!
 	marker.color.r = 0.0;
 	marker.color.g = 1.0;
@@ -86,4 +91,9 @@ void updateVizMarker(Eigen::Vector3d _pose, Eigen::Quaterniond _attitude)
 	marker.pose.orientation.z = _attitude.z();
 	marker.pose.orientation.w = _attitude.w();
 	pub_body.publish( marker );
+}
+
+void obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
+{
+	a->obtain_joy(joy_msg);
 }
