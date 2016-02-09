@@ -34,7 +34,9 @@ void Quadrotor::sim_step(double dt)
 					motor_rpm_sq(2) - motor_rpm_sq(3));
 	}
 
-	force = my_attitude.toRotationMatrix().col(2)*thrust + external_force;
+	//force = my_attitude.toRotationMatrix().col(2)*thrust + external_force;
+	/* only for debug */
+	force = thrust*Eigen::Vector3d::UnitZ() + external_force;
 	torque = torque + external_torque;
 
 	/* physics simulation */
@@ -71,6 +73,11 @@ Eigen::Quaterniond Quadrotor::get_attitude()
 {
 	return physics.get_attitude();
 }
+void Quadrotor::set_attitude(Eigen::Quaterniond _attitude)
+{
+	physics.set_attitude(_attitude);
+}
+
 
 Eigen::Vector3d Quadrotor::get_position()
 {

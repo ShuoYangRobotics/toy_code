@@ -37,6 +37,7 @@ class Quadrotor
 		void set_external_force(Eigen::Vector3d _force);
 		void set_external_torque(Eigen::Vector3d _torque);
 		Eigen::Quaterniond get_attitude();
+		void set_attitude(Eigen::Quaterniond _attitude); //only for debug
 		Eigen::Vector3d get_position();
 		Eigen::Vector3d get_velocity();
 		double get_mass();

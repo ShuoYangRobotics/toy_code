@@ -98,10 +98,10 @@ void RigidBody::sim_step(double dt)
 	velocity(1) =  internalState[4]; 
 	velocity(2) =  internalState[5]; 
 
-	attitude.x() =  internalState[6]; 
-	attitude.y() =  internalState[7]; 
-	attitude.z() =  internalState[8]; 
-	attitude.w() =  internalState[9]; 
+	//attitude.x() =  internalState[6]; 
+	//attitude.y() =  internalState[7]; 
+	//attitude.z() =  internalState[8]; 
+	//attitude.w() =  internalState[9]; 
 	
 	attitude.normalize();
 
@@ -128,6 +128,14 @@ Eigen::Quaterniond RigidBody::get_attitude()
 {
 	Eigen::Quaterniond q(attitude.w(), attitude.x(), attitude.y(), attitude.z());
 	return q;
+}
+
+void RigidBody::set_attitude(Eigen::Quaterniond _attitude)
+{
+	attitude.w() = _attitude.w(); 
+	attitude.x() = _attitude.x(); 
+	attitude.y() = _attitude.y(); 
+	attitude.z() = _attitude.z(); 
 }
 
 Eigen::Vector3d RigidBody::get_position()

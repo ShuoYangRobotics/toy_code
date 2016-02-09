@@ -13,9 +13,11 @@ class Drone
 	private:
 		Quadrotor quad;
 
-		/* target height */
+		/* target variables */
+		/* first we only deal with attitude and height control */
 		double ctrl_target_height;
 		double ctrl_target_vertical_z;
+		Eigen::Quaterniond target_attitude;
 
 		/* some parameters */
 		double gravity;
@@ -23,6 +25,7 @@ class Drone
 		
 
 		double height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z);
+		void attitude_ctrl(Eigen::Quaterniond target_attitude);
 	public:
 		Drone();
 		void sim_step(double dt);
