@@ -9,38 +9,33 @@ Drone::Drone()
 	angle_limit = 35;
 	ctrl_target_height = 1.0;
 	ctrl_target_vertical_z = 0.0;
+
+	k_p_atti = Eigen::Vector3d(0.5, 0.5, 0.5);
+	k_p_omega = Eigen::Vector3d(0.05, 0.05, 0.08);
+	k_p_vert_pos = Eigen::Vector3d(1.5, 1.5, 1.5);
+	k_p_vert_vel = Eigen::Vector3d(1.5, 1.5, 1.5);
 }
 
 void Drone::sim_step(double dt)
 {
-	/* use height controller to get thrust */
 	Eigen::Vector3d pos = quad.get_position();
 	Eigen::Vector3d vel = quad.get_velocity();
 
 	ctrl_target_height = pos(2);
 
+	/* use height controller to get thrust */
 	double des_force_z = height_ctrl(ctrl_target_height, ctrl_target_vertical_z, pos(2), vel(2)); 
 
 	/* use attitude controller to get force and motor_rpms */
 	attitude_ctrl(target_attitude, des_force_z);
 
-	/*
-	double w_sq[4];
-  	w_sq[0] = des_force_z/(4*kf);
-  	w_sq[1] = des_force_z/(4*kf);
-  	w_sq[2] = des_force_z/(4*kf);
-  	w_sq[3] = des_force_z/(4*kf);
-	quad.set_motor_rpms(sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
-	*/
-
-	/* use attitude controller to get motor inputs */
 	quad.sim_step(dt);
 }
 
 void Drone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 {
 	/* height command */
-	ctrl_target_vertical_z = joy_msg->axes[1]; 
+	ctrl_target_vertical_z = joy_msg->axes[1]*3; //-3m/s - 3m/s 
 
 	/* attitude command */
 	/*
@@ -53,10 +48,11 @@ void Drone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 	double tilt_cmd_norm = tilt_cmd.norm();
 	double tilt_angle = atan2(tilt_cmd_norm,1);
 	// TODO: this angle limit is not elegant
-	tilt_angle = double_limit(tilt_angle, 0.0, 35.0/180.0*M_PI);
+	tilt_angle = double_limit(tilt_angle, 0.0, angle_limit/180.0*M_PI);
 
 	Eigen::Vector3d angle_axis = tilt_cmd.cross(Eigen::Vector3d::UnitZ());
 	//ROS_INFO("angle: %4.3f|axis: %4.3f %4.3f %4.3f", tilt_angle, angle_axis(0), angle_axis(1), angle_axis(2));
+	/* get final target attitude */
 	target_attitude = Eigen::Quaterniond(
 		// TODO: add yaw angular control
 		Eigen::AngleAxisd(joy_msg->axes[0]*M_PI/3, Eigen::Vector3d::UnitZ())*
@@ -89,8 +85,8 @@ Eigen::Vector3d Drone::get_position()
  */ 
 double Drone::height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z)
 {
-	double vert_vel = 1.5*(target_vertical_pos_z - pos_z)+ target_vertical_vel_z;
-	double force = 1.5*(vert_vel - vel_z);
+	double vert_vel = k_p_vert_pos(2)*(target_vertical_pos_z - pos_z)+ target_vertical_vel_z;
+	double force = k_p_vert_vel(2)*(vert_vel - vel_z);
 	return force + gravity * quad.get_mass();
 }
 
@@ -100,6 +96,7 @@ double Drone::height_ctrl(double target_vertical_pos_z, double target_vertical_v
 		[directly set quad motor rpms]
 	Input parameters:
 		target attitude
+		desired force on z direction
  */
 void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_force_z)
 {
@@ -126,8 +123,12 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 		kd = 0.05;
 	}
 
+	Eigen::Vector3d error_term1 = k_p_atti.array()*e_w.array();
+	Eigen::Vector3d error_term2 = k_p_omega.array()*w.array();
 
-	Eigen::Vector3d ctrl_torque = 0.5*e_w - 0.0*(e_w-e_w_prev) - 0.05*w+ w.cross(J*w);
+
+	/* no d control yet */
+	Eigen::Vector3d ctrl_torque = error_term1 - 0.0*(e_w-e_w_prev) - error_term2 + w.cross(J*w);
 	
 	e_w_prev = e_w;
 	ROS_INFO("------------- e_w %4.3f %4.3f %4.3f ------------", e_w(0), e_w(1), e_w(2));
@@ -175,4 +176,39 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 
 	quad.set_motor_rpms(sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
 	quad.set_external_force(Eigen::Vector3d(0,0,-gravity * quad.get_mass()));
+}
+
+
+/* parameter settings */		
+void Drone::set_gravity(double _gravity) 
+{
+	gravity = _gravity;
+}
+void Drone::set_angle_limit(double _angle_limit) 
+{
+	angle_limit = _angle_limit;
+}
+void Drone::set_k_p_atti(Eigen::Vector3d setting_vec)  
+{
+	k_p_atti(0) = setting_vec(0);
+	k_p_atti(1) = setting_vec(1);
+	k_p_atti(2) = setting_vec(2);
+}
+void Drone::set_k_p_omega(Eigen::Vector3d setting_vec)  
+{
+	k_p_omega(0) = setting_vec(0);
+	k_p_omega(1) = setting_vec(1);
+	k_p_omega(2) = setting_vec(2);
+}
+void Drone::set_k_p_vert_pos(Eigen::Vector3d setting_vec)  
+{
+	k_p_vert_pos(0) = setting_vec(0);
+	k_p_vert_pos(1) = setting_vec(1);
+	k_p_vert_pos(2) = setting_vec(2);
+}
+void Drone::set_k_p_vert_vel(Eigen::Vector3d setting_vec)  
+{
+	k_p_vert_vel(0) = setting_vec(0);
+	k_p_vert_vel(1) = setting_vec(1);
+	k_p_vert_vel(2) = setting_vec(2);
 }

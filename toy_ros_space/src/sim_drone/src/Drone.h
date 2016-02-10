@@ -22,6 +22,10 @@ class Drone
 		/* some parameters */
 		double gravity;
 		double angle_limit;
+		Eigen::Vector3d k_p_atti;
+		Eigen::Vector3d k_p_omega;
+		Eigen::Vector3d k_p_vert_pos;
+		Eigen::Vector3d k_p_vert_vel;
 		
 
 		double height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z);
@@ -33,7 +37,13 @@ class Drone
 		Eigen::Quaterniond get_attitude();
 		Eigen::Vector3d get_position();
 
-		
+		/* parameter settings */		
+		void set_gravity(double _gravity);
+		void set_angle_limit(double _angle_limit);
+		void set_k_p_atti(Eigen::Vector3d setting_vec); 
+		void set_k_p_omega(Eigen::Vector3d setting_vec); 
+		void set_k_p_vert_pos(Eigen::Vector3d setting_vec); 
+		void set_k_p_vert_vel(Eigen::Vector3d setting_vec); 
 		
 };
 

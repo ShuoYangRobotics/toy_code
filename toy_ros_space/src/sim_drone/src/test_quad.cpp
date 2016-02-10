@@ -22,7 +22,7 @@ int main ( int argc, char** argv)
 	pub_body = n.advertise<visualization_msgs::Marker>( "visualization_marker", 0 );
 	ros::Rate loop_rate(50);
 
-	/* set up rigidbody and its visulization */
+	/* set up Drone and its visulization */
 	// bug record: initally I wrote Drone* a = new Drone() here, conflict with line 14, resulted in segmentation fault.
 	// because line 98 cannot find right a
 	a = new Drone();
