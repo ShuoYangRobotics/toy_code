@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="joy" name="joy_node" type="joy_node" />
+  <node pkg="rviz" name="rviz" type="rviz" />
+  <node pkg="sim_drone" name="sim_test_quad" type="sim_test_quad" output="screen">
+  </node>
+</launch>

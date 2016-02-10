@@ -16,7 +16,7 @@ Drone* a;
 int main ( int argc, char** argv)
 {
 	/* set up ROS */
-	ros::init(argc, argv, "sim_drone");
+	ros::init(argc, argv, "sim_test_quad");
 	ros::NodeHandle n("~");
 	ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug);
 	pub_body = n.advertise<visualization_msgs::Marker>( "visualization_marker", 0 );
