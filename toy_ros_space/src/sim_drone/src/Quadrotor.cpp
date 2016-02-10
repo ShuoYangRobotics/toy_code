@@ -14,6 +14,9 @@ Quadrotor::Quadrotor()
 	max_rpm = 7000;
 
 	type = QUAD_MOTOR_CROSS;
+	/* bug record: does not initialize here */
+	external_force = Eigen::Vector3d::Zero();
+	external_torque = Eigen::Vector3d::Zero();
 }
 
 void Quadrotor::sim_step(double dt)
@@ -91,6 +94,11 @@ void Quadrotor::set_attitude(Eigen::Quaterniond _attitude)
 Eigen::Vector3d Quadrotor::get_position()
 {
 	return physics.get_position();
+}
+
+void Quadrotor::set_position(Eigen::Vector3d setting_vec)
+{
+	physics.external_set_position(setting_vec);
 }
 
 Eigen::Vector3d Quadrotor::get_velocity()

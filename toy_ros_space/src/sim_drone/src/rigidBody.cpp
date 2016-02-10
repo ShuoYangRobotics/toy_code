@@ -143,6 +143,14 @@ Eigen::Vector3d RigidBody::get_position()
 	return Eigen::Vector3d(position(0), position(1), position(2));
 }
 
+void RigidBody::external_set_position(Eigen::Vector3d setting_vec)
+{
+	position(0) = setting_vec(0);
+	position(1) = setting_vec(1);
+	position(2) = setting_vec(2);
+	updateInternalState();
+}
+
 Eigen::Vector3d RigidBody::get_velocity()
 {
 	return Eigen::Vector3d(velocity(0), velocity(1), velocity(2));

@@ -1,8 +1,9 @@
 #include "Drone.h"
 #include "utils.h"
 #include <cmath>
-Drone::Drone()
+Drone::Drone(int _id)
 {
+	id = _id;
 	quad = Quadrotor();
 	/* init parameters */
 	gravity = 9.81;
@@ -18,6 +19,7 @@ Drone::Drone()
 
 void Drone::sim_step(double dt)
 {
+	ROS_INFO("---------------%d--------------", id);
 	Eigen::Vector3d pos = quad.get_position();
 	Eigen::Vector3d vel = quad.get_velocity();
 
@@ -211,4 +213,9 @@ void Drone::set_k_p_vert_vel(Eigen::Vector3d setting_vec)
 	k_p_vert_vel(0) = setting_vec(0);
 	k_p_vert_vel(1) = setting_vec(1);
 	k_p_vert_vel(2) = setting_vec(2);
+}
+
+void Drone::set_position(Eigen::Vector3d setting_vec)
+{
+	quad.set_position(setting_vec);
 }

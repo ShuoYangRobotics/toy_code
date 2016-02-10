@@ -39,6 +39,7 @@ class Quadrotor
 		Eigen::Quaterniond get_attitude();
 		void set_attitude(Eigen::Quaterniond _attitude); //only for debug
 		Eigen::Vector3d get_position();
+		void set_position(Eigen::Vector3d setting_vec);
 		Eigen::Vector3d get_velocity();
 		double get_mass();
 		Eigen::Vector3d get_angularVelocity() const;

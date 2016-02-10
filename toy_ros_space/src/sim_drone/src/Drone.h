@@ -11,6 +11,7 @@
 class Drone
 {
 	private:
+		int id;
 		Quadrotor quad;
 
 		/* target variables */
@@ -31,7 +32,7 @@ class Drone
 		double height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z);
 		void attitude_ctrl(Eigen::Quaterniond target_attitude, double des_force_z);
 	public:
-		Drone();
+		Drone(int _id);
 		void sim_step(double dt);
 		void obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg);
 		Eigen::Quaterniond get_attitude();
@@ -44,6 +45,8 @@ class Drone
 		void set_k_p_omega(Eigen::Vector3d setting_vec); 
 		void set_k_p_vert_pos(Eigen::Vector3d setting_vec); 
 		void set_k_p_vert_vel(Eigen::Vector3d setting_vec); 
+		
+		void set_position(Eigen::Vector3d setting_vec);
 		
 };
 
