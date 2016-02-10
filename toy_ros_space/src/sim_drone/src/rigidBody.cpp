@@ -98,10 +98,10 @@ void RigidBody::sim_step(double dt)
 	velocity(1) =  internalState[4]; 
 	velocity(2) =  internalState[5]; 
 
-	//attitude.x() =  internalState[6]; 
-	//attitude.y() =  internalState[7]; 
-	//attitude.z() =  internalState[8]; 
-	//attitude.w() =  internalState[9]; 
+	attitude.x() =  internalState[6]; 
+	attitude.y() =  internalState[7]; 
+	attitude.z() =  internalState[8]; 
+	attitude.w() =  internalState[9]; 
 	
 	attitude.normalize();
 
@@ -151,4 +151,15 @@ Eigen::Vector3d RigidBody::get_velocity()
 double RigidBody::get_mass()
 {
 	return mass;
+}
+
+Eigen::Vector3d RigidBody::get_angularVelocity() const
+{
+	return angularVelocity;
+}
+
+Eigen::Matrix3d RigidBody::get_inertia() const
+{
+	//TODO: get functions, should use constant?
+	return inertia;
 }

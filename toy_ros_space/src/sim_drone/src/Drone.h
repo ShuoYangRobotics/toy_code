@@ -25,7 +25,7 @@ class Drone
 		
 
 		double height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z);
-		void attitude_ctrl(Eigen::Quaterniond target_attitude);
+		void attitude_ctrl(Eigen::Quaterniond target_attitude, double des_force_z);
 	public:
 		Drone();
 		void sim_step(double dt);

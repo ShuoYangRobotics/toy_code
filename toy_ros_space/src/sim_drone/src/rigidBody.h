@@ -43,6 +43,8 @@ class RigidBody
 	Eigen::Vector3d get_position();
 	Eigen::Vector3d get_velocity();
 	double get_mass();
+	Eigen::Vector3d get_angularVelocity() const;
+	Eigen::Matrix3d get_inertia() const;
 
 };
 

@@ -41,8 +41,12 @@ class Quadrotor
 		Eigen::Vector3d get_position();
 		Eigen::Vector3d get_velocity();
 		double get_mass();
+		Eigen::Vector3d get_angularVelocity() const;
+		Eigen::Matrix3d get_inertia() const;
 		double get_propeller_thrust_coefficient(void) const;
 		double get_propeller_moment_coefficient(void) const; 
+		double get_arm_length(void) const;
+		QUAD_MOTOR_TYPE get_type(void) const;
 };
 
 

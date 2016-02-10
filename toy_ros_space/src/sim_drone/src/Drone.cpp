@@ -13,9 +13,6 @@ Drone::Drone()
 
 void Drone::sim_step(double dt)
 {
-	const double kf = quad.get_propeller_thrust_coefficient();
-	const double km = quad.get_propeller_moment_coefficient();
-
 	/* use height controller to get thrust */
 	Eigen::Vector3d pos = quad.get_position();
 	Eigen::Vector3d vel = quad.get_velocity();
@@ -23,16 +20,18 @@ void Drone::sim_step(double dt)
 	ctrl_target_height = pos(2);
 
 	double des_force_z = height_ctrl(ctrl_target_height, ctrl_target_vertical_z, pos(2), vel(2)); 
-	quad.set_external_force(Eigen::Vector3d(0,0,-gravity * quad.get_mass()));
 
 	/* use attitude controller to get force and motor_rpms */
+	attitude_ctrl(target_attitude, des_force_z);
 
+	/*
 	double w_sq[4];
   	w_sq[0] = des_force_z/(4*kf);
   	w_sq[1] = des_force_z/(4*kf);
   	w_sq[2] = des_force_z/(4*kf);
   	w_sq[3] = des_force_z/(4*kf);
 	quad.set_motor_rpms(sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
+	*/
 
 	/* use attitude controller to get motor inputs */
 	quad.sim_step(dt);
@@ -47,6 +46,8 @@ void Drone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 	/*
 		x - axes[4] forward 1.0 backward -1.0
 		y - axes[3] left 1.0 right -1.0
+		
+		yaw - axes[0] left 1.0 right -1.0
 	 */
 	Eigen::Vector3d tilt_cmd = Eigen::Vector3d(joy_msg->axes[4], joy_msg->axes[3], 0); 
 	double tilt_cmd_norm = tilt_cmd.norm();
@@ -55,10 +56,13 @@ void Drone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 	tilt_angle = double_limit(tilt_angle, 0.0, 35.0/180.0*M_PI);
 
 	Eigen::Vector3d angle_axis = tilt_cmd.cross(Eigen::Vector3d::UnitZ());
-	ROS_INFO("angle: %4.3f|axis: %4.3f %4.3f %4.3f", tilt_angle, angle_axis(0), angle_axis(1), angle_axis(2));
-	// TODO: add yaw control
-	target_attitude = Eigen::Quaterniond(Eigen::AngleAxisd(-tilt_angle, angle_axis));
-	quad.set_attitude(target_attitude); // only for debug
+	//ROS_INFO("angle: %4.3f|axis: %4.3f %4.3f %4.3f", tilt_angle, angle_axis(0), angle_axis(1), angle_axis(2));
+	target_attitude = Eigen::Quaterniond(
+		// TODO: add yaw angular control
+		Eigen::AngleAxisd(joy_msg->axes[0]*M_PI/3, Eigen::Vector3d::UnitZ())*
+		Eigen::AngleAxisd(-tilt_angle, angle_axis)
+	);
+	//quad.set_attitude(target_attitude); // only for debug
 	
 	
 }
@@ -91,6 +95,84 @@ double Drone::height_ctrl(double target_vertical_pos_z, double target_vertical_v
 }
 
 /* attitude controller */
-void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude)
+/* 
+	Return parameters:
+		[directly set quad motor rpms]
+	Input parameters:
+		target attitude
+ */
+void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_force_z)
 {
+	const double kf = quad.get_propeller_thrust_coefficient();
+	const double km = quad.get_propeller_moment_coefficient();
+	const double d = quad.get_arm_length();
+
+	Eigen::Quaterniond current_attitude = quad.get_attitude();	
+	Eigen::Quaterniond error_attitude = target_attitude*current_attitude.conjugate();	//R_e = R_t*R_c^{-1}
+	const Eigen::Matrix3d J = quad.get_inertia();
+	const Eigen::Vector3d w = quad.get_angularVelocity();
+
+	Eigen::Vector3d e_w = error_attitude.vec();
+	static bool isFirstTime = 1;
+	static Eigen::Vector3d e_w_prev(0,0,0);
+	double kd = 0.0;
+	if (isFirstTime)
+	{
+		kd = 0.0;
+		isFirstTime = 0;
+	}
+	else
+	{
+		kd = 0.05;
+	}
+
+
+	Eigen::Vector3d ctrl_torque = 0.5*e_w - 0.0*(e_w-e_w_prev) - 0.05*w+ w.cross(J*w);
+	
+	e_w_prev = e_w;
+	ROS_INFO("------------- e_w %4.3f %4.3f %4.3f ------------", e_w(0), e_w(1), e_w(2));
+	ROS_INFO("------------- w %4.3f %4.3f %4.3f ------------", w(0), w(1), w(2));
+	ROS_INFO("tor1 %4.3f, tor2 %4.3f, tor3 %4.3f", ctrl_torque(0), ctrl_torque(1), ctrl_torque(2));
+
+	double dev_angle = 2.0*acos(current_attitude.dot(Eigen::Quaterniond::Identity())); 
+	double des_force_body = 0.0;
+	//ROS_INFO("1 dev_angle %4.3f, des_force_body %4.3f, des_force_z %4.3f", dev_angle, des_force_body, des_force_z);
+	des_force_body = des_force_z/cos(dev_angle);
+	//ROS_INFO("2 dev_angle %4.3f, des_force_body %4.3f, des_force_z %4.3f", dev_angle, des_force_body, des_force_z);
+	//ROS_INFO("tor1 %4.3f, tor2 %4.3f, tor3 %4.3f", ctrl_torque(0), ctrl_torque(1), ctrl_torque(2));
+	double w_sq[4];
+	if (quad.get_type() == QUAD_MOTOR_CROSS)
+	{
+		/*
+			   1
+			   |
+			   |
+		2 ----------- 3
+			   |
+               |
+               0
+		*/
+  		w_sq[0] = des_force_body/(4*kf) - ctrl_torque(1)/(2*d*kf) + ctrl_torque(2)/(4*km);
+  		w_sq[1] = des_force_body/(4*kf) + ctrl_torque(1)/(2*d*kf) + ctrl_torque(2)/(4*km);
+  		w_sq[2] = des_force_body/(4*kf) + ctrl_torque(0)/(2*d*kf) - ctrl_torque(2)/(4*km);
+  		w_sq[3] = des_force_body/(4*kf) - ctrl_torque(0)/(2*d*kf) - ctrl_torque(2)/(4*km);
+		/*
+  		w_sq[0] = des_force_body/(4*kf);
+  		w_sq[1] = des_force_body/(4*kf);
+  		w_sq[2] = des_force_body/(4*kf);
+  		w_sq[3] = des_force_body/(4*kf);
+		*/
+	}
+  	for(int i = 0; i < 4; i++)
+  	{
+    	if(w_sq[i] < 0)
+		{
+      		w_sq[i] = 0;
+		}
+	}
+	ROS_INFO("w0 %4.3f w1 %4.3f, w2 %4.3f, w3 %4.3f", sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
+	//ROS_INFO("tor1 %4.3f, tor2 %4.3f, tor3 %4.3f", ctrl_torque(0)/(2*d*kf), ctrl_torque(1)/(2*d*kf), ctrl_torque(2)/(4*km));
+
+	quad.set_motor_rpms(sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
+	quad.set_external_force(Eigen::Vector3d(0,0,-gravity * quad.get_mass()));
 }

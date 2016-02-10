@@ -28,15 +28,24 @@ void Quadrotor::sim_step(double dt)
 	/* different torque if we have different type of quadrotor */
 	if (type == QUAD_MOTOR_CROSS)
 	{
+		/*
+			   1
+			   |
+			   |
+		2 ----------- 3
+			   |
+               |
+               0
+		*/
 		torque(0) = kf*(motor_rpm_sq(2) - motor_rpm_sq(3))*arm_length;
 		torque(1) = kf*(motor_rpm_sq(1) - motor_rpm_sq(0))*arm_length;
 		torque(2) = km*(motor_rpm_sq(0) + motor_rpm_sq(1) -
 					motor_rpm_sq(2) - motor_rpm_sq(3));
 	}
 
-	//force = my_attitude.toRotationMatrix().col(2)*thrust + external_force;
+	force = my_attitude.toRotationMatrix().col(2)*thrust + external_force;
 	/* only for debug */
-	force = thrust*Eigen::Vector3d::UnitZ() + external_force;
+	//force = thrust*Eigen::Vector3d::UnitZ() + external_force;
 	torque = torque + external_torque;
 
 	/* physics simulation */
@@ -94,12 +103,32 @@ double Quadrotor::get_mass()
 	return physics.get_mass();
 }
 
+Eigen::Vector3d Quadrotor::get_angularVelocity() const
+{
+	return physics.get_angularVelocity();
+}
+
+Eigen::Matrix3d Quadrotor::get_inertia() const
+{
+	return physics.get_inertia();
+}
+
 double Quadrotor::get_propeller_thrust_coefficient(void) const
 {
-  return kf;
+	return kf;
 }
 
 double Quadrotor::get_propeller_moment_coefficient(void) const
 {
-  return km;
+	return km;
+}
+
+double Quadrotor::get_arm_length(void) const
+{
+	return arm_length;
+}
+
+QUAD_MOTOR_TYPE Quadrotor::get_type(void) const
+{
+	return type;
 }
