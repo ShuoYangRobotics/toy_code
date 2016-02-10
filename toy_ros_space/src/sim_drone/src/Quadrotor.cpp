@@ -45,6 +45,18 @@ void Quadrotor::sim_step(double dt)
 		torque(2) = km*(motor_rpm_sq(0) + motor_rpm_sq(1) -
 					motor_rpm_sq(2) - motor_rpm_sq(3));
 	}
+	//TODO:add QUAD_MOTOR_X
+	/*
+			1             0
+			 \           /
+			   \       /
+			      \ /
+				  / \
+			   /       \
+			 /           \
+			2             3
+
+	 */
 
 	force = my_attitude.toRotationMatrix().col(2)*thrust + external_force;
 	/* only for debug */

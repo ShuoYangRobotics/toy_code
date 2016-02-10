@@ -57,7 +57,15 @@ Visualization Manager:
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /sim_test_quad/visualization_marker
+      Marker Topic: /sim_test_quad/visualization_marker1
+      Name: Marker
+      Namespaces:
+        test_vis: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /sim_test_quad/visualization_marker2
       Name: Marker
       Namespaces:
         test_vis: true
@@ -99,10 +107,10 @@ Visualization Manager:
         Z: 0
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.840398
+      Pitch: 0.625398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.93358
+      Yaw: 3.23358
     Saved: ~
 Window Geometry:
   Displays:
@@ -120,5 +128,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 758
-  X: 588
+  X: 578
   Y: 14
