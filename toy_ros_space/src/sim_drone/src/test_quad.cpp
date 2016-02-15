@@ -32,7 +32,7 @@ int main ( int argc, char** argv)
 	b->set_position(Eigen::Vector3d(0,1,1));
 	ros::Subscriber sub = n.subscribe("/joy", 1000, obtain_joy);
 	setVizMarker(0);
-	setVizMarker(1);
+	//setVizMarker(1);
 
 	/* ROS loop */
 	for (int publish_count = 0; n.ok(); publish_count++)
@@ -53,7 +53,7 @@ int main ( int argc, char** argv)
 		updateVizMarker(0,position, quaternion);
 		quaternion = b->get_attitude();
 		position = b->get_position();
-		updateVizMarker(1,position, quaternion);
+		//updateVizMarker(1,position, quaternion);
 
 		/* test only, use tf to display rotation */
 		/*

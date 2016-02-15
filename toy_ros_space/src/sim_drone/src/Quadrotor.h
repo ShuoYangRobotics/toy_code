@@ -36,10 +36,13 @@ class Quadrotor
 		void set_motor_rpms(double m1, double m2, double m3, double m4);
 		void set_external_force(Eigen::Vector3d _force);
 		void set_external_torque(Eigen::Vector3d _torque);
+
 		Eigen::Quaterniond get_attitude();
 		void set_attitude(Eigen::Quaterniond _attitude); //only for debug
+
 		Eigen::Vector3d get_position();
 		void set_position(Eigen::Vector3d setting_vec);
+
 		Eigen::Vector3d get_velocity();
 		double get_mass();
 		Eigen::Vector3d get_angularVelocity() const;
