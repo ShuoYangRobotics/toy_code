@@ -4,3 +4,12 @@ build/
 toy_ros_space/build/
 toy_ros_space/devel/
 
+
+CMakeCache.txt
+CMakeLists.txt~
+CMakeFiles
+CMakeScripts
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
