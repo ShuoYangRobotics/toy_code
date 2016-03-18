@@ -3,28 +3,8 @@
 #include <unsupported/Eigen/NonLinearOptimization>
 #include <unsupported/Eigen/NumericalDiff>
 
-// Generic functor
-template<typename _Scalar, int NX = Eigen::Dynamic, int NY = Eigen::Dynamic>
-struct Functor
-{
-	typedef _Scalar Scalar;
-	enum {
-		    InputsAtCompileTime = NX,
-			ValuesAtCompileTime = NY
-	};
-	typedef Eigen::Matrix<Scalar,InputsAtCompileTime,1> InputType;
-	typedef Eigen::Matrix<Scalar,ValuesAtCompileTime,1> ValueType;
-	typedef Eigen::Matrix<Scalar,ValuesAtCompileTime,InputsAtCompileTime> JacobianType;
+#include "OptFunctor.hpp" // to use Functor
 
-	int m_inputs, m_values;
-
-	Functor() : m_inputs(InputsAtCompileTime), m_values(ValuesAtCompileTime) {}
-	Functor(int inputs, int values) : m_inputs(inputs), m_values(values) {}
-
-	int inputs() const { return m_inputs; }
-	int values() const { return m_values; }
-
-};
 
 struct my_functor : Functor<double>
 {
@@ -44,7 +24,7 @@ int main (int argc, char** argv)
 	Eigen::VectorXd x(2);
 	x(0) = 2.0;
 	x(1) = 3.0;
-	std::cout << "x: " << x << std::endl;
+	std::cout << "x: " << x(0) << " " << x(1) << std::endl;
 
 	my_functor functor;
 	Eigen::NumericalDiff<my_functor> numDiff(functor);

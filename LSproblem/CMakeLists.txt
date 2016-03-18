@@ -4,6 +4,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 add_executable(testLM main.cpp)
+add_executable(testDiff testNumericalDiff.cpp)
 
 target_link_libraries(testLM
 )
