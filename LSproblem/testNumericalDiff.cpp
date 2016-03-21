@@ -29,6 +29,7 @@ int main (int argc, char** argv)
 	Eigen::MatrixXd Jacob = Eigen::MatrixXd(2,2);
 	numDiff.df(x, Jacob);
 	std::cout<<Jacob<<std::endl;
+
 	std::cout<<cos(x(0))<<std::endl;
 	std::cout<<-sin(x(1))<<std::endl;
 }
