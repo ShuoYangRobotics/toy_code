@@ -6,17 +6,9 @@ include_directories(
 	include 
 	${EIGEN3_INCLUDE_DIR}
 )
-add_library(types_lib
-	include/types/Vector.h
-	src/Vector.cpp
-
-	include/types/Manifold.h
-	src/Manifold.cpp
-)
-
 
 add_executable(test
 	src/main.cpp
 )
 
-target_link_libraries(test types_lib)
+target_link_libraries(test)
