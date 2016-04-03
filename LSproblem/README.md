@@ -1,5 +1,1 @@
-    sudo apt-get install libeigen3-dev
-	mkdir build
-    cd build
-    cmake ../
-    make
+This simple program is used to demonstrate eigen LM algorithm and numerical diff functions
