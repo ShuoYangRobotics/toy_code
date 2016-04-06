@@ -70,26 +70,16 @@ void testBuild()
 	cout << "add x is " << x.pos[0] << " " << x.pos[1]<< " " << x.orientation.angle << endl;
 
 	cout << "add y is " << y.pos[0] << " " << y.pos[1]<< " " << y.orientation.angle << endl;
-	res = x.sub(res, y);
-	cout << "sub res is " << " " << res[0] << " " << res[1] << " " << res[2] << endl;
+	x.sub(res, y);
+	cout << "sub x is " << x.pos[0] << " " << x.pos[1]<< " " << x.orientation.angle << endl;
 }
 
 int main (int argc, char** argv)
 {
-	testBuild();
+	// TODO: design complete gtest cases for these three functions
 	testVector();  
 	testSO2();
-	// Quaterniond qa(1,2,3,4);
-	// qa.normalize();
-	// Quaterniond qb(5,6,7,8);
-	// qb.normalize();
-	// Quaterniond qc = qb*qa;
-	// qc.normalize();
-	// Quaterniond qaa = qb.conjugate()*qc;
-
-	// cout << qa.w() << " " << qa.x() << " " << qa.y() << " " << qa.z() << endl;
-	// cout << qaa.w() << " " << qaa.x() << " " << qaa.y() << " " << qaa.z() << endl;
-
+	testBuild();
 
 	return 0;
 }

@@ -32,6 +32,7 @@ class SO2 : public Manifold<SO2, 1>
 		SO2();
 		SO2(double _angle);
 		SO2(Vect<2> & dir);
+		SO2(const SO2& oth);
 		const double* add_(const double* vec, double scale = 1);
 		double* sub_(double* res, const SO2& oth);
 		void rotate(double res[2], const double vec[2], bool back=false) const;
@@ -53,6 +54,11 @@ SO2::SO2(Vect<2>& dir)
 	angle = atan2(dir[1], dir[0]);
 }
 
+SO2::SO2(const SO2& oth)
+{
+	angle = oth.angle;
+}
+
 const double* SO2::add_(const double* vec, double scale)
 {
 	angle += (*vec)*scale;
@@ -63,7 +69,7 @@ const double* SO2::add_(const double* vec, double scale)
 double* SO2::sub_(double* res, const SO2& oth) 
 {
 	double delta = angle-oth.angle;
-	*res = delta - 2*M_PI*floor((delta+M_PI)/(2*M_PI));
+	angle = delta - 2*M_PI*floor((delta+M_PI)/(2*M_PI));
 	return res;
 }
 
