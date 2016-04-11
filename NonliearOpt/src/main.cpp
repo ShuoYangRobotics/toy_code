@@ -8,9 +8,12 @@
 #include "types/RVWrapper.hpp"
 #include "types/POSE2.hpp"
 
+#include "gnuplot-iostream.h"
+
 using namespace std;
 using namespace Eigen;
 
+Gnuplot gp;
 
 void testVector()
 {
@@ -72,11 +75,19 @@ void testPOSE2()
 	x.sub(res, y);
 	cout << "sub x is " << res[0] << " " << res[1]<< " " << res[2] << endl;
 
+	// y in x
 	POSE2 z = x.toMyFrame(y);
 
 	cout << "rotate y is " << z.pos[0] << " " << z.pos[1]<< " " << z.orientation.angle << endl;
 	delete[] res;
-	//z.plot(); test this plot function more after I get connected. gnuplot is not easy to use
+	gp << "set size square\n";
+	gp << "set xrange [-5:15]\n";
+	gp << "set yrange [-5:15]\n";
+	gp << "set multiplot\n";
+	x.plot(&gp);
+	y.plot(&gp);
+	//z.plot(&gp); // TODO: design a better way to visualize these plots?
+	gp << "unset multiplot\n";
 }
 
 void testOdo2()
@@ -93,7 +104,8 @@ void testOdo2()
 	RVWrapper<POSE2> RV_x(x);
 	RVWrapper<POSE2> RV_y(y);
 
-	POSE2 odo(3, -1,11);
+
+	POSE2 odo(3, -1,11*M_PI/180.0);
 
 	Odo2 first_odo(&RV_x, &RV_y, odo, 0.2);
 

@@ -5,6 +5,7 @@
 #include "RVWrapper.hpp"
 #include "POSE2.hpp"
 #include "../tools/CholeskyCovariance.h"
+#include "iostream"
 class IMeasurement
 {	
 	public:
@@ -49,6 +50,7 @@ class Odo2 : public IMeasurement
 			pose_diff.sub(res, odometry);
 			// L^{-1}(f(x)-u)
 			Eigen::Vector3d container(res[0], res[1], res[2]);
+			std::cout << "container is:" << container << std::endl;
 			CholInvApply(cov, container);
 			res[0] = container[0];
 			res[1] = container[1];

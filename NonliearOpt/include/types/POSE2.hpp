@@ -9,7 +9,6 @@
 
 class POSE2_t 
 {
-		Gnuplot gp;
 	public:
 		enum {DOF = Vect<2>::DOF+SO2::DOF};
 		Vect<2> pos;
@@ -74,7 +73,8 @@ class POSE2_t
 			res[2] = oth->orientation.angle - orientation.angle; 
 			return POSE2_t(Vect<2>(res), SO2(res[2]));
 		}
-		void plot()
+
+		void plot(Gnuplot* gp)
 		{
 			double x[2] = {1, 0};
 			double y[2] = {0, 1};
@@ -94,13 +94,12 @@ class POSE2_t
 			rotated[1] += pos[1];
 			line_B.push_back( boost::make_tuple(pos[0], pos[1]));
 			line_B.push_back( boost::make_tuple(rotated[0], rotated[1]));
-			gp << "set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5\n";
-			gp << "plot '-' with linespoints, '-' with linespoints\n";
-			
-			gp.send1d(line_A);
-			gp << "set style line 1 lc rgb '#6000ad' lt 1 lw 2 pt 7 ps 1.5\n";
-			gp << "plot '-' with linespoints , '-' with linespoints\n";
-			gp.send1d(line_B);
+
+			//gp << "plot '-' with linespoints, '-' with linespoints\n";
+			*gp << "plot '-' with lines lc rgb '#0060ad' lt 1 lw 2\n";
+			gp->send1d(line_A);
+			*gp << "plot '-' with lines lc rgb '#90a0ad' lt 1 lw 2\n";
+			gp->send1d(line_B);
 		}
 };
 typedef POSE2_t POSE2;
