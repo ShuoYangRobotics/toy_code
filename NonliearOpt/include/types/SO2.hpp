@@ -69,7 +69,7 @@ const double* SO2::add_(const double* vec, double scale)
 double* SO2::sub_(double* res, const SO2& oth) 
 {
 	double delta = angle-oth.angle;
-	angle = delta - 2*M_PI*floor((delta+M_PI)/(2*M_PI));
+	*res = delta - 2*M_PI*floor((delta+M_PI)/(2*M_PI));
 	return res;
 }
 

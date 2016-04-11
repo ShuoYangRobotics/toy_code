@@ -3,7 +3,7 @@
 #include <Eigen/Dense>
 /* only for plot data */
 //#define GNUPLOT_ENABLE_PTY
-#include "gnuplot-iostream.h"
+#include "../gnuplot-iostream.h"
 #include <boost/tuple/tuple.hpp>
 
 using namespace std;

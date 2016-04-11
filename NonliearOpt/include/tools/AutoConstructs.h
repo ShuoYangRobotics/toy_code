@@ -1,7 +1,7 @@
 #ifndef AUTOCONSTRACTS_H
 #define AUTOCONSTRACTS_H
 
-#define BUILD_RANDOMVAR(AB, A, a, B, b)			 						   	\
+#define BUILD_RANDOMVAR(AB, entries)								\			 						   	\
 	class AB##_t {															\
 		public:																\
 			A a;															\
@@ -23,6 +23,19 @@
 				return res;													\
 			}																\
 	}; 																		\
-	typedef AB##_t AB;														\
+	typedef AB##_t AB;											\
+
+#define BUILD_MEASUREMENT(name, m_dim, variables, data)						\
+	class name##_t : public IMeasurement{									\
+		public:																\
+			enum {DIM = m_dim};												\
+			virtual int getDim() const {									\
+				return DIM;													\
+			}	 															\
+			virtual int registerVariables()	{								\
+																			\
+			}																\
+			virtual double* eval(double* res) const;						\
+	};																		\
 
 #endif

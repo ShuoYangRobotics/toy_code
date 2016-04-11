@@ -1,7 +1,6 @@
 #ifndef _MY_VECTOR_H
 #define _MY_VECTOR_H
 #include "Manifold.hpp"
-
 template<int D>
 class Vect : public Manifold<Vect<D>, D>
 {
@@ -59,7 +58,7 @@ double* Vect<D>::sub_(double* res, const Vect<D>& oth)
 {
 	for (int i=0; i < D; i++)
 	{
-		data[i] -= oth.data[i];
+		res[i] = data[i] - oth.data[i];
 	}
 	return res;
 }
