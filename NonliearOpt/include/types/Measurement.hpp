@@ -11,6 +11,7 @@ class IMeasurement
 	public:
 		virtual int getDim() const = 0;
 		virtual int registerVariables() = 0;
+		// the size of res must be equal to dim of the IMeasurement
 		virtual double* eval(double* res) const = 0;
 };
 
@@ -38,8 +39,10 @@ class Odo2 : public IMeasurement
 		virtual	int getDim() const {return dim;}
 		virtual int registerVariables()
 		{
-			a->registerMeasurement(this);
-			b->registerMeasurement(this);
+			int sum_DOF = 0;
+			sum_DOF += a->registerMeasurement(this);
+			sum_DOF += b->registerMeasurement(this);
+			return sum_DOF; 
 		}
 
 		virtual double* eval(double* res) const	// remeber this const otherwise pure virtual function cannot work

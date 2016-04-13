@@ -98,7 +98,7 @@ class POSE2_t
 			//gp << "plot '-' with linespoints, '-' with linespoints\n";
 			*gp << "plot '-' with lines lc rgb '#0060ad' lt 1 lw 2\n";
 			gp->send1d(line_A);
-			*gp << "plot '-' with lines lc rgb '#90a0ad' lt 1 lw 2\n";
+			*gp << "plot '-' with lines lc rgb '#00a00d' lt 1 lw 2\n";
 			gp->send1d(line_B);
 		}
 };

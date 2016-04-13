@@ -4,17 +4,17 @@
 #include "Measurement.hpp"
 class IMeasurement;
 
-// class IRVWrapper
-// {
-// 	protected:
-// 		virtual int getDOF() const;
-// 		virtual const double* add(const double* vec, double scale = 1);
-// 		virtual void store();
-// 		virtual void restore();
-// };
+class IRVWrapper
+{
+	public:
+		virtual int getDOF() const = 0;
+		virtual const double* add(const double* vec, double scale = 1) = 0;
+		virtual void store() = 0;
+		virtual void restore() = 0;
+};
 
 template<typename RV>
-class RVWrapper 
+class RVWrapper : public IRVWrapper 
 {
 	RV var;
 	RV backup;
@@ -22,7 +22,8 @@ class RVWrapper
 	std::deque<const IMeasurement*> meausre_list;
 	public:
 		RVWrapper();
-		RVWrapper(RV _v) {var = _v;}
+		RVWrapper(RV _v, bool opt) {var = _v; optimize = opt;}
+		RVWrapper(RV _v) {var = _v; optimize = true;}
 		virtual int getDOF() const;
 		virtual const double* add(const double* vec, double scale = 1);
 		virtual void store();
@@ -85,6 +86,7 @@ template<typename RV>
 int RVWrapper<RV>::registerMeasurement(const IMeasurement* m)
 {
 	meausre_list.push_back(m);
+	return DOF;
 }
 
 template<typename RV>
