@@ -1,4 +1,9 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 #include <cmath>
 #include <Eigen/Dense>
 #include "types/Vector.hpp"
@@ -9,6 +14,7 @@
 #include "types/POSE2.hpp"
 
 #include "gnuplot-iostream.h"
+#include <boost/tuple/tuple.hpp>
 
 using namespace std;
 using namespace Eigen;
@@ -117,13 +123,61 @@ void testOdo2()
 	delete[] res;
 }
 
+// this function reads dataset and display it using gnuplot
+void testShowDataSet()
+{
+	// for gnuplot
+	vector<boost::tuple<double, double> > pts_A;
+	string line;
+	string::size_type sz;  
+	ifstream my_data;
+	my_data.open("../data/manhattanOlson3500.graph", ios::in);
+
+	if (my_data.is_open())
+	{
+		while(getline(my_data, line))
+		{
+			//cout << line << endl;
+			istringstream iss(line);
+			vector<string> tokens;
+			copy(istream_iterator<string>(iss),
+			     istream_iterator<string>(),
+			     back_inserter(tokens));
+			if (tokens.size() == 0)
+				continue;
+			else
+			{
+				// read pose init
+				if (tokens[0] == "VERTEX_SE2")
+				{
+					double px = stod (tokens[2],&sz);
+					double py = stod (tokens[3],&sz);
+					double angle = stod (tokens[4],&sz);
+					pts_A.push_back(boost::make_tuple(px,py));
+				}	
+				// read odometry init 
+				else if (tokens[0] == "EDGE_SE2")
+				{
+					double px = stod (tokens[3],&sz);
+					double py = stod (tokens[4],&sz);
+					double angle = stod (tokens[5],&sz);
+
+				}
+			}
+		}
+	}
+	my_data.close();
+	gp<<"plot '-' with points\n";
+	gp.send1d(pts_A);
+}
 
 int main (int argc, char** argv)
 {
 	// TODO: design complete gtest cases for these three functions
 	testVector();  
 	testSO2();
-	testPOSE2();
-	testOdo2();
+	//testPOSE2();
+	//testOdo2();
+	testShowDataSet();
 	return 0;
 }

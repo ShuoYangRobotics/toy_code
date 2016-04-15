@@ -1,6 +1,7 @@
 #ifndef _MY_ESTIMATOR_H
 #define _MY_ESTIMATOR_H
 #include <vector>
+#include <Eigen/Dense>
 
 class Estimator 
 {
@@ -29,6 +30,7 @@ class Estimator
 		Algorithm alg;
 		std::vector<IRVWrapper*> var_list;
 		std::vector<IMeasurement*> meas_list;
+		std::vector<MatrixXd> jacobian_list;
 		double lambda; // the variable contains terminate condition
 };
 

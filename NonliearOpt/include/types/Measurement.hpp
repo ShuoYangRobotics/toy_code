@@ -39,6 +39,9 @@ class Odo2 : public IMeasurement
 		virtual	int getDim() const {return dim;}
 		virtual int registerVariables()
 		{
+			// note: DOF is not the dimension of actual status, but the manifold local dimension
+			// for Vect<D> and SO2, their DOF happen to be the same as actual state dimension
+			// for SO3 using quaternion, however, DOF is 3 even if quaternion has 4 numbers
 			int sum_DOF = 0;
 			sum_DOF += a->registerMeasurement(this);
 			sum_DOF += b->registerMeasurement(this);

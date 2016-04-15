@@ -20,7 +20,12 @@ void Estimator::insertRV(IMeasurement* meas)
 
 void Estimator::initialize()
 {
-	// allocate memory for Jacobian matrix
+	// allocate memory for Jacobian matrixb
+	vector<MatrixXd>::iterator it;
+	for (it = meas_list.begin(); it!=meas_list.end(); it++)
+	{
+		
+	}
 
 	// int m = mes->getDim();
 	// int n = mes->registerVariables();
