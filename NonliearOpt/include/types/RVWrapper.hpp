@@ -1,10 +1,10 @@
 #ifndef _MY_RVWRAPPER_H
 #define _MY_RVWRAPPER_H
-#include <deque>
+#include <vector>
 #include "Measurement.hpp"
 class IMeasurement;
 
-class IRVWrapper
+class IRVWrapper: public std::vector<const IMeasurement*>
 {
 	public:
 		virtual int getDOF() const = 0;
@@ -16,11 +16,10 @@ class IRVWrapper
 template<typename RV>
 class RVWrapper : public IRVWrapper 
 {
+	public:
 	RV var;
 	RV backup;
 	bool optimize;
-	std::deque<const IMeasurement*> meausre_list;
-	public:
 		RVWrapper();
 		RVWrapper(RV _v, bool opt) {var = _v; optimize = opt;}
 		RVWrapper(RV _v) {var = _v; optimize = true;}
@@ -29,6 +28,7 @@ class RVWrapper : public IRVWrapper
 		virtual void store();
 		virtual void restore();
 		int registerMeasurement(const IMeasurement* m);
+		void setNoOpt() {optimize = false;}
 		enum {DOF = RV::DOF};
 
 		double* sub(double* res, const RV& oth);
@@ -85,7 +85,7 @@ void RVWrapper<RV>::restore()
 template<typename RV>
 int RVWrapper<RV>::registerMeasurement(const IMeasurement* m)
 {
-	meausre_list.push_back(m);
+	push_back(m);
 	return DOF;
 }
 

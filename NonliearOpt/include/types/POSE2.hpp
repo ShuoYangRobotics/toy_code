@@ -1,7 +1,7 @@
 #ifndef _POSE_2_H
 #define _POSE_2_H
 #include "Vector.hpp"
-#include "SO2.hpp"
+#include "SO2.h"
 /* only for plot data */
 //#define GNUPLOT_ENABLE_PTY
 #include "gnuplot-iostream.h"

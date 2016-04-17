@@ -4,14 +4,15 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#include <vector>
+#include <deque>
 #include <cmath>
 #include <Eigen/Dense>
 #include "types/Vector.hpp"
 #include "types/Manifold.hpp"
-#include "types/SO2.hpp"
 #include "types/Measurement.hpp"
 #include "types/RVWrapper.hpp"
-#include "types/POSE2.hpp"
+#include "Estimator.h"
 
 #include "gnuplot-iostream.h"
 #include <boost/tuple/tuple.hpp>
@@ -20,6 +21,8 @@ using namespace std;
 using namespace Eigen;
 
 Gnuplot gp;
+vector<RVWrapper<POSE2>* > pose_list;
+vector<Odo2*>	measure_list;
 
 void testVector()
 {
@@ -86,14 +89,15 @@ void testPOSE2()
 
 	cout << "rotate y is " << z.pos[0] << " " << z.pos[1]<< " " << z.orientation.angle << endl;
 	delete[] res;
-	gp << "set size square\n";
-	gp << "set xrange [-5:15]\n";
-	gp << "set yrange [-5:15]\n";
-	gp << "set multiplot\n";
-	x.plot(&gp);
-	y.plot(&gp);
-	//z.plot(&gp); // TODO: design a better way to visualize these plots?
-	gp << "unset multiplot\n";
+	cout << "POSE2 DOF is " <<z.getDOF() <<endl;
+	// gp << "set size square\n";
+	// gp << "set xrange [-5:15]\n";
+	// gp << "set yrange [-5:15]\n";
+	// gp << "set multiplot\n";
+	// x.plot(&gp);
+	// y.plot(&gp);
+	// //z.plot(&gp); // TODO: design a better way to visualize these plots?
+	// gp << "unset multiplot\n";
 }
 
 void testOdo2()
@@ -113,7 +117,7 @@ void testOdo2()
 
 	POSE2 odo(3, -1,11*M_PI/180.0);
 
-	Odo2 first_odo(&RV_x, &RV_y, odo, 0.2);
+	Odo2 first_odo(0, &RV_x, &RV_y, odo, 0.2); //id 0
 
 	double* res = new double[3];
 
@@ -124,10 +128,11 @@ void testOdo2()
 }
 
 // this function reads dataset and display it using gnuplot
-void testShowDataSet()
+void testProcessDataSet()
 {
+	Estimator my_estimator(Estimator::QR);
 	// for gnuplot
-	vector<boost::tuple<double, double> > pts_A;
+	vector<boost::tuple<double, double> > pts_A, pts_B;
 	string line;
 	string::size_type sz;  
 	ifstream my_data;
@@ -135,6 +140,8 @@ void testShowDataSet()
 
 	if (my_data.is_open())
 	{
+		int rv_count = 0; 
+		int meas_count = 0;
 		while(getline(my_data, line))
 		{
 			//cout << line << endl;
@@ -153,15 +160,40 @@ void testShowDataSet()
 					double px = stod (tokens[2],&sz);
 					double py = stod (tokens[3],&sz);
 					double angle = stod (tokens[4],&sz);
-					pts_A.push_back(boost::make_tuple(px,py));
+					pts_A.push_back(boost::make_tuple(px,py));	// this is for gnuplot
+
+					//insert pose_list
+					POSE2 x;
+					x.pos[0] = px;
+					x.pos[1] = py;
+					x.orientation.angle = angle;
+					RVWrapper<POSE2>* RV_x = new RVWrapper<POSE2>(x);
+					if (rv_count == 0)
+					{
+						RV_x->setNoOpt();
+					}
+					pose_list.push_back(RV_x);
+					my_estimator.insertRV(RV_x);
+					rv_count ++;
 				}	
-				// read odometry init 
+				// read odometry init
+				// assume here all the vertices are inserted already  
 				else if (tokens[0] == "EDGE_SE2")
 				{
+					int pose1_idx = stoi(tokens[1],&sz);
+					int pose2_idx = stoi(tokens[2],&sz);
+
 					double px = stod (tokens[3],&sz);
 					double py = stod (tokens[4],&sz);
 					double angle = stod (tokens[5],&sz);
+		
+					POSE2 odo(px, py, angle);
+					Odo2* first_odo = new Odo2(meas_count, pose_list[pose1_idx], pose_list[pose2_idx], odo, 0.2); 
 
+					measure_list.push_back(first_odo);
+
+					my_estimator.insertMeasurement(first_odo);
+					meas_count += 3; // dim of Odo2
 				}
 			}
 		}
@@ -169,6 +201,39 @@ void testShowDataSet()
 	my_data.close();
 	gp<<"plot '-' with points\n";
 	gp.send1d(pts_A);
+	// debug
+	for (int i = 0; i< 3; i++)
+	{
+		Odo2* p = measure_list[i];
+		cout << p->a->var.pos[0];
+		cout << " ";
+		cout << p->a->var.pos[1];
+		cout << " ";
+		cout << p->a->var.orientation.angle;
+		cout << "|";
+		cout << p->b->var.pos[0];
+		cout << " ";
+		cout << p->b->var.pos[1];
+		cout << " ";
+		cout << p->b->var.orientation.angle << endl;
+	}
+	// estimator run
+	my_estimator.initialize();
+	for(int i = 0; i< 3; i++)
+	{
+		my_estimator.optimizeStep();
+		pts_B.clear();
+		for (int i = 0; i < my_estimator.var_list.size();i++)
+		{
+			RVWrapper<POSE2>* RV_x = static_cast<RVWrapper<POSE2>* >(my_estimator.var_list[i]);
+			pts_B.push_back(boost::make_tuple(RV_x->var.pos[0],
+											  RV_x->var.pos[1]));	// this is for gnuplot
+		}	
+		gp<<"plot '-' with points\n";
+		gp.send1d(pts_B);		
+	}
+
+
 }
 
 int main (int argc, char** argv)
@@ -176,8 +241,8 @@ int main (int argc, char** argv)
 	// TODO: design complete gtest cases for these three functions
 	testVector();  
 	testSO2();
-	//testPOSE2();
+	testPOSE2();
 	//testOdo2();
-	testShowDataSet();
+	testProcessDataSet();
 	return 0;
 }

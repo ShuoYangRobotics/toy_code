@@ -18,6 +18,9 @@ include_directories(
 
 add_executable(test
 	src/main.cpp
+	src/Estimator.cpp
+	src/CholeskyCovariance.cpp
+	src/SO2.cpp
 )
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS}) 
