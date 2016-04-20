@@ -136,7 +136,9 @@ void testProcessDataSet()
 	string line;
 	string::size_type sz;  
 	ifstream my_data;
-	my_data.open("../data/manhattanOlson3500.graph", ios::in);
+	//my_data.open("../data/manhattanOlson3500.graph", ios::in);
+	// my_data.open("../data/manhattanOlson4.graph", ios::in);
+	my_data.open("../data/manhattanOlson100.graph", ios::in);
 
 	if (my_data.is_open())
 	{
@@ -161,6 +163,7 @@ void testProcessDataSet()
 					double py = stod (tokens[3],&sz);
 					double angle = stod (tokens[4],&sz);
 					pts_A.push_back(boost::make_tuple(px,py));	// this is for gnuplot
+					//ground truth
 
 					//insert pose_list
 					POSE2 x;
@@ -188,7 +191,8 @@ void testProcessDataSet()
 					double angle = stod (tokens[5],&sz);
 		
 					POSE2 odo(px, py, angle);
-					Odo2* first_odo = new Odo2(meas_count, pose_list[pose1_idx], pose_list[pose2_idx], odo, 0.2); 
+					// cout << "measurement id is " << meas_count << endl;
+					Odo2* first_odo = new Odo2(meas_count, pose_list[pose1_idx], pose_list[pose2_idx], odo, 0.5); 
 
 					measure_list.push_back(first_odo);
 
@@ -199,10 +203,11 @@ void testProcessDataSet()
 		}
 	}
 	my_data.close();
-	gp<<"plot '-' with points\n";
+	gp<<"set term x11 0\n";
+	gp<<"plot '-' with linespoints\n";
 	gp.send1d(pts_A);
 	// debug
-	for (int i = 0; i< 3; i++)
+	for (int i = 0; i< 10; i++)
 	{
 		Odo2* p = measure_list[i];
 		cout << p->a->var.pos[0];
@@ -216,12 +221,21 @@ void testProcessDataSet()
 		cout << p->b->var.pos[1];
 		cout << " ";
 		cout << p->b->var.orientation.angle << endl;
+		POSE2_t pose_diff = p->a->get()->toMyFrame(p->b->get());
+		cout << "|";
+		cout << pose_diff.pos[0];
+		cout << " ";
+		cout << pose_diff.pos[1];
+		cout << " ";
+		cout << pose_diff.orientation.angle << endl;
 	}
 	// estimator run
+	gp<<"set term x11 1\n";	// this is important 
 	my_estimator.initialize();
-	for(int i = 0; i< 3; i++)
+	for(int i = 0; i< 20; i++)
 	{
-		my_estimator.optimizeStep();
+		double gain = my_estimator.optimizeStep();
+		cout << "The gain is " << gain << endl;
 		pts_B.clear();
 		for (int i = 0; i < my_estimator.var_list.size();i++)
 		{
@@ -229,8 +243,27 @@ void testProcessDataSet()
 			pts_B.push_back(boost::make_tuple(RV_x->var.pos[0],
 											  RV_x->var.pos[1]));	// this is for gnuplot
 		}	
-		gp<<"plot '-' with points\n";
+		gp<<"plot '-' with linespoints\n";
 		gp.send1d(pts_B);		
+		if (abs(gain) < 1e-3)
+		{
+			break;
+		}
+	}
+	// debug
+	cout << "final result " << endl;
+	for (int i = 1; i< 10; i++)
+	{
+		RVWrapper<POSE2>* RV_x1 = static_cast<RVWrapper<POSE2>* >(my_estimator.var_list[i-1]);
+		RVWrapper<POSE2>* RV_x2 = static_cast<RVWrapper<POSE2>* >(my_estimator.var_list[i]);
+
+		POSE2_t pose_diff = RV_x1->get()->toMyFrame(RV_x2->get());
+		cout << "|";
+		cout << pose_diff.pos[0];
+		cout << " ";
+		cout << pose_diff.pos[1];
+		cout << " ";
+		cout << pose_diff.orientation.angle << endl;
 	}
 
 
