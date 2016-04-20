@@ -187,7 +187,8 @@ double Estimator::optimizeStep()
 	// solve for delta_x;
 	double* delta_x = new double[n]; 
 	double* delta_x_dense = new double[n]; 
-	
+
+	//2016-04-20 this is very buggy, it seems Eigen sparse solver has some problem 	
 	// Eigen::SimplicialLLT <SpMat> solver;
 	Eigen::SparseQR<SpMat, COLAMDOrdering<int> > solver;
 	SpMat A = *jacobi_mtx;

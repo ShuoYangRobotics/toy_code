@@ -138,7 +138,8 @@ void testProcessDataSet()
 	ifstream my_data;
 	//my_data.open("../data/manhattanOlson3500.graph", ios::in);
 	// my_data.open("../data/manhattanOlson4.graph", ios::in);
-	my_data.open("../data/manhattanOlson100.graph", ios::in);
+	// my_data.open("../data/manhattanOlson100.graph", ios::in);
+	my_data.open("../data/manhattanOlson500.graph", ios::in);
 
 	if (my_data.is_open())
 	{
@@ -204,7 +205,9 @@ void testProcessDataSet()
 	}
 	my_data.close();
 	gp<<"set term x11 0\n";
-	gp<<"plot '-' with linespoints\n";
+	gp << "set style line 1 lc rgb '#ff0000' lt 1 lw 2 pt 7 ps 1.5\n";
+	gp << "set size square\n";
+	gp<<"plot '-' with linespoints ls 1\n";
 	gp.send1d(pts_A);
 	// debug
 	for (int i = 0; i< 10; i++)
@@ -231,6 +234,8 @@ void testProcessDataSet()
 	}
 	// estimator run
 	gp<<"set term x11 1\n";	// this is important 
+	gp << "set style line 2 lc rgb '#0000ff' lt 1 lw 2 pt 7 ps 1.5\n";
+	gp << "set size square\n";
 	my_estimator.initialize();
 	for(int i = 0; i< 20; i++)
 	{
@@ -243,7 +248,7 @@ void testProcessDataSet()
 			pts_B.push_back(boost::make_tuple(RV_x->var.pos[0],
 											  RV_x->var.pos[1]));	// this is for gnuplot
 		}	
-		gp<<"plot '-' with linespoints\n";
+		gp<<"plot '-' with linespoints ls 2\n";
 		gp.send1d(pts_B);		
 		if (abs(gain) < 1e-3)
 		{

@@ -59,12 +59,12 @@ class Odo2 : public IMeasurement
 			// f(X) - u
 			pose_diff.sub(res, odometry);
 			// L^{-1}(f(x)-u)
-			// Eigen::Vector3d container(res[0], res[1], res[2]);
-			// //std::cout << "container is:" << container << std::endl;
-			// CholInvApply(cov, container);
-			// res[0] = container[0];
-			// res[1] = container[1];
-			// res[2] = container[2];
+			Eigen::Vector3d container(res[0], res[1], res[2]);
+			//std::cout << "container is:" << container << std::endl;
+			CholInvApply(cov, container);
+			res[0] = container[0];
+			res[1] = container[1];
+			res[2] = container[2];
 		}
 
 };
