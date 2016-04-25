@@ -46,7 +46,7 @@ void Estimator::initialize()
 	std::cout << "Number of variable " << var_list.size() << std::endl;
 
 	jacobi_mtx = new SpMat(m,n);
-	jacobi_dense = MatrixXd::Zero(m,n);
+	// jacobi_dense = MatrixXd::Zero(m,n);
 	std::cout << "problem initialized!" << std::endl
 			  << "This program includes " << m << " rows and "
 			  << n << " cols" <<std::endl;
@@ -71,7 +71,7 @@ double Estimator::optimizeStep()
 		for (int j = 0; j < rvw->getDOF(); j++)
 		{
 			// debug print 
-			MatrixXd debug_mtx(3,3);
+			// MatrixXd debug_mtx(3,3);
 		 	double* increment = new double[rvw->getDOF()];
 			//set increment to be 0
 			for (int k = 0; k < rvw->getDOF(); k++)
@@ -105,8 +105,8 @@ double Estimator::optimizeStep()
 					if (abs(tmp1[p]) < 1e-10)
 						tmp1[p] = 0;
 					jacobi_coeffi.push_back(T(rv_m->getId()+p, curr_n+j, tmp1[p]));
-					jacobi_dense(rv_m->getId()+p, curr_n+j) = tmp1[p];
-					debug_mtx(p, j) = tmp1[p];
+					// jacobi_dense(rv_m->getId()+p, curr_n+j) = tmp1[p];
+					// debug_mtx(p, j) = tmp1[p];
 				}
 				rvw->restore();
 		 		delete tmp1, tmp2;
@@ -140,7 +140,7 @@ double Estimator::optimizeStep()
 	// construct problem 
 	double* delta_measure = new double[m];
 	Eigen::VectorXd eigen_delta_measure(m);
-	Eigen::VectorXd eigen_delta_measure_dense(m);
+	// Eigen::VectorXd eigen_delta_measure_dense(m);
 	int idx = 0;
 	meas_list[0]->eval(delta_measure);
 	for (int i = 1; i < meas_list.size(); i++)
@@ -179,10 +179,10 @@ double Estimator::optimizeStep()
 	SpMat JT = jacobi_mtx->transpose();
 	eigen_delta_measure = JT*eigen_delta_measure;
 
-	eigen_delta_measure_dense = jacobi_dense.transpose()*eigen_delta_measure; //2016--04-20 forgot transpose at begin
+	// eigen_delta_measure_dense = jacobi_dense.transpose()*eigen_delta_measure; //2016--04-20 forgot transpose at begin
 
 	cout << "J^T* delta: " << eigen_delta_measure.norm() << endl;
-	cout << "J^T* delta dense: " << eigen_delta_measure_dense.norm() << endl;
+	// cout << "J^T* delta dense: " << eigen_delta_measure_dense.norm() << endl;
 
 	// solve for delta_x;
 	double* delta_x = new double[n]; 

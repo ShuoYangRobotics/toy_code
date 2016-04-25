@@ -127,12 +127,15 @@ void testOdo2()
 	delete[] res;
 }
 
-// this function reads dataset and display it using gnuplot
-void testProcessDataSet()
+// this function reads "manhattan Olson" dataset, solve it, and display it using gnuplot
+void solveManhattanDataSet()
 {
+	// init a Estimator, its argument is not implemented yet, now I only use Eigen:SparseQR to do optimization
 	Estimator my_estimator(Estimator::QR);
-	// for gnuplot
+	// variables for gnuplot visualization
 	vector<boost::tuple<double, double> > pts_A, pts_B;
+	
+	// variables for read file with ifstream
 	string line;
 	string::size_type sz;  
 	ifstream my_data;
@@ -141,14 +144,19 @@ void testProcessDataSet()
 	// my_data.open("../data/manhattanOlson100.graph", ios::in);
 	my_data.open("../data/manhattanOlson500.graph", ios::in);
 
+	// read dataset
 	if (my_data.is_open())
 	{
+		// a debug counter, will be equal to pose_list.size() after processing dataset
 		int rv_count = 0; 
+		// a counter to record the measurement id
 		int meas_count = 0;
+		// read file line by line
 		while(getline(my_data, line))
 		{
 			//cout << line << endl;
 			istringstream iss(line);
+			// parse text line into tokens
 			vector<string> tokens;
 			copy(istream_iterator<string>(iss),
 			     istream_iterator<string>(),
@@ -157,16 +165,15 @@ void testProcessDataSet()
 				continue;
 			else
 			{
-				// read pose init
+				// read init poses
 				if (tokens[0] == "VERTEX_SE2")
 				{
 					double px = stod (tokens[2],&sz);
 					double py = stod (tokens[3],&sz);
 					double angle = stod (tokens[4],&sz);
-					pts_A.push_back(boost::make_tuple(px,py));	// this is for gnuplot
-					//ground truth
+					pts_A.push_back(boost::make_tuple(px,py));	// this is for gnuplot, save initial poses
 
-					//insert pose_list
+					//insert pose to Estimator 
 					POSE2 x;
 					x.pos[0] = px;
 					x.pos[1] = py;
@@ -176,12 +183,15 @@ void testProcessDataSet()
 					{
 						RV_x->setNoOpt();
 					}
+					// this pose_list is necessary because we need their indices later to indicate that
+					// which measurement is associated with which poses
 					pose_list.push_back(RV_x);
 					my_estimator.insertRV(RV_x);
+
 					rv_count ++;
 				}	
 				// read odometry init
-				// assume here all the vertices are inserted already  
+				// assume here all the variables are inserted already  
 				else if (tokens[0] == "EDGE_SE2")
 				{
 					int pose1_idx = stoi(tokens[1],&sz);
@@ -192,6 +202,7 @@ void testProcessDataSet()
 					double angle = stod (tokens[5],&sz);
 		
 					POSE2 odo(px, py, angle);
+					// measurement id is equal to the row number of the Jacobian matrix
 					// cout << "measurement id is " << meas_count << endl;
 					Odo2* first_odo = new Odo2(meas_count, pose_list[pose1_idx], pose_list[pose2_idx], odo, 0.5); 
 
@@ -199,11 +210,14 @@ void testProcessDataSet()
 
 					my_estimator.insertMeasurement(first_odo);
 					meas_count += 3; // dim of Odo2
+					// notes that after processing measurements, meas_cout equals to measure_list.size() * dim of Odo2
+					// also equals to the number of rows of the jacobian matrix
 				}
 			}
 		}
 	}
 	my_data.close();
+	// plot initial poses in gnuplot as red lines and points
 	gp<<"set term x11 0\n";
 	gp << "set style line 1 lc rgb '#ff0000' lt 1 lw 2 pt 7 ps 1.5\n";
 	gp << "set size square\n";
@@ -245,17 +259,19 @@ void testProcessDataSet()
 		for (int i = 0; i < my_estimator.var_list.size();i++)
 		{
 			RVWrapper<POSE2>* RV_x = static_cast<RVWrapper<POSE2>* >(my_estimator.var_list[i]);
+			// this is for gnuplot, plot result of each optimization step
 			pts_B.push_back(boost::make_tuple(RV_x->var.pos[0],
-											  RV_x->var.pos[1]));	// this is for gnuplot
+											  RV_x->var.pos[1]));	
 		}	
 		gp<<"plot '-' with linespoints ls 2\n";
 		gp.send1d(pts_B);		
+		// another termination condition
 		if (abs(gain) < 1e-3)
 		{
 			break;
 		}
 	}
-	// debug
+	// debug print, may generate error if the dataset contains less than 10 variables
 	cout << "final result " << endl;
 	for (int i = 1; i< 10; i++)
 	{
@@ -276,11 +292,16 @@ void testProcessDataSet()
 
 int main (int argc, char** argv)
 {
-	// TODO: design complete gtest cases for these three functions
+	/*
+	 * first some test procedures for testing data types
+	 * TODO: These test cases are far from complete, need to add gtest functions for a more thorough testing
+	 */
 	testVector();  
 	testSO2();
 	testPOSE2();
-	//testOdo2();
-	testProcessDataSet();
+	testOdo2();
+
+	// main optimization procedure
+	solveManhattanDataSet();
 	return 0;
 }

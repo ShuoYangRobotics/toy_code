@@ -46,7 +46,7 @@ class Estimator
 		std::vector<T> jacobi_coeffi;
 		SpMat* jacobi_mtx;
 		// debug none sparse;
-		MatrixXd jacobi_dense;
+		// MatrixXd jacobi_dense;
 		double lambda; // the variable contains terminate condition
 		double prev_error;
 		bool is_prev_error_set;
