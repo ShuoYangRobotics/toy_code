@@ -24,5 +24,6 @@ Now I can get good result for 500 variables in less than 1 second, but for probl
 Following are the photos I currently get for 3500 variables.
 
 Initial guess:
-
+![Inital](https://raw.githubusercontent.com/paulyang1990/toy_code/master/NonliearOpt/img/result1.png)
 Final optimized result:
+![Final](https://raw.githubusercontent.com/paulyang1990/toy_code/master/NonliearOpt/img/result2.png)
