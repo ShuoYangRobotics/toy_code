@@ -65,6 +65,8 @@ class Odo2 : public IMeasurement
 			res[0] = container[0];
 			res[1] = container[1];
 			res[2] = container[2];
+
+			return res;
 		}
 
 };

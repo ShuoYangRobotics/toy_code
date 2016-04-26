@@ -32,6 +32,7 @@ class POSE2_t
 		{
 			pos = v.pos;
 			orientation = v.orientation;
+			return *this;
 		}
 		int getDOF() const {return DOF;}								
 		const double* add (const double* vec, double scale = 1)	

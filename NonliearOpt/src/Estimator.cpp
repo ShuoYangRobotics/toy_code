@@ -30,7 +30,7 @@ void Estimator::initialize()
 	n = 0; // dim of col of jacobian matrix
 	//std::vector<IMeasurement*>::iterator it;
 	//for (it = meas_list.begin(); it!=meas_list.end(); it++)
-	for (int i = 0; i < meas_list.size(); i++)
+	for (unsigned int i = 0; i < meas_list.size(); i++)
 	{
 		m += meas_list[i]->getDim();
 		meas_list[i]->registerVariables(); // make sure this is called only once after insertMeasurement
@@ -38,14 +38,14 @@ void Estimator::initialize()
 	std::cout << "Number of measurement " << meas_list.size() << std::endl;
 	//std::vector<IRVWrapper*>::iterator it_var;
 	//for (it_var = var_list.begin(); it_var!=var_list.end(); it_var++)
-	for (int i = 0; i < var_list.size(); i++)
+	for (unsigned int i = 0; i < var_list.size(); i++)
 	{
 		n += var_list[i]->getDOF();
 		//std::cout << var_list[i]->getDOF() << std::endl;
 	}
 	std::cout << "Number of variable " << var_list.size() << std::endl;
 
-	jacobi_mtx = new SpMat(m,n);
+	jacobi_mtx = SpMat(m,n);
 	// jacobi_dense = MatrixXd::Zero(m,n);
 	std::cout << "problem initialized!" << std::endl
 			  << "This program includes " << m << " rows and "
@@ -64,7 +64,7 @@ double Estimator::optimizeStep()
 	jacobi_coeffi.clear();	// first set of numbers clear 
 
 	int curr_n = 0;
-	for (int i = 0; i < var_list.size(); i++)
+	for (unsigned int i = 0; i < var_list.size(); i++)
 	{
 		IRVWrapper* rvw = var_list[i];
 		rvw->store();
@@ -87,7 +87,7 @@ double Estimator::optimizeStep()
 
 		 	//std::deque<const IMeasurement*>::iterator it;
 		 	//for (it = var_list[i]->begin(); it != var_list[i]->end(); it++)
-		 	for(int k = 0; k < rvw->size(); k++)
+		 	for(unsigned int k = 0; k < rvw->size(); k++)
 		 	{	
 				const IMeasurement* rv_m = (*rvw)[k];		 		
 		 		double* tmp1 = new double[rv_m->getDim()];
@@ -109,7 +109,8 @@ double Estimator::optimizeStep()
 					// debug_mtx(p, j) = tmp1[p];
 				}
 				rvw->restore();
-		 		delete tmp1, tmp2;
+		 		delete tmp1;
+		 		delete tmp2;
 		 	}
 		 	//cout << "jacobian block" << endl << debug_mtx << endl;
 		 	delete increment; 
@@ -118,7 +119,7 @@ double Estimator::optimizeStep()
 		curr_n += var_list[i]->getDOF(); 	
 	}
 
-	jacobi_mtx->setFromTriplets(jacobi_coeffi.begin(), jacobi_coeffi.end());
+	jacobi_mtx.setFromTriplets(jacobi_coeffi.begin(), jacobi_coeffi.end());
 	
 	// debug print
 	// curr_n = 0;
@@ -143,7 +144,7 @@ double Estimator::optimizeStep()
 	// Eigen::VectorXd eigen_delta_measure_dense(m);
 	int idx = 0;
 	meas_list[0]->eval(delta_measure);
-	for (int i = 1; i < meas_list.size(); i++)
+	for (unsigned int i = 1; i < meas_list.size(); i++)
 	{
 		idx += meas_list[i-1]->getDim();
 		meas_list[i]->eval(delta_measure+idx);
@@ -176,7 +177,7 @@ double Estimator::optimizeStep()
 	prev_error = eigen_delta_measure.norm();	
 	is_prev_error_set = true;
 
-	SpMat JT = jacobi_mtx->transpose();
+	SpMat JT = SpMat(jacobi_mtx.transpose());
 	eigen_delta_measure = JT*eigen_delta_measure;
 
 	// eigen_delta_measure_dense = jacobi_dense.transpose()*eigen_delta_measure; //2016--04-20 forgot transpose at begin
@@ -186,16 +187,27 @@ double Estimator::optimizeStep()
 
 	// solve for delta_x;
 	double* delta_x = new double[n]; 
-	double* delta_x_dense = new double[n]; 
+	// double* delta_x_dense = new double[n]; 
 
+
+	// TODO: use not only J^TJ but also J^TJ+\lambda D
+	SpMat A = (SpMat(jacobi_mtx.transpose()) * jacobi_mtx).pruned();
+	cout << "I got A" << endl;
+	// A.makeCompressed();
 	//2016-04-20 this is very buggy, it seems Eigen sparse solver has some problem 	
 	// Eigen::SimplicialLLT <SpMat> solver;
+	// A.makeCompressed();
 	Eigen::SparseQR<SpMat, COLAMDOrdering<int> > solver;
-	SpMat A = *jacobi_mtx;
-	A = JT*A;
-	cout << "I got A" << endl;
 	solver.compute(A);  // performs a Cholesky factorization of A
-  	Eigen::VectorXd x = solver.solve(eigen_delta_measure);         // use the factorization to solve for the given right hand side
+	// Eigen::SimplicialCholesky<SpMat> solver(A);
+	Eigen::VectorXd x;
+	// if (solver.info() == Eigen::Success)
+  		x = solver.solve(eigen_delta_measure).eval();         // use the factorization to solve for the given right hand side
+  	// else
+  	// {
+  	// 	cout << "something is wrong here" << endl;
+  	// 	x = Eigen::VectorXd::Zero(n);
+  	// }
   	cout << "DOF list size:      " << n << endl;
   	cout << "solved vector size: " << x.size() << endl;
   	// cout << "solved vector: " << endl <<  x << endl;
@@ -212,13 +224,16 @@ double Estimator::optimizeStep()
 		// delta_x[i] = x_dense(i);
 		delta_x[i] = x(i);
 
-	for (int i = 0; i < var_list.size(); i++)
+	for (unsigned int i = 0; i < var_list.size(); i++)
 	{
 		//do not optimize first element (the first element is 0 0 0)
 		if (i!=0)
 			var_list[i]->add(delta_x+i*var_list[i]->getDOF());
 	} // 2016-04-21 indexing error
 
-	delete delta_measure, delta_x;
+	delete delta_measure;
+	delete delta_x;
+	// delete delta_x_dense;
+
 	return gain;
 }

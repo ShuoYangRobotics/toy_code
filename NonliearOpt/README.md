@@ -19,4 +19,10 @@ The current version works very well on dataset: manhattanOlson500.graph.
 
 However, I still have problem with Eigen::SparseQR sparse matrix solver. It runs very slow now, but if I switch to SimplicialLLT, the result looks very wrong. My next step should be a careful treatment to the sparse matrix solver.
 
-Add more comments to main code.
+Now I can get good result for 500 variables in less than 1 second, but for problem with 3500 variables, each optimizationStep takes nearly 5 minutes. 
+
+Following are the photos I currently get for 3500 variables.
+
+Initial guess:
+
+Final optimized result:

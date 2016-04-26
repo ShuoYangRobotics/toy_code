@@ -139,7 +139,7 @@ void solveManhattanDataSet()
 	string line;
 	string::size_type sz;  
 	ifstream my_data;
-	//my_data.open("../data/manhattanOlson3500.graph", ios::in);
+	// my_data.open("../data/manhattanOlson3500.graph", ios::in);
 	// my_data.open("../data/manhattanOlson4.graph", ios::in);
 	// my_data.open("../data/manhattanOlson100.graph", ios::in);
 	my_data.open("../data/manhattanOlson500.graph", ios::in);
@@ -256,9 +256,9 @@ void solveManhattanDataSet()
 		double gain = my_estimator.optimizeStep();
 		cout << "The gain is " << gain << endl;
 		pts_B.clear();
-		for (int i = 0; i < my_estimator.var_list.size();i++)
+		for (unsigned int j = 0; j < my_estimator.var_list.size();j++)
 		{
-			RVWrapper<POSE2>* RV_x = static_cast<RVWrapper<POSE2>* >(my_estimator.var_list[i]);
+			RVWrapper<POSE2>* RV_x = static_cast<RVWrapper<POSE2>* >(my_estimator.var_list[j]);
 			// this is for gnuplot, plot result of each optimization step
 			pts_B.push_back(boost::make_tuple(RV_x->var.pos[0],
 											  RV_x->var.pos[1]));	
