@@ -1,0 +1,3035 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8" /> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Simulink Performance Advisor Report for 'hopper4'</title>  
+<style type="text/css">
+<!--
+@media screen {    
+    /* Table Formatting */
+    .AdvTable th { 
+        background:#80a0c1 url(data:image/gif;base64,R0lGODlhAQAaAKIAAHSRr3mXtn+fv2V/mX2cvG2JpVxzi4CgwSH5BAAAAAAALAAAAAABABoAAAMJeLrcLCSAMkwCADs=) repeat-x bottom left; 
+    }
+}
+
+@media all {
+    *{ font-family: sans-serif; }
+
+	H3 {
+		font-size: 14pt;
+		font-weight: 200;
+	}
+	H4 {
+		font-size: 9pt;
+		font-weight: normal;
+	}
+	H5 {
+		font-size: 12pt;
+		font-style: italic;
+		font-weight: bold;
+		color: #333333;
+		margin-bottom: 2px;
+	}
+	a[href] {
+		color: #005FCE;
+	}
+	.subsection {
+		padding-left: 30px;
+	}
+    
+    .CheckHeading {
+		font-size:1.05em;
+		font-weight:bold;
+	}
+
+    /* Table Formatting */
+    table.AdvTable { 
+        border-collapse:collapse; border:1px solid #ececec; border-right:none; border-bottom:none; 
+    }
+
+    .AdvTable th { 
+        padding-left:5px; 
+        padding-right:5px; 
+        color:#fff; 
+        line-height:120%; 
+        background:#80a0c1 url(data:image/gif;base64,R0lGODlhAQAaAKIAAHSRr3mXtn+fv2V/mX2cvG2JpVxzi4CgwSH5BAAAAAAALAAAAAABABoAAAMJeLrcLCSAMkwCADs=) repeat-x bottom left; 
+        border-right: 1px solid #ececec; 
+        border-bottom: 1px solid #ececec; 
+    }
+
+    .AdvTable td { 
+        padding-left:5px; 
+        padding-right:5px; 
+        border-right:1px solid #ececec; 
+        border-bottom: 1px solid #ececec; 
+    }
+    
+    .AdvTable th p { 
+        margin-bottom:0px; 
+    }
+
+    .AdvTable p { 
+        margin-bottom:10px; 
+    }
+    
+    .AdvTableNoBorder p { 
+        margin-bottom:10px; 
+    }
+
+    table+span.SDCollapseControl { 
+        font-size:0.8em; 
+        font-weight:bold; 
+    }
+
+    ul+span.SDCollapseControl { 
+        margin-left:25px; 
+        font-size:0.8em;
+        font-weight:bold; 
+    }
+
+    ol+span.SDCollapseControl { 
+        margin-left:25px; 
+        font-size:0.8em; 
+        font-weight:bold; 
+    }
+
+    .SystemdefinedCollapse { 
+        margin-top:0px;
+        margin-bottom:5px; 
+    }
+
+    div.AllCollapse p, div.AllCollapse table, div.AllCollapse ol, div.AllCollapse ul { 
+        margin-top:0pt;
+        margin-bottom:0pt; 
+        margin-left:18px;
+    }
+
+    div.AllCollapse + div { 
+        margin-top:0pt;
+        margin-bottom:0pt; 
+        margin-left:18px; 
+    }
+
+    img.CollapseAllControlImage { 
+        float:left; 
+    }
+
+    .SubResultsSummary {
+        padding-left:30px;
+    }
+
+    .EmptyFolderMessage {
+        color:gray;
+        margin:10px 0 0 30px;
+        font-size:0.8em;
+    }
+}
+-->
+</style>
+
+<style type="text/css">
+<!--
+@media screen {
+    #Container {
+        overflow-x:hidden;
+    }
+
+	#ControlPanel {
+		position: fixed;
+		top: 5px;
+		left: 10px;
+		bottom: 5px;
+		width: 210px;
+		padding: 2px 0 2px 2px;
+		border: 1px solid #EEEEEE;
+		font-family: sans-serif;
+		font-size: 0.85em;
+	}
+
+	#HidePanelControl {
+		position:absolute;
+		top:0;
+		left:204px;
+		width:8px;
+		height:100%;
+		font-size: 8px;
+	}
+	
+	#HidePanelControl:hover {
+		background-color: #EFEFFB;
+	}
+	
+	#HidePanelControlInner {
+		position:absolute; top:50%;
+	}
+
+	#ControlsCheckFiltering {
+		position:absolute;
+		top:2px;
+		border: 1px solid #ececec;
+		padding-bottom: 8px;
+		margin-top: 0;
+		margin-bottom:0;
+		height:180px;
+		width:200px;
+	}
+		
+	#ControlsTOC {
+		position: absolute;
+		top:199px;
+		bottom:130px;
+		margin-top: 0;
+		margin-bottom: 0;
+		width:200px;
+		border: 1px solid #ececec;
+	}
+	
+	#ControlsView {
+		position:absolute;
+		bottom:2px;
+		width:200px;
+		margin-top: 0;
+		margin-bottom: 0;
+		height:110px;
+		border: 1px solid #ececec;
+	}
+	
+	#TOCScrollableArea {
+		position:absolute;
+		top:30px;
+		bottom:0;
+		width:100%;
+		padding-bottom:5px;
+		overflow:auto;
+	}
+	
+	#ControlsCheckFiltering input[type=checkbox] { margin-right: 15px; }
+	
+	#ControlPanel h2 {
+		margin: 0 0 10px 0;
+		background-color: #ECECEC;
+		font-size: 1em;
+		font-weight: normal;
+		color: #333333;
+		padding: 2px 5px 1px 5px;
+		height:20px;
+	}
+
+	.ControlPanelTextControl a[href] {
+		text-decoration: none;
+		font-weight: normal;
+		color: #F6F6F6;
+	}
+	
+	.ControlPanelTextControl {
+		line-height: 160%;
+		font-weight: normal;
+		color: #005FCE;
+		margin: 0 0 0 5px;
+		padding-right:15px;
+        padding-left:18px;
+        text-indent:-18px;
+	}
+	
+	.ControlPanelTextControl:hover {
+		background-color: #EFEFFB;
+	}
+	
+	#TextFilter {
+        padding-top:5px;
+        margin-left:12px;        
+	}
+	
+	#TxtFilterInput {
+		width: 170px;
+		color: gray;
+	}
+
+	#CPFilteringTable {
+        margin-left:5px;
+        width:165px;
+        border: none;
+    }
+
+    #CPFilteringTable td { border: none; }
+
+    #CPToTopImg { position:relative; top:3px; width:18px; height:17px; }
+    #CPCollapseImg { position:relative; top:2px; width:16px; height:16px; margin-right:3px; }
+
+	.ReportContent { margin-left: 225px; }
+}
+
+@media print {
+	#ControlPanel {
+		display: none;
+	}
+
+    #ShowPanelControl{
+		display:none;
+    }
+    
+    .ReportContent { margin-left: 0px; }
+}
+-->
+</style>
+
+<script type="text/javascript"> <!-- /* Copyright 2013 The MathWorks, Inc */
+/* define String.trim() method if not defined (used by filterByText() function) */
+if(!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g,'');
+  };
+}
+
+// rtwreport needs it 
+function init() {
+    var showFailed = document.getElementById("Failed Checkbox");
+    var showPassed = document.getElementById("Passed Checkbox");
+    var showWarning = document.getElementById("Warning Checkbox");
+    var showNotRun = document.getElementById("Not Run Checkbox");       
+    
+    inputText = RegExp('\\?(.*)').exec(window.location.search);
+
+    if (inputText == null) {
+        /* refresh check boxes and search input */
+        showFailed.checked = true;
+        showPassed.checked = true;
+        showWarning.checked = true;
+        showNotRun.checked = true;
+        updateVisibleChecks();
+        return;
+    }
+    else {
+        showFailed.checked = false;
+        showPassed.checked = false;
+        showWarning.checked = false;
+        showNotRun.checked = false;
+    }
+    
+    if (!inputText[1].localeCompare("showPassedChecks")) {
+        showPassed.checked = true;
+    }
+    if (!inputText[1].localeCompare("showWarningChecks")) {
+        showWarning.checked = true;
+    }
+    if (!inputText[1].localeCompare("showFailedChecks")) {
+        showFailed.checked = true;
+    }
+    if (!inputText[1].localeCompare("showNotRunChecks")) {
+        showNotRun.checked = true;
+    }
+    if (!showFailed.checked && !showPassed.checked && 
+        !showWarning.checked && !showNotRun.checked) {
+        showFailed.checked = true;
+        showPassed.checked = true;
+        showWarning.checked = true;
+        showNotRun.checked = true;
+    }
+    updateVisibleChecks();
+}
+
+function markEmptyFolders(){
+	var nodeTypes = ["FailedCheck","PassedCheck",  "WarningCheck", "NotRunCheck"];
+	var folderArray = document.querySelectorAll("div.FolderContent");
+	
+	for (var n=0;n<folderArray.length;n++){
+		/* get direct check result children and check visibility */
+		var childNodes = folderArray[n].childNodes;
+		var noneVisible = true;
+		var noChecksInFolder = true;
+		
+		for (var ni=0;ni<childNodes.length;ni++){
+			if (childNodes[ni].nodeType == 1 && childNodes[ni].tagName.toLowerCase() == "div"){
+				if (childNodes[ni].className == nodeTypes[0] || childNodes[ni].className == nodeTypes[1] || childNodes[ni].className == nodeTypes[2] || childNodes[ni].className == nodeTypes[3]){
+					noChecksInFolder = false;
+					if (childNodes[ni].style.display != "none"){
+						noneVisible = false;
+                        break;
+					}
+				}
+			}
+		}
+		
+		/* Only display hidden message if any checks inside the folders and not just other folders */
+		if (!noChecksInFolder){
+			var hiddenMessage = folderArray[n].querySelector("div.EmptyFolderMessage");
+			
+			if (hiddenMessage && noneVisible == true){
+				hiddenMessage.style.display = "";
+			}else if (hiddenMessage && noneVisible == false){
+				hiddenMessage.style.display = "none";
+			}else{
+				/* hidden message not found */
+			}
+		}
+	}
+
+    return;
+}
+
+function updateVisibleChecks( /* show all flags */ checkbox ){
+	
+	var checkboxes = ["Failed Checkbox", "Passed Checkbox", "Warning Checkbox", "Not Run Checkbox"];
+	var nodeTypes = ["Failed Check","Passed Check",  "Warning Check", "Not Run Check"];
+	var textInput = document.getElementById("TxtFilterInput");
+	
+	
+	if (checkbox && textInput && textInput.color=="gray"){
+		var checkType = checkbox.id;
+		var ind = checkboxes.indexOf(checkType);
+		var nodes = document.getElementsByName(nodeTypes[ind]);
+		for (i = 0; i < nodes.length;i++){
+		    nodes[i].style.display = checkbox.checked ? "" : "none";
+		}
+	}
+	else{ /* Update all checks if called from init or if a previous text filter was applied */
+		for (i = 0; i < checkboxes.length; i++){
+			
+			  var show = document.getElementById(checkboxes[i]).checked ? "" : "none";
+			  var nodes = document.getElementsByName(nodeTypes[i]);
+			  for(j = 0; j < nodes.length; j++){
+				  nodes[j].style.display = show;
+			  }
+		   
+		}
+	}
+
+    /* clear text search */
+	if (textInput && checkbox){
+		textInput.value = "Keywords";
+        textInput.style.color = "gray";
+        textInput.blur;
+	}
+
+    markEmptyFolders();
+
+    return; 
+}
+
+function filterByText(ev){
+	// get all the nodes
+	var allNodeTypes = ["Failed Check","Passed Check",  "Warning Check", "Not Run Check"];
+	var checkboxes = ["Failed Checkbox", "Passed Checkbox", "Warning Checkbox", "Not Run Checkbox"];
+	var nodeTypes = [];
+	
+	// get nodes depending on filter selections
+	for (var n=0; n<checkboxes.length; n++){
+		var checkbox = document.getElementById(checkboxes[n]);
+		if (checkbox && checkbox.checked){
+			nodeTypes.push(allNodeTypes[n]);
+		}
+	}
+	
+    var searchNodes = [".CheckHeading"];
+    var allnodes = [];
+	var alltext = [];
+	if (!ev) return;
+	var target = ev.target ? ev.target : window.event.srcElement;
+	var searchString = target.value;
+	
+	if (!searchString){
+        updateVisibleChecks();  // clear all and display by other filters
+	}else{
+		for (i = 0; i < nodeTypes.length; i++){
+			var nodes = document.getElementsByName(nodeTypes[i]);
+			for (j = 0; j < nodes.length; j++){
+				// get text from check heading
+				var checkContent = nodes[j].querySelector(searchNodes).innerHTML;
+				// creaet a regular expression to ignore case
+				var ss = new RegExp(searchString.trim(), "i");
+				if (ss.exec(checkContent)){
+				   nodes[j].style.display = "";
+				}else{
+				   nodes[j].style.display = "none";
+				}
+			}
+		}
+        markEmptyFolders();
+	}	
+}
+
+
+function MATableShrink(o,tagNameStr){
+    var temp = document.getElementsByName(tagNameStr);
+    var classUsed = document.getElementsByName('EmbedImages'); 
+    var embeddedMode = !(classUsed.length == 0);
+    var img = o.querySelector("img");
+
+    if (temp[0].style.display == "") 
+    {
+        temp[0].style.display = "none";
+        if (embeddedMode)
+        {
+            img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAkUlEQVR42mL8//8/AyUAIICYGCgEAAFEsQEAAUSxAQABxIIu0NTURDBQ6urqGGFsgABiwaagpqYOp+aWliYUPkAAEfQCCwt+JQABRHEYAAQQCzE2w9h//vzDUAcQQDgNgCkGacamEQYAAohiLwAEEEED8NkOAgABxEJMVOEDAAHESGlmAgggisMAIIAoNgAgwAC+/BqtC+40NQAAAABJRU5ErkJggg==";
+        }
+        else
+        {
+            img.src = "plus.png";
+        }
+    } 
+    else 
+    {
+        temp[0].style.display = "";
+        if (embeddedMode)
+        {
+            img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAhklEQVR42mL8//8/AyUAIICYGCgEAAFEsQEAAUSxAQABxIIu0NTURDBQ6urqGGFsgABiwaagpqYOp+aWliYUPkAAUewFgACi2ACAAGLBKcGCafafP/8wxAACCKcB2BRjAwABRLEXAAKIYgMAAoiFmKjCBwACiJHSzAQQQBR7ASCAKDYAIMAAUtQUow+YsTsAAAAASUVORK5CYII=";
+        }
+        else
+        {
+            img.src = "minus.png";
+        }
+    }
+}
+
+// rtwreport needs it 
+function updateHyperlink() {
+    docObj = window.document;
+    loc = document.location;
+    var aHash = "";
+    var externalweb = "false";
+    if (loc.search || loc.hash) {
+        if (loc.search)
+            aHash = loc.search.substring(1);
+        else
+            aHash = loc.hash.substring(1);
+    }    
+    var args = new Array();
+    args = aHash.split('&');
+    for (var i = 0; i < args.length; ++i) {
+        var arg = args[i];
+          sep = arg.indexOf('=');
+        if (sep != -1) {
+            var cmd = arg.substring(0,sep);
+            var opt = arg.substring(sep+1);
+            switch (cmd.toLowerCase()) {
+            case "externalweb":
+                externalweb = opt;
+                break;
+            }
+        }
+    }        
+    if (externalweb === "true") {        
+        var objs = docObj.getElementsByTagName("a");
+        if (objs.length > 0 && objs[0].removeAttribute) {
+            for (var i = 0; i < objs.length; ++i) {           
+                if (objs[i].href.indexOf('matlab') > -1)           
+                    objs[i].removeAttribute("href");                
+            }
+        }
+    }
+    init();
+}
+    
+function navigateToElement(eleID) {
+   var e = document.getElementById(eleID);
+   if (!!e && e.scrollIntoView) {
+       e.scrollIntoView();
+   }
+}
+
+function setTextContent(element, value) {
+    var content = element.textContent;
+    if (value === undefined) return;
+    
+    if (content !== undefined) element.textContent = value;
+    else element.innerText = value;
+}
+
+function hideControlPanel(control){
+	var panelComponents = ["ControlsCheckFiltering", "ControlsView", "ControlsTOC"];
+	var reportContent = document.querySelector(".ReportContent");
+	var controlPanel = document.getElementById("ControlPanel");
+	var isHidden = false;
+	
+    if (reportContent && control && controlPanel) {
+    	for (var n=0; n<panelComponents.length; n++){
+			var component = document.getElementById(panelComponents[n]);
+			
+			if (component && component.style.display == ""){
+				component.style.display = "none";
+            } else if (component && component.style.display == "none"){
+				component.style.display = "";
+			}
+		}
+		
+		if (controlPanel.style.width != "6px"){
+			reportContent.style.marginLeft = "25px";
+	    	controlPanel.style.width = "6px";
+	    	control.style.left = "0px";
+	       	var innerDiv = control.querySelector("#HidePanelControlInner");
+	       	setTextContent(innerDiv, "\u25BA");
+	    } else {
+	    	reportContent.style.marginLeft = "225px";
+        	controlPanel.style.width = "210px";
+        	control.style.left = "204px";
+        	var innerDiv = control.querySelector("#HidePanelControlInner");
+        	setTextContent(innerDiv, "\u25C0");
+        }
+    }
+}
+
+/* Copyright 2013 The MathWorks, Inc. */
+//COLLAPSIBLE FEATURE
+
+// global variables
+var GlobalCollapseState = "off";
+
+function collapseSDHelper(o, CollElementParent, disp, mode){
+    var CollElement = CollElementParent; /* ul/ol with lists, tbody with table */
+
+    if (CollElement.nodeName == "UL" || CollElement.nodeName == "OL"){
+        var CollName = "LI";
+    }else if (CollElement.nodeName == "TABLE"){
+        if (CollElement.querySelector('tbody')) {
+            /* tr modes are child nodes of tbody node */
+            CollElement = CollElement.querySelector('tbody');
+        }
+        var CollName = "TR";
+    }
+    
+    // get children (li for list and tr for table)
+    var children = CollElement.childNodes;
+
+    var nElements = 0;
+    for (var i=0;i<children.length;i++){
+        if (children[i].nodeName == CollName){
+            nElements = nElements + 1;
+            if (nElements > 5){
+                children[i].style.display = disp;
+            }
+        }
+    }
+    if (disp == "none"){
+        if (CollName == "LI"){
+            var text = " items)";
+        }else{
+            var text = " rows)";
+        }
+        
+        var textNode = document.createTextNode(("\u2228 More (" + (nElements-5) + text));
+        o.replaceChild(textNode,o.firstChild);
+
+        CollElementParent.setAttribute("dataCollapse", "on");
+
+        /* scroll to element if it is not visible */
+        if (mode == "single" && CollElement.offsetTop < document.documentElement.scrollTop){
+			CollElement.scrollIntoView();
+		}
+    }else{
+        var textNode = document.createTextNode(("\u2227 " + "Less"));
+        o.replaceChild(textNode,o.firstChild);
+
+        CollElementParent.setAttribute("dataCollapse", "off");
+    }
+}
+
+function collapseSD(o, ID){
+    var CollElement = document.getElementById(ID);
+    if (CollElement != null){
+        if (CollElement.getAttribute("dataCollapse") == "off"){
+            var disp="none";
+        }else{
+            var disp="";
+        }
+        collapseSDHelper(o, CollElement, disp, "single");
+    }
+}
+
+function collapseAllHelper(o, CollElement, CollInfo, disp){
+
+    if (CollElement != null){
+        var img = o.querySelector("img");
+        if (disp == "none"){
+            CollElement.style.display = disp;
+			img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAkUlEQVR42mL8//8/AyUAIICYGCgEAAFEsQEAAUSxAQABxIIu0NTURDBQ6urqGGFsgABiwaagpqYOp+aWliYUPkAAEfQCCwt+JQABRHEYAAQQCzE2w9h//vzDUAcQQDgNgCkGacamEQYAAohiLwAEEEED8NkOAgABxEJMVOEDAAHESGlmAgggisMAIIAoNgAgwAC+/BqtC+40NQAAAABJRU5ErkJggg==";
+        }else{
+            CollElement.style.display = disp;
+			img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAhklEQVR42mL8//8/AyUAIICYGCgEAAFEsQEAAUSxAQABxIIu0NTURDBQ6urqGGFsgABiwaagpqYOp+aWliYUPkAAUewFgACi2ACAAGLBKcGCafafP/8wxAACCKcB2BRjAwABRLEXAAKIYgMAAoiFmKjCBwACiJHSzAQQQBR7ASCAKDYAIMAAUtQUow+YsTsAAAAASUVORK5CYII=";
+        }
+
+        if (CollInfo != null){
+            if (disp == "none"){
+                CollInfo.style.display = "";
+            }else{
+                CollInfo.style.display = "none";
+            }
+        }
+    }
+}
+
+function collapseAll(o, ID, ID2){
+    var CollElement = document.getElementById(ID);
+    var CollInfo = document.getElementById(ID2);
+
+    if (CollElement.style.display == ""){
+        var disp = "none";
+    }else{
+        var disp = "";
+    }
+
+    collapseAllHelper(o, CollElement, CollInfo, disp);
+}
+
+function expandCollapseAll(o){
+	/* IE has no method for getting elements by class name. Use querySelectorAll instead 
+       Note: requires IE not to be in IE7 compatability mode */
+    var SDCollapse = document.querySelectorAll(".SystemdefinedCollapse");
+    var Button = null;
+
+    if (GlobalCollapseState == "off"){
+        var disp = "none";
+        GlobalCollapseState = "on";
+
+        if (o && o.firstChild.nodeType == 3) {
+            var textNode = o.firstChild;
+        	textNode.nodeValue = " Show check details";
+		}
+    }else{
+        var disp = "";
+        GlobalCollapseState = "off";
+
+        if (o && o.firstChild.nodeType == 3) {
+            var textNode = o.firstChild;
+        	textNode.nodeValue = " Hide check details";
+		}
+    }
+
+    for (var i=0;i<SDCollapse.length;i++){
+        Button = SDCollapse[i].nextSibling;
+        while(Button.nodeType !== 1){
+            Button = Button.nextSibling;
+        }
+        //Button = SDCollapse[i].parentNode.querySelector("span.SDCollapseControl");
+        collapseSDHelper(Button, SDCollapse[i], disp, "all");
+    }
+		
+    var AllCollapse = document.querySelectorAll(".AllCollapse");
+
+    for (i=0;i<AllCollapse.length;i++){
+		Button = AllCollapse[i].parentNode.querySelector("span");
+
+        var Divs =  AllCollapse[i].parentNode.querySelectorAll("div");
+        if (Button && Divs.length>=2) {
+            collapseAllHelper(Button, AllCollapse[i], Divs[1], disp);
+        }
+    }
+}
+
+
+function expandCollapseAllOnLoad(){
+    GlobalCollapseState = "on";
+    var Switch = document.getElementById("ExpandCollapseAll");
+    expandCollapseAll(Switch);
+}
+//END COLLAPSIBLE
+
+ --></script></head>  
+<body onload="updateHyperlink(); expandCollapseAllOnLoad();">  
+<span id="top">
+
+</span>
+<!-- mdladv_ignore_start --><div id="Container"><!-- mdladv_ignore_finish -->
+
+<!-- mdladv_ignore_start --><div id="ControlPanel">
+<div id="HidePanelControl" title="Minimize/Maximize control panel" onclick="hideControlPanel(this)" onmouseover="this.style.cursor='pointer'">
+<div id="HidePanelControlInner">
+&#9664;
+</div>
+</div>
+<div id="ControlsCheckFiltering">
+<h2>
+Filter checks
+</h2>
+<table id="CPFilteringTable" border="1">
+<tr>
+<td align="left" valign="top">
+<input id="Passed Checkbox" checked="checked" onclick="updateVisibleChecks(this)" type="checkbox" />
+
+<img src="data:image/png;base64,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" /> Passed
+</td>
+<td align="left" valign="top">
+&#160;
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<input id="Failed Checkbox" checked="checked" onclick="updateVisibleChecks(this)" type="checkbox" />
+
+<img src="data:image/png;base64,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" /> Failed
+</td>
+<td align="left" valign="top">
+&#160;
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<input id="Warning Checkbox" checked="checked" onclick="updateVisibleChecks(this)" type="checkbox" />
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAEZ0FNQQAAsY58+1GTAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAFWSURBVHjapFM9SwNBFJy3qE0QYp0mpEwVwc7Gwj+Qxkosz0IFPxorA4IWisFGLAWJWCgGCztbSWkQIYWCadKbvTsxYHYsLre5JBdMcJvdfW/3zcybXSGJ/4wJAJC51dhkPlUnAJQbaRlWQA1L5FN13t0fonQ6bwuNVcCOztXHk5XnuLSQHJAQon99PNjY8uYTyo30LIDqyAwSmQISmQKErZDFxZ8SQvTv91KEpo+rYhZnxf0cgNxoDOj1rIVuLAsVh956O4JQdw/RhdDF9XFygEUsA9XWUNRwHCeQ0NYQo23RKAvrQoj+U9sIUyAI6ToJ6WyWdqetI2rQ1wANbGIqW8FktgIVxkwzmCMsVFS7ec1DjAuBhjIRCdRBjC5AjduDmu2F6u+80IMYD6CP8/UbmJcZiPGhjAcYH4o+pOtQsqcH4/zCte296uLO5Vb/U14Y8zd//g4AqUe2q5Jz0KIAAAAASUVORK5CYII=" /> Warning
+</td>
+<td align="left" valign="top">
+&#160;
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<input id="Not Run Checkbox" checked="checked" onclick="updateVisibleChecks(this)" type="checkbox" />
+
+<img src="data:image/png;base64,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" /> Not Run
+</td>
+<td align="left" valign="top">
+&#160;
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+&#160;
+</td>
+
+</tr>
+
+</table>
+<div id="TextFilter">
+<input id="TxtFilterInput" onkeyup="filterByText(event)" onfocus="if (this.value=='Keywords'){ this.value=''; this.style.color='black';}" onblur="if (this.value==''){ this.value='Keywords'; this.style.color='gray';}" value="Keywords" type="text" title="Hide checks without keywords in their titles." />
+
+</div>
+</div>
+<div id="ControlsTOC">
+<h2>
+Navigation
+</h2>
+<div id="TOCScrollableArea">
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.PerformanceAdvisor')">
+ Performance Advisor</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.Baseline')">
+1 Baseline</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.Simulation')">
+2 Simulation</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.BeforeUpdate')">
+2.1 Checks Occurring Before Update</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.UpdateDiagram')">
+2.2 Checks that Require Update Diagram</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.Runtime')">
+2.3 Checks that Require Simulation to Run</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.SimulationTargets')">
+3 Simulation Targets</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.SimulationModesComparison')">
+3.1 Check Simulation Modes Settings</div>
+<div class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('FolderControl_com.mathworks.Simulink.PerformanceAdvisor.SimulationCompilerOptimization')">
+3.2 Check Compiler Optimization Settings</div>
+</div>
+</div>
+<div id="ControlsView">
+<h2>
+View
+</h2>
+<div class="ControlPanelTextControl" title="Scroll to the top of the report" onmouseover="this.style.cursor='pointer'" onclick="navigateToElement('top')">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAARAQMAAADqlG66AAAAA3NCSVQICAjb4U/gAAAABlBMVEX///9Tktdg+Ox4AAAAAnRSTlMA/1uRIrUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAWdEVYdENyZWF0aW9uIFRpbWUAMTIvMTgvMDiz53+6AAAAGHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3NPsx9OAAAEEXRFWHRYTUw6Y29tLmFkb2JlLnhtcAA8P3hwYWNrZXQgYmVnaW49IiAgICIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA0LjEtYzAzNCA0Ni4yNzI5NzYsIFNhdCBKYW4gMjcgMjAwNyAyMjozNzozNyAgICAgICAgIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6eGFwPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIj4KICAgICAgICAgPHhhcDpDcmVhdG9yVG9vbD5BZG9iZSBGaXJld29ya3MgQ1MzPC94YXA6Q3JlYXRvclRvb2w+CiAgICAgICAgIDx4YXA6Q3JlYXRlRGF0ZT4yMDA4LTEyLTE4VDIyOjA2OjAxWjwveGFwOkNyZWF0ZURhdGU+CiAgICAgICAgIDx4YXA6TW9kaWZ5RGF0ZT4yMDA4LTEyLTE4VDIyOjA4OjQzWjwveGFwOk1vZGlmeURhdGU+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iPgogICAgICAgICA8ZGM6Zm9ybWF0PmltYWdlL3BuZzwvZGM6Zm9ybWF0PgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA9F2ciAAAAIElEQVQImWNgQAP8f5A4BxgYGB8wMDB/YGBg/4EmhwAAvEcFqqXqgcsAAAAASUVORK5CYII="  id="CPToTopImg"/>Scroll to top</div>
+<div id="ExpandCollapseAll" class="ControlPanelTextControl" onmouseover="this.style.cursor='pointer'" onclick="expandCollapseAll(this)" title="Expand/Collapse all collapsible check content.">
+Show check details</div>
+</div>
+</div>
+<!-- mdladv_ignore_finish -->
+<!-- mdladv_ignore_start --><div class="ReportContent" id="hopper4"><!-- mdladv_ignore_finish --><table class="AdvTableNoBorder" width="100%" border="0">
+<tr>
+<td colspan="2" align="center">
+<b>
+Simulink Performance Advisor Report - <font color="#800000">hopper4.slx</font>
+</b>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+Simulink version: <font color="#800000">8.6</font>
+</b>
+
+</td>
+<td align="right" valign="top">
+<b>
+Model version: <font color="#800000">1.956</font>
+</b>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+System: <font color="#800000">hopper4</font>
+</b>
+
+</td>
+<td align="right" valign="top">
+<b>
+Current run: <font color="#800000">15-Sep-2016 11:22:32</font>
+</b>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+Treat as Referenced Model: <font color="#800000">off</font>
+</b>
+
+</td>
+<td align="right" valign="top">
+&#160;
+</td>
+
+</tr>
+
+</table>
+<!-- Compile Status Flag --><!-- Service Status Flag -->
+<!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start --><span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.PerformanceAdvisor" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.PerformanceAdvisor')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish --> Performance Advisor</b></font><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.PerformanceAdvisor"  id = "com.mathworks.Simulink.PerformanceAdvisor.PerformanceAdvisor" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.Baseline" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.Baseline')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->1 Baseline</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.Baseline" >&#160;&#160;<img src="task_passed.png" />0&#160;&#160;<img src="task_failed.png" />1&#160;&#160;<img src="task_warning.png" />0&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.Baseline"  id = "com.mathworks.Simulink.PerformanceAdvisor.Baseline" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Failed Check" id = "Failed Check" class="FailedCheck" style="margin-left: 20pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_158"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CreateBaseline">
+<!-- mdladv_ignore_start --><img src="task_failed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CreateBaseline">
+Create baseline</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><b>
+<font color="Red">
+Failed
+</font>
+
+</b>
+<br /><br /><p/>Baseline creation typically fails when there is no signal logging in the model. At least one signal must be logged for analysis. Go to <a href = "matlab: modeladvisorprivate openCSAndHighlight hopper4 'SignalLogging'">Configuration Parameters> Data Import/Export</a> pane of the Configuration Parameters dialog box to configure signals to log.<br /><br /><br /><!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Stop Time
+</td>
+<td align="left" valign="top">
+10
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Check to view baseline signals and set their tolerances.
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.Simulation" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.Simulation')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->2 Simulation</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.Simulation" >&#160;&#160;<img src="task_passed.png" />6&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />5&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.Simulation"  id = "com.mathworks.Simulink.PerformanceAdvisor.Simulation" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; &#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.BeforeUpdate" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.BeforeUpdate')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->2.1 Checks Occurring Before Update</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.BeforeUpdate" >&#160;&#160;<img src="task_passed.png" />3&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />5&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.BeforeUpdate"  id = "com.mathworks.Simulink.PerformanceAdvisor.BeforeUpdate" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Warning Check" id = "Warning Check" class="WarningCheck" style="margin-left: 30pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_159"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.IdentifyExpensiveDiagnostics">
+<!-- mdladv_ignore_start --><img src="task_warning.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.IdentifyExpensiveDiagnostics">
+Identify resource-intensive diagnostic settings</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+Some diagnostics incur run-time overhead during simulation. Review the following parameters in the Model Configuration of model 'hopper4' and the suggested changes for these parameters.<br /><br />Performance Advisor has taken the necessary actions. For details, see the Action Results section.<br /><br /><table class="AdvTable SystemdefinedCollapse" width="80%" border="1" id="ea0983c1-0e64-4797-ba25-abcd97d69920" dataCollapse="off">
+<tr>
+<td colspan="5" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th>
+&#160;
+</th>
+<th align="left" valign="top">
+<b>
+Severity
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Diagnostics checked
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Original Value
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+New Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+Solver
+</b>
+
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'ConsistencyChecking' ">
+Diagnostics > Solver data inconsistency
+</a>
+
+</td>
+<td align="left" valign="top">
+none
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+Signals
+</b>
+
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'SignalResolutionControl' ">
+Diagnostics > Data Validity > Signal resolution
+</a>
+
+</td>
+<td align="left" valign="top">
+Explicit only
+</td>
+<td align="left" valign="top">
+Explicit only
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'CheckMatrixSingularityMsg' ">
+Diagnostics > Data Validity > Division by singular matrix
+</a>
+
+</td>
+<td align="left" valign="top">
+none
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'SignalInfNanChecking' ">
+Diagnostics > Data Validity > Inf or nan block output
+</a>
+
+</td>
+<td align="left" valign="top">
+none
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'SignalRangeChecking' ">
+Diagnostics > Data Validity > Simulation range checking
+</a>
+
+</td>
+<td align="left" valign="top">
+none
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'ArrayBoundsChecking' ">
+Diagnostics > Data Validity > Array bounds exceeded
+</a>
+
+</td>
+<td align="left" valign="top">
+none
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+DSM Blocks
+</b>
+
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_warning.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'ReadBeforeWriteMsg' ">
+Diagnostics > Data Validity > Detect read before write
+</a>
+
+</td>
+<td align="left" valign="top">
+UseLocalSettings
+</td>
+<td align="left" valign="top">
+DisableAll
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_warning.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'WriteAfterReadMsg' ">
+Diagnostics > Data Validity > Detect write after read
+</a>
+
+</td>
+<td align="left" valign="top">
+UseLocalSettings
+</td>
+<td align="left" valign="top">
+DisableAll
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_warning.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'WriteAfterWriteMsg' ">
+Diagnostics > Data Validity > Detect write after write
+</a>
+
+</td>
+<td align="left" valign="top">
+UseLocalSettings
+</td>
+<td align="left" valign="top">
+DisableAll
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_warning.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'MultiTaskDSMMsg' ">
+Diagnostics > Data Validity > Multitask data store
+</a>
+
+</td>
+<td align="left" valign="top">
+error
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+&#160;
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'UniqueDataStoreMsg' ">
+Diagnostics > Data Validity > Detect duplicate data store names
+</a>
+
+</td>
+<td align="left" valign="top">
+none
+</td>
+<td align="left" valign="top">
+none
+</td>
+
+</tr>
+
+</table>
+<span class="SDCollapseControl" onclick="collapseSD(this, 'ea0983c1-0e64-4797-ba25-abcd97d69920')" onmouseover="this.style.cursor = 'pointer'">
+&#8743; Less
+</span>
+<br />
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- actionresult_section_start --><div class="subsection"><H5><b>
+Action Log
+</b>
+</H5><p>
+<table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="1" align="center">
+<b>
+Summary of actions
+</b>
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+Actions:
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+The diagnostic for detect read before write has been disabled.
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+The diagnostic for detect write after read has been disabled.
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+The diagnostic for detect write after write has been disabled.
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+The diagnostic for multitask data store has been disabled.
+</td>
+
+</tr>
+
+</table>
+
+</p>
+</div><!-- actionresult_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_160"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.IdentifyApplicableOptimizations">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.IdentifyApplicableOptimizations">
+Check optimization settings</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+Some optimization settings can improve simulation speed.  Review the following parameters in the Model Configuration of model 'hopper4' and the suggested changes for these parameters.<br /><br />This check has passed. This means that to improve simulation speed, the following settings have been set .<table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="4" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+<b>
+Severity
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Diagnostics checked
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Original Value
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+New Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'BlockReduction' ">
+Optimization > Block reduction
+</a>
+
+</td>
+<td align="left" valign="top">
+on
+</td>
+<td align="left" valign="top">
+on
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'ConditionallyExecuteInputs' ">
+Optimization > Conditional input branch execution
+</a>
+
+</td>
+<td align="left" valign="top">
+on
+</td>
+<td align="left" valign="top">
+on
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'OptimizeBlockIOStorage' ">
+Optimization> Signals and Parameters> Signal storage reuse
+</a>
+
+</td>
+<td align="left" valign="top">
+on
+</td>
+<td align="left" valign="top">
+on
+</td>
+
+</tr>
+
+</table>
+
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Warning Check" id = "Warning Check" class="WarningCheck" style="margin-left: 30pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_161"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.InefficientLookupTableBlocks">
+<!-- mdladv_ignore_start --><img src="task_warning.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.InefficientLookupTableBlocks">
+Identify inefficient lookup table blocks</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+Lookup Table and Lookup Table (2-D) blocks do not support search using  previous results. Searching from previous results can improve simulation speed when the variations of the block inputs are small relative to the table interval size.<br /><br />Performance Advisor has taken the necessary actions. For details, see the Action Results section.<br /><br /><br /><br /><table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="1" align="center">
+<b>
+Enabling the 'Begin index search using previous index result' option of the following block(s):
+</b>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:20:2641:684">hopper4/Contact/Sphere to Plane Force1/Forces/Ff/Friction Law/Stick-Slip C
+/Coefficient of Friction
+vs Velocity</a>   --> <b>
+Linked block can only be modified or replaced manually.
+</b>
+
+</td>
+
+</tr>
+
+</table>
+
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- actionresult_section_start --><div class="subsection"><H5><b>
+Action Log
+</b>
+</H5><b>
+<font color="Red">
+Failed. 
+</font>
+
+</b>
+<br />Baseline generation failed before suggested actions could be taken.  The reasons for the failure are:<br /><br /><p/>Baseline creation typically fails when there is no signal logging in the model. At least one signal must be logged for analysis. Go to <a href = "matlab: modeladvisorprivate openCSAndHighlight hopper4 'SignalLogging'">Configuration Parameters> Data Import/Export</a> pane of the Configuration Parameters dialog box to configure signals to log.</div><!-- actionresult_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_162"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.DetectIntSysObjBlocks">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.DetectIntSysObjBlocks">
+Check MATLAB System block simulation mode</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+<br /><br />Setting the "Simulate using" parameter to "Code generation" may improve simulation speed if the underlying System object supports code generation.<br /><br />This check has passed. This means that there are no inefficient system object blocks in model 'hopper4'.
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+manually
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_163"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.DetectIntMATLABFcnBlocks">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.DetectIntMATLABFcnBlocks">
+Identify Interpreted MATLAB Function blocks</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+<br /><br />Interpreted MATLAB Function blocks can impact simulation speed. Consider replacing Interpreted MATLAB Function block with an alternative block, such as MATLAB Function block or Fcn block.<br /><br />This check has passed. This means that there are no interpreted MATLAB Function blocks in model 'hopper4'.
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+manually
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Warning Check" id = "Warning Check" class="WarningCheck" style="margin-left: 30pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_164"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CheckSimTargetEchoStatus">
+<!-- mdladv_ignore_start --><img src="task_warning.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CheckSimTargetEchoStatus">
+Identify simulation target settings</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+The simulation target setting 'Echo expressions without semicolons' is enabled. Disabling this setting might improve simulation speed.  Review the following settings in the Model Configuration of model 'hopper4'.<br /><br />Performance Advisor has taken the necessary actions. For details, see the Action Results section.<br /><br /><table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="4" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+<b>
+Severity
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Diagnostics checked
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Original Value
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+New Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_warning.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'SFSimEcho' ">
+Simulation Target > Echo expressions without semicolons
+</a>
+
+</td>
+<td align="left" valign="top">
+on
+</td>
+<td align="left" valign="top">
+off
+</td>
+
+</tr>
+
+</table>
+
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- actionresult_section_start --><div class="subsection"><H5><b>
+Action Log
+</b>
+</H5><p>
+<table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="1" align="center">
+<b>
+Summary of actions
+</b>
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+Actions:
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Echoing of expressions without semicolons of Simulation Target is disabled.
+</td>
+
+</tr>
+
+</table>
+
+</p>
+</div><!-- actionresult_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Warning Check" id = "Warning Check" class="WarningCheck" style="margin-left: 30pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_165"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CheckModelRefRebuildSetting">
+<!-- mdladv_ignore_start --><img src="task_warning.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CheckModelRefRebuildSetting">
+Check model reference rebuild setting</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+Consider setting the 'Model Referencing > Rebuild' option in the Model Configuration of model 'hopper4' to the new value.<br /><br />Performance Advisor has taken the necessary actions. For details, see the Action Results section.<br /><br /><table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="4" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+<b>
+Severity
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Diagnostics checked
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Original Value
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+New Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_warning.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'UpdateModelReferenceTargets' ">
+Model Referencing > Rebuild
+</a>
+
+</td>
+<td align="left" valign="top">
+If any changes detected
+</td>
+<td align="left" valign="top">
+If any changes in known dependencies detected
+</td>
+
+</tr>
+
+</table>
+
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- actionresult_section_start --><div class="subsection"><H5><b>
+Action Log
+</b>
+</H5><p>
+<table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="1" align="center">
+<b>
+Summary of actions
+</b>
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+Actions:
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+The parameter 'Model Referencing > Rebuild' has changed to 'If any changes in known dependencies detected'.
+</td>
+
+</tr>
+
+</table>
+
+</p>
+</div><!-- actionresult_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Warning Check" id = "Warning Check" class="WarningCheck" style="margin-left: 30pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_166"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.IdentifyScopes">
+<!-- mdladv_ignore_start --><img src="task_warning.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.IdentifyScopes">
+Identify Scopes</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+Scopes can impact simulation performance. To improve simulation performance, close and comment out Scopes.<br /><br />Performance Advisor has taken the necessary actions. For details, see the Action Results section.<br /><br /><a href="matlab: paprivate scopeCallback commentall hopper4">Comment out all Scope blocks</a><table class="AdvTable SystemdefinedCollapse" width="80%" border="1" id="6d2be1be-623d-4e59-979d-4eaf700fa93f" dataCollapse="off">
+<tr>
+<td colspan="3" align="center">
+<b>
+Scopes in the model
+</b>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:39">hopper4/Contact/State Scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:39">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:39">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:34">hopper4/Contact/ZScope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:34">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:34">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:21">hopper4/Contact/force</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:21">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:21">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:53">hopper4/Scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:53">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:53">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:117">hopper4/Scope1</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:117">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:117">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:217">hopper4/body_angle_scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:217">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:217">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:223">hopper4/des_velocity_scope1</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:223">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:223">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:109">hopper4/driver_pitch/Scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:109">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:109">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:157">hopper4/driver_roll/Scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:157">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:157">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:210">hopper4/hipAngleScope
+</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:210">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:210">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:71">hopper4/leg/Scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:71">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:71">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:218">hopper4/leg/Scope1</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:218">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:218">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:213">hopper4/omega_scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:213">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:213">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:222">hopper4/position_scope
+</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:222">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:222">Open/Close</a>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:72">hopper4/velocity_scope</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback comment hopper4:72">Comment Out/Uncomment</a>
+</td>
+<td align="left" valign="top">
+<a href="matlab: paprivate scopeCallback open hopper4:72">Open/Close</a>
+</td>
+
+</tr>
+
+</table>
+<span class="SDCollapseControl" onclick="collapseSD(this, '6d2be1be-623d-4e59-979d-4eaf700fa93f')" onmouseover="this.style.cursor = 'pointer'">
+&#8743; Less
+</span>
+<br /><br /><br />
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- actionresult_section_start --><div class="subsection"><H5><b>
+Action Log
+</b>
+</H5><p>
+<table class="AdvTable SystemdefinedCollapse" width="80%" border="1" id="1d59c141-6fa3-4c53-8ac6-fd22e0540518" dataCollapse="off">
+<tr>
+<td colspan="2" align="center">
+<b>
+Closed Scope(s). Commenting out Scope blocks can further improve simulation performance.
+</b>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:39">hopper4/Contact/State Scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:34">hopper4/Contact/ZScope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:21">hopper4/Contact/force</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:53">hopper4/Scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:117">hopper4/Scope1</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:217">hopper4/body_angle_scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:223">hopper4/des_velocity_scope1</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:109">hopper4/driver_pitch/Scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:157">hopper4/driver_roll/Scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:210">hopper4/hipAngleScope
+</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:71">hopper4/leg/Scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:218">hopper4/leg/Scope1</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:213">hopper4/omega_scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:222">hopper4/position_scope
+</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate hiliteSystem SID:hopper4:72">hopper4/velocity_scope</a>
+</td>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+
+</tr>
+
+</table>
+<span class="SDCollapseControl" onclick="collapseSD(this, '1d59c141-6fa3-4c53-8ac6-fd22e0540518')" onmouseover="this.style.cursor = 'pointer'">
+&#8743; Less
+</span>
+<br /><br />
+</p>
+</div><!-- actionresult_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; &#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.UpdateDiagram" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.UpdateDiagram')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->2.2 Checks that Require Update Diagram</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.UpdateDiagram" >&#160;&#160;<img src="task_passed.png" />2&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />0&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.UpdateDiagram"  id = "com.mathworks.Simulink.PerformanceAdvisor.UpdateDiagram" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_289"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CheckModelRefParallelBuild">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CheckModelRefParallelBuild">
+Check model reference parallel build</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+<br />There are less than two reference models in your model. Parallel building is unnecessary. However, consider using model reference for large models.  Use more than one model reference to take advantage of parallel building.
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Quick estimation of model build time
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Parallel build overhead time estimation factor
+</td>
+<td align="left" valign="top">
+0.5
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_290"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CheckDelayBlockCircularBufferSetting">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CheckDelayBlockCircularBufferSetting">
+Check Delay block circular buffer setting</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+<br /><br />By default, the Delay block uses array buffers to store state. However, array buffers might slow down the simulation when Delay blocks have large states. In this case, using a circular buffer to store the state improves the simulation speed. Note, using circular buffers might change linearization results.<br /><br />This check has passed. Either there are no Delay blocks, or all Delay blocks in model 'hopper4' appropriately configure circular buffers and array buffers.
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; &#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.Runtime" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.Runtime')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->2.3 Checks that Require Simulation to Run</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.Runtime" >&#160;&#160;<img src="task_passed.png" />1&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />0&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.Runtime"  id = "com.mathworks.Simulink.PerformanceAdvisor.Runtime" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_291"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.SolverTypeSelection">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.SolverTypeSelection">
+Check solver type selection</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+<br /><br />The solver type is ode23s. The  initial stiffness analysis suggests that you use solver ode23s. Review the solver settings in the Model Configuration of model 'hopper4'.<br /><br />This check has passed. This means that to improve simulation speed, the following settings have been set .<table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="4" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+<b>
+Severity
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Setting checked
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Original Value
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+New Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+ <img src ="file:///D:\MATLAB\R2015b\toolbox\simulink\simulink\modeladvisor\private\task_passed.png"/>
+</td>
+<td align="left" valign="top">
+<a href="matlab: modeladvisorprivate openCSAndHighlight hopper4 'Solver' ">
+Solver name--Solver type
+</a>
+
+</td>
+<td align="left" valign="top">
+ode23s--Implicit
+</td>
+<td align="left" valign="top">
+ode23s--Implicit
+</td>
+
+</tr>
+
+</table>
+
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.SimulationTargets" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.SimulationTargets')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->3 Simulation Targets</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.SimulationTargets" >&#160;&#160;<img src="task_passed.png" />1&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />1&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.SimulationTargets"  id = "com.mathworks.Simulink.PerformanceAdvisor.SimulationTargets" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; &#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.SimulationModesComparison" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.SimulationModesComparison')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->3.1 Check Simulation Modes Settings</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.SimulationModesComparison" >&#160;&#160;<img src="task_passed.png" />0&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />1&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.SimulationModesComparison"  id = "com.mathworks.Simulink.PerformanceAdvisor.SimulationModesComparison" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Warning Check" id = "Warning Check" class="WarningCheck" style="margin-left: 30pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_292"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CheckSimulationModesComparison">
+<!-- mdladv_ignore_start --><img src="task_warning.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CheckSimulationModesComparison">
+Select simulation mode</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+You are using Normal mode. Use Accelerator mode instead.<br /><br />The current simulation mode is Normal mode, a suggested alternate mode is Accelerator mode. A comparison between the current mode and other simulation modes is shown in following figure. Review it and choose your simulation mode.<br /><br />Open the Simulation > Mode menu to manually select a simulation mode. Alternatively, click the 'Modify all' button in the Action panel of this check to have Performance Advisor select the suggested simulation mode for your model.<br /><br /><br /> <img src ="file:///G:\toy_code\hopper\slprj\modeladvisor\com_2emathworks_2eSimulink_2ePerformanceAdvisor_2ePerformanceAdvisor_\hopper4\simulationmodes.png"/><br /><br /><br /><br /><table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="3" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+<b>
+Measurement Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Units
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Break-even point between Normal mode and Accelerator mode occurs after this many simulations.
+</td>
+<td align="left" valign="top">
+0
+</td>
+<td align="left" valign="top">
+number of simulations
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Simulation time
+</td>
+<td align="left" valign="top">
+15
+</td>
+<td align="left" valign="top">
+simulation seconds
+</td>
+
+</tr>
+
+</table>
+<br /><br /><table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="4" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+<b>
+Measurement Name
+</b>
+
+</th>
+<th align="left" valign="top">
+Normal mode
+</th>
+<th align="left" valign="top">
+Accelerator mode
+</th>
+<th align="left" valign="top">
+<b>
+Units
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Time elapsed during Build
+</td>
+<td align="left" valign="top">
+0.000
+</td>
+<td align="left" valign="top">
+14.307
+</td>
+<td align="left" valign="top">
+wall clock seconds
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Time elapsed during Simulation
+</td>
+<td align="left" valign="top">
+151.401
+</td>
+<td align="left" valign="top">
+126.797
+</td>
+<td align="left" valign="top">
+wall clock seconds
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Simulation rate
+</td>
+<td align="left" valign="top">
+0.099
+</td>
+<td align="left" valign="top">
+0.118
+</td>
+<td align="left" valign="top">
+simulation seconds/wall clock seconds
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Simulation rate without setup and terminate overheads
+</td>
+<td align="left" valign="top">
+0.101
+</td>
+<td align="left" valign="top">
+0.121
+</td>
+<td align="left" valign="top">
+simulation seconds/wall clock seconds
+</td>
+
+</tr>
+
+</table>
+<br />Note: Rapid Accelerator results were not obtained because there was an issue simulating the model in that mode.  See error below for more information.<br /><br />Unable to build a standalone executable to simulate the model 'hopper4' in rapid accelerator mode.<br /><br />Errors occurred during parsing of MATLAB function <a href="matlab:sf('Open', 182)">'leg_movement_generation'</a>
+
+<br />
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+manually
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><br /><br /><font color="#800000"><b><!-- mdladv_ignore_start -->&#160; &#160; &#160; &#160; <span class="FolderControl" id="FolderControl_com.mathworks.Simulink.PerformanceAdvisor.SimulationCompilerOptimization" onclick="MATableShrink(this,'com.mathworks.Simulink.PerformanceAdvisor.SimulationCompilerOptimization')" onmouseover="this.style.cursor = 'pointer'">
+<img src="minus.png" /></span>
+<!-- mdladv_ignore_finish -->3.2 Check Compiler Optimization Settings</b></font><span class = "SubResultsSummary" id= "SubResults_com.mathworks.Simulink.PerformanceAdvisor.SimulationCompilerOptimization" >&#160;&#160;<img src="task_passed.png" />1&#160;&#160;<img src="task_failed.png" />0&#160;&#160;<img src="task_warning.png" />0&#160;&#160;<img src="icon_task.png" />0</span>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "com.mathworks.Simulink.PerformanceAdvisor.SimulationCompilerOptimization"  id = "com.mathworks.Simulink.PerformanceAdvisor.SimulationCompilerOptimization" class="FolderContent"><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div class="EmptyFolderMessage" style="display:none;">
+All checks hidden.
+</div>
+<!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Passed Check"  id = "Passed Check" class="PassedCheck" style="margin-left: 30pt;"><!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_293"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.CheckSimulationCompilerOptimization">
+<!-- mdladv_ignore_start --><img src="task_passed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.CheckSimulationCompilerOptimization">
+Select compiler optimizations on or off</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+<b>
+<font color="Green">
+Passed
+</font>
+
+</b>
+<br /><br />Check passed because the simulation mode is set to neither Accelerator nor Rapid Accelerator mode.
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+manually
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+false
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><div name = "Failed Check" id = "Failed Check" class="FailedCheck" style="margin-left: 10pt;"> <!-- mdladv_ignore_finish -->
+<p><hr /></p>  <a name="CheckRecord_294"></a><div class="CheckHeader" id="Header_com.mathworks.Simulink.PerformanceAdvisor.FinalValidation">
+<!-- mdladv_ignore_start --><img src="task_failed.png" />&#160;<!-- mdladv_ignore_finish --><span class="CheckHeading" id="Heading_com.mathworks.Simulink.PerformanceAdvisor.FinalValidation">
+Final validation</span>
+<!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- mdladv_ignore_finish --></div>
+<!-- mdladv_ignore_start --><div class="subsection"><!-- mdladv_ignore_finish --><p /><p>
+Some Performance Advisor actions have caused the model failed to simulate. The original model has been loaded, so all the changes made by Performance advisor have been reverted.<br /><br /><b>
+<font color="Red">
+Failed. 
+</font>
+
+</b>
+<br />Baseline generation failed after suggested actions were taken. The reasons for the failure are:<br /><br /><p/>Baseline creation typically fails when there is no signal logging in the model. At least one signal must be logged for analysis. Go to <a href = "matlab: modeladvisorprivate openCSAndHighlight hopper4 'SignalLogging'">Configuration Parameters> Data Import/Export</a> pane of the Configuration Parameters dialog box to configure signals to log.Performance Advisor has taken the necessary actions. For details, see the Action Results section.<br /><br />
+</p>
+<!-- mdladv_ignore_start --><!-- inputparam_section_start --><H5><b>
+Input Parameters Selection
+</b>
+</H5><table class="AdvTable" border="1">
+<tr>
+<th align="left" valign="top">
+<b>
+Name
+</b>
+
+</th>
+<th align="left" valign="top">
+<b>
+Value
+</b>
+
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Take action based on advice
+</td>
+<td align="left" valign="top">
+automatically
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if time of simulation increases
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+Validate and revert changes if degree of accuracy is greater than tolerance
+</td>
+<td align="left" valign="top">
+true
+</td>
+
+</tr>
+
+</table>
+<!-- inputparam_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --><!-- actionresult_section_start --><div class="subsection"><H5><b>
+Action Log
+</b>
+</H5><p>
+<table class="AdvTable" width="80%" border="1">
+<tr>
+<td colspan="1" align="center">
+
+</td>
+
+</tr>
+<tr>
+<th align="left" valign="top">
+Actions:
+</th>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<b>
+<font color="Red">
+Some Performance Advisor actions have caused performance regression. The original model has been loaded, so all the changes made by Performance advisor have been reverted.
+</font>
+
+</b>
+<br />
+</td>
+
+</tr>
+
+</table>
+<br />
+</p>
+</div><!-- actionresult_section_finish --><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start --></div><!-- mdladv_ignore_finish -->
+<!-- mdladv_ignore_start -->
+</div><!-- mdladv_ignore_finish --><!-- mdladv_ignore_start -->
+</div><!-- mdladv_ignore_finish -->
+</body>  
+</html>  
