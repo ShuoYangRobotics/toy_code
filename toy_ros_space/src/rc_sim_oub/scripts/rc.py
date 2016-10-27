@@ -99,8 +99,8 @@ def rc_talker():
         # 2016-10-26 test urdf joint control
         msg = JointState()
         msg.header.stamp = rospy.Time.now()
-        msg.name = ['gripper_extension']
-        msg.position = [-0.12*int(rc_keys[0])]
+        msg.name = ['base_to_left_arm', 'base_to_right_arm']
+        msg.position = [-0.3*int(rc_keys[0]),0.3*int(rc_keys[1])]
         pub_2.publish(msg)
         #print rc_keys
         rate.sleep()

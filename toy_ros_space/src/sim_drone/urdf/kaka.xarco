@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+   xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+   xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+   xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+   name="kaka">
+
+<!-- macro define -->
+<!-- macro define -->
+<!-- macro define -->
+  <xacro:property name="pi" value="3.1415" />
+
+  <xacro:property name="width" value=".04" />
+  <xacro:property name="bodylen" value=".04" />
+  <xacro:property name="armlen" value=".17" />
+
+
+  <xacro:macro name="default_inertial" params="mass">
+    <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+               iyy="1.0" iyz="0.0"
+               izz="1.0" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="arm" params="prefix reflect">
+    <link name="${prefix}_arm">
+      <visual>
+        <geometry>
+          <box size="${armlen} .01 .01"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${armlen} .01 .01"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </collision>
+      <xacro:default_inertial mass="0.07"/>
+    </link>
+    <joint name="base_to_${prefix}_arm" type="revolute">
+      <axis xyz="${reflect} 0 0"/>
+      <limit effort="1000.0" lower="-${pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <parent link="base_link"/>
+      <child link="${prefix}_arm"/>
+      <origin xyz="${reflect*(width+.02)} 0 0" />
+    </joint>
+
+
+    <link name="${prefix}_disk">
+      <visual>
+        <geometry>
+          <cylinder radius="0.1" length="0.001"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.1" length="0.001"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </collision>
+      <xacro:default_inertial mass="0.01"/>
+    </link>
+    <joint name="${prefix}_disk_arm_joint" type="fixed">
+      <parent link="${prefix}_arm"/>
+      <child link="${prefix}_disk"/>
+      <origin xyz="${reflect*armlen/2} 0 0.019" />
+    </joint>
+
+  </xacro:macro>
+
+<!-- end of macro define -->
+<!-- end of macro define -->
+<!-- end of macro define -->
+
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder radius="${width}" length="${bodylen}"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${width}" length="${bodylen}"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertial mass="0.2"/>
+  </link>
+
+  <xacro:arm prefix="right" reflect="1" />
+  <xacro:arm prefix="left" reflect="-1" />
+
+
+
+</robot>
+
