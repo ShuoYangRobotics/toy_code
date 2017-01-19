@@ -13,7 +13,7 @@ body.foot_radius = 0.035;
 body.shoulder_distance = 0.2;
 
 % parameters for leg control 
-ctrl.k_p = 150;
+ctrl.k_p = 100;
 ctrl.k_d = 2.8;
 
 % parameters for high level plan
