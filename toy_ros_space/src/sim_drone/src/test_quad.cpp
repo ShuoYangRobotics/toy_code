@@ -79,8 +79,9 @@ void setVizMarker(int id)
 	marker[id].header.stamp = ros::Time();
 	marker[id].ns = "test_vis";
 	marker[id].id = id;
-	marker[id].type = visualization_msgs::Marker::CUBE;
+	marker[id].type = visualization_msgs::Marker::MESH_RESOURCE;
 	marker[id].action = visualization_msgs::Marker::ADD;
+  	marker[id].mesh_resource = std::string("package://sim_drone/meshes/hummingbird.mesh");
 	marker[id].scale.x = 0.5;
 	marker[id].scale.y = 0.5;
 	marker[id].scale.z = 0.2;
