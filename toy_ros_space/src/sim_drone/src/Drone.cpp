@@ -13,6 +13,7 @@ Drone::Drone(int _id)
 	ctrl_target_vertical_z = 0.0;
 	ctrl_target_yaw = 0.0;
 	ctrl_target_horiz_tilt = Eigen::Vector2d::Zero();
+	error_vel_ground_prev = Eigen::Vector2d::Zero();
 
 	k_p_atti = Eigen::Vector3d(0.5, 0.5, 0.5);
 	k_p_omega = Eigen::Vector3d(0.05, 0.05, 0.08);
@@ -41,7 +42,11 @@ void Drone::sim_step(double dt)
 	if (ctrl_type == CTRL_HORIZ_VEL)
 	{
 		Eigen::Vector3d vel = quad.get_velocity();
-		Eigen::Vector2d error_vel_ground = 0.35*(ctrl_target_horiz_tilt - Eigen::Vector2d(vel(0), vel(1)));
+		// 2017-8-16 add a first order filter, to reduce jerky behavior
+		// add a limit
+		Eigen::Vector2d error_vel_ground = 0.6*0.35*(ctrl_target_horiz_tilt - Eigen::Vector2d(vel(0), vel(1))) + 0.4*error_vel_ground_prev;
+		error_vel_ground(0) = double_limit(error_vel_ground(0), -6, 6);
+		error_vel_ground(1) = double_limit(error_vel_ground(1), -6, 6);
 
 		/* a little bit ugly here */
 		Eigen::Vector3d error_vel_body = Eigen::Vector3d(error_vel_ground(0), error_vel_ground(1), 0);
@@ -52,6 +57,8 @@ void Drone::sim_step(double dt)
 		
 		Eigen::Vector3d tilt_atti_cmd = error_vel_body; 
 		target_attitude = ctrl_sub_func1(tilt_atti_cmd, ctrl_target_yaw);
+
+		error_vel_ground_prev = error_vel_ground;
 	}
 
 	/* use attitude controller to get force and motor_rpms */
@@ -81,6 +88,13 @@ void Drone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 	else if (ctrl_type == CTRL_HORIZ_VEL)
 	{
 		ctrl_target_horiz_tilt = Eigen::Vector2d(joy_msg->axes[4]*3, joy_msg->axes[3]*3); 
+
+		// add a small dead zone
+		if (fabs(ctrl_target_horiz_tilt(0))<0.05)
+			ctrl_target_horiz_tilt(0) = 0;
+		if (fabs(ctrl_target_horiz_tilt(1))<0.05)
+			ctrl_target_horiz_tilt(1) = 0;
+
 		/* target_attitude generation is in sim_step */
 		/* pos vel controller */
 	}
@@ -130,6 +144,22 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 
 	Eigen::Quaterniond current_attitude = quad.get_attitude();	
 	Eigen::Quaterniond error_attitude = target_attitude*current_attitude.conjugate();	//R_e = R_t*R_c^{-1}
+	// // debug print
+	// Eigen::AngleAxisd test1 = Eigen::AngleAxisd(current_attitude);
+	// double curr_angle = test1.angle();
+	// Eigen::AngleAxisd test2 = Eigen::AngleAxisd(error_attitude);
+	// double err_angle = test2.angle();
+
+	// //limit error_attitude
+	Eigen::AngleAxisd error_attitude_aa = Eigen::AngleAxisd(error_attitude);
+	double &error_angle = error_attitude_aa.angle();
+	error_angle = double_limit(error_angle, -angle_limit/180.0*M_PI, angle_limit/180.0*M_PI);
+	error_attitude = Eigen::Quaterniond(error_attitude_aa);
+
+	// ROS_INFO("curr_angle %4.3f, err_angle %4.3f, limited_err_angle %4.3f", 
+	// 	curr_angle*180.0/M_PI, err_angle*180.0/M_PI, error_angle*180.0/M_PI);
+
+
 	const Eigen::Matrix3d J = quad.get_inertia();
 	const Eigen::Vector3d w = quad.get_angularVelocity();
 
@@ -153,7 +183,11 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 
 	/* no d control yet */
 	Eigen::Vector3d ctrl_torque = error_term1 - 0.0*(e_w-e_w_prev) - error_term2 + w.cross(J*w);
-	
+	// limit ctrl_torque
+	// ctrl_torque(0) = double_limit(ctrl_torque(0), -0.5, 0.5);
+	// ctrl_torque(1) = double_limit(ctrl_torque(1), -0.5, 0.5);
+	// ctrl_torque(2) = double_limit(ctrl_torque(2), -0.5, 0.5);
+
 	e_w_prev = e_w;
 	//ROS_INFO("------------- e_w %4.3f %4.3f %4.3f ------------", e_w(0), e_w(1), e_w(2));
 	//ROS_INFO("------------- w %4.3f %4.3f %4.3f ------------", w(0), w(1), w(2));
@@ -209,6 +243,8 @@ Eigen::Quaterniond Drone::ctrl_sub_func1(Eigen::Vector3d tilt_cmd, double target
 	// TODO: this angle limit is not elegant
 	tilt_angle = double_limit(tilt_angle, 0.0, angle_limit/180.0*M_PI);
 
+	// 2017-8-16 I found that previously I missed this. tilt_angle is limited, but tilt_cmd does not normalize
+	tilt_cmd = tilt_cmd/tilt_cmd_norm;
 	Eigen::Vector3d angle_axis = tilt_cmd.cross(Eigen::Vector3d::UnitZ());
 	//ROS_INFO("angle: %4.3f|axis: %4.3f %4.3f %4.3f", tilt_angle, angle_axis(0), angle_axis(1), angle_axis(2));
 	/* get final target attitude */

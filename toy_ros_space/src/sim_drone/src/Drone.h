@@ -28,6 +28,9 @@ class Drone
 		Eigen::Vector2d ctrl_target_horiz_tilt;
 		Eigen::Quaterniond target_attitude;
 
+		/* helper variable for control */
+		Eigen::Vector2d error_vel_ground_prev;
+
 		/* some parameters */
 		double gravity;
 		double angle_limit;

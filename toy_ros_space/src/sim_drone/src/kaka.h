@@ -7,13 +7,13 @@
 class KAKA
 {
   private:
-    RigidBody physics;
+    	RigidBody physics;
     
-    double motor_rpm[2];
-    double tgt_motor_rpm[2];
+    	double motor_rpm[2];
+    	double tgt_motor_rpm[2];
 
-    double arm_angle[2];
-    double tgt_arm_angle[2];
+    	double arm_angle[2];
+    	double tgt_arm_angle[2];
 
 		/* quad parameters */
 		double prop_radius;
@@ -21,7 +21,7 @@ class KAKA
 		double km;
 		double arm_length;
 		double motor_time_constant;
-    double arm_angular_vel;
+    	double arm_angular_vel;
 		double min_rpm;
 		double max_rpm;
 
@@ -32,7 +32,7 @@ class KAKA
   pulic:
     KAKA();
 
-   	void sim_step(double dt);
+	   	void sim_step(double dt);
 		void set_motor_rpms(double m_left, double m_right);
 		void set_arm_angles(double a_left, double a_right);
 		void set_external_force(Eigen::Vector3d _force);
