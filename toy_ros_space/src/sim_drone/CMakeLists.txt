@@ -11,6 +11,14 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   geometry_msgs 
   sensor_msgs
+
+  # added to supprt robot_markers
+  kdl_parser
+  tf2_kdl
+  tf2_ros
+  transform_graph
+  urdf
+  visualization_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -24,6 +32,8 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF) 
 find_package(Boost 1.54.0 COMPONENTS system numeric filesystem iostreams) 
 
+# added to supprt robot_markers, this one should be included with ros-version-orocos-kdl
+find_package(orocos_kdl REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -93,6 +103,10 @@ find_package(Boost 1.54.0 COMPONENTS system numeric filesystem iostreams)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rc_sim_oub
+  # added to supprt robot_markers
+  LIBRARIES
+    robot_markers_builder
+    robot_markers_forward_kinematics
 #  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -106,6 +120,8 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  # added to supprt robot_markers
+  ${orocos_kdl_INCLUDE_DIRS}
   include
 )
 
@@ -114,6 +130,20 @@ include_directories(
 # add_library(rc_sim_oub
 #   src/${PROJECT_NAME}/rc_sim_oub.cpp
 # )
+## Declare robot marker related C++ library
+add_library(robot_markers_forward_kinematics src/robot_markers/forward_kinematics.cpp)
+add_dependencies(robot_markers_forward_kinematics ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(robot_markers_forward_kinematics
+  ${catkin_LIBRARIES}
+  ${orocos_kdl_LIBRARIES}
+)
+
+add_library(robot_markers_builder src/robot_markers/builder.cpp)
+add_dependencies(robot_markers_builder ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(robot_markers_builder
+  robot_markers_forward_kinematics
+  ${catkin_LIBRARIES}
+)
 
 ## Declare a cpp executable
 add_executable(sim_test_body 
@@ -127,6 +157,15 @@ add_executable(sim_test_quad
 	src/utils.cpp 
 	src/Quadrotor.cpp
 	src/Drone.cpp
+)
+
+# test robot_markers
+add_executable(robot_markers_demo src/test_robot_markers.cpp)
+set_target_properties(robot_markers_demo PROPERTIES OUTPUT_NAME demo PREFIX "")
+add_dependencies(robot_markers_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(robot_markers_demo
+  robot_markers_builder
+  ${catkin_LIBRARIES}
 )
 
 ## Add cmake target dependencies of the executable/library

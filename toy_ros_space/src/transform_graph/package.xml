@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>transform_graph</name>
+  <version>0.2.1</version>
+  <description>Library for computing transformations in arbitrary graph structures.</description>
+
+  <maintainer email="jstn@cs.washington.edu">Justin Huang</maintainer>
+  <license>Apache 2.0</license>
+
+  <url type="website">http://wiki.ros.org/transform_graph</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>cmake_modules</depend>
+  <depend>geometry_msgs</depend>
+  <depend>libpcl-all</depend>
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>tf</depend>
+  <test_depend>rosunit</test_depend>
+
+  <export>
+    <rosdoc config="rosdoc.yaml" />
+  </export>
+</package>

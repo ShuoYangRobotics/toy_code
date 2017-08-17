@@ -6,14 +6,14 @@
 
 class KAKA
 {
-  private:
-    	RigidBody physics;
-    
-    	double motor_rpm[2];
-    	double tgt_motor_rpm[2];
+	private:
+		RigidBody physics;
 
-    	double arm_angle[2];
-    	double tgt_arm_angle[2];
+		double motor_rpm[2];
+		double tgt_motor_rpm[2];
+
+		double arm_angle[2];
+		double tgt_arm_angle[2];
 
 		/* quad parameters */
 		double prop_radius;
@@ -21,7 +21,7 @@ class KAKA
 		double km;
 		double arm_length;
 		double motor_time_constant;
-    	double arm_angular_vel;
+		double arm_angular_vel;
 		double min_rpm;
 		double max_rpm;
 
@@ -29,8 +29,8 @@ class KAKA
 		Eigen::Vector3d external_force;
 		Eigen::Vector3d external_torque;
 
-  pulic:
-    KAKA();
+	public:
+    		KAKA();
 
 	   	void sim_step(double dt);
 		void set_motor_rpms(double m_left, double m_right);
@@ -49,6 +49,6 @@ class KAKA
 		Eigen::Vector3d get_angularVelocity() const;
 		Eigen::Matrix3d get_inertia() const;
 
-    // get arm angles in order to control urdf model
+    		// get arm angles in order to control urdf model
 		Eigen::Vector2d get_arm_angles() const;
 };

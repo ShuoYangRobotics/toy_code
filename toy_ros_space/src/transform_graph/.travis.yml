@@ -1,0 +1,48 @@
+sudo: required
+dist: trusty
+language: python
+python:
+- '2.7'
+virtualenv:
+  system_site_packages: true
+cache:
+  apt: true
+  pip: true
+before_install:
+- export ROS_DISTRO=indigo
+- export ROS_CI_DESKTOP=`lsb_release -cs`
+- export ROS_MASTER_URI=http://localhost:11311
+notifications:
+  email: false
+  slack:
+    secure: okoS8NDL+uON5XmzEqFd1fdsg/ysDhQLA84/jHHSFzOWHv8kdDM95n0vAseG5K2wx0C/9RKcfC8zAHVdQzjERe4vkFVG8XwGTBoI05siv/JVc57uYBAgvDHbTokxM5vpzQNg0RHZAjZ49hheQrVWChY3WIl9qC5GBtNVl4KWtZG0jzQ+PbLdETeg9p0KV5fL3FHLNCLalk80oMN+zxQbFIESGGxyjzZGJDLT0vZQoUBNMZ6fEKHrAx7+JBG2qW4xef9K/UXXl7Sur+SDve6VVBAb0UUkulTpvNcDeyjxIrIw496UF9TS9fGz1iOhSGhZsBgnaYzfjr0NdTjrNM9kI10/DLMyWTSjd6uv07VGOivwFWIZz2UeMyHoU7pEduczu6f+5sbgvLPge2fsIy1gDOmKLedqfBadS3xrM4VwNf5ksJl32u4neAbjVuOkkbI6YIoLfR4jkJz3wvzUwOWN+Fm8Mir0xwd+4jg+M37vUizY3wrr0KYQb1DkbjExeNKe81yxOsr/XtcT5I5gUW5mp5MMIHhZ02U5ErSfdUz7oAY7X3Ddo1bhbQHjzpbLyzjsEIXffWTgtu+tE4ZYtJByZ3toNPGkyWWBdO4fv6f78zDIsTnA6Qq2tU9cpN7f3p3N3fB+pVkaNCLZp2KyiDuPI79e6gH/XfUljc+qWMpn720=
+install:
+- sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main"
+  > /etc/apt/sources.list.d/ros-latest.list'
+- wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+- sudo apt-get update -qq
+- sudo apt-get install -qq -y python-catkin-pkg python-catkin-tools python-rosdep python-catkin-pkg
+  python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros lcov ros-$ROS_DISTRO-rosdoc-lite
+- gem install coveralls-lcov
+- export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/
+- source /opt/ros/$ROS_DISTRO/setup.bash
+- sudo rosdep init
+- rosdep update
+- mkdir -p ~/catkin_ws/src
+- cd ..; mv transform_graph ~/catkin_ws/src
+- cd ~/catkin_ws
+- catkin init
+- rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+script:
+- catkin build
+- catkin run_tests transform_graph --no-deps
+- catkin_test_results build/transform_graph
+after_success:
+- cd ~/catkin_ws/src/transform_graph
+- rosdoc_lite .
+- cd ~/catkin_ws/build
+- lcov --directory . --capture --output-file coverage.info
+- lcov --remove coverage.info '/opt/*' '/usr/*' '*/devel/*' '*test_*' '*_test*' --output-file
+  coverage.info
+- lcov --list coverage.info
+- coveralls-lcov coverage.info

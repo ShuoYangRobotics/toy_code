@@ -46,7 +46,7 @@
     <joint name="base_to_${prefix}_arm" type="revolute">
       <axis xyz="${reflect} 0 0"/>
       <limit effort="1000.0" lower="-${pi/2}" upper="${pi/2}" velocity="0.5"/>
-      <parent link="base_link"/>
+      <parent link="kaka_base_link"/>
       <child link="${prefix}_arm"/>
       <origin xyz="${reflect*(width+.02)} 0 0" />
     </joint>
@@ -81,9 +81,10 @@
 <!-- end of macro define -->
 <!-- end of macro define -->
 <!-- end of macro define -->
-
-
   <link name="base_link">
+  </link>
+
+  <link name="kaka_base_link">
     <visual>
       <geometry>
         <cylinder radius="${width}" length="${bodylen}"/>
@@ -99,6 +100,12 @@
     </collision>
     <xacro:default_inertial mass="0.2"/>
   </link>
+
+  <joint name="dummy_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="kaka_base_link"/>
+    <origin xyz="0 0 0" />
+  </joint>
 
   <xacro:arm prefix="right" reflect="1" />
   <xacro:arm prefix="left" reflect="-1" />
