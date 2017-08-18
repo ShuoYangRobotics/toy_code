@@ -208,7 +208,11 @@ void Builder::BuildMarker(const urdf::Link& link, int id, Marker* output) {
   output->header.stamp = stamp_;
   output->ns = ns_;
   output->id = id;
-  output->color = color_;
+  // modify justin huang's original code to read color from URDF
+  output->color.r = link.visual->material->color.r; 
+  output->color.g = link.visual->material->color.g;
+  output->color.b = link.visual->material->color.b;
+  output->color.a = link.visual->material->color.a;
   output->lifetime = lifetime_;
   output->frame_locked = frame_locked_;
 

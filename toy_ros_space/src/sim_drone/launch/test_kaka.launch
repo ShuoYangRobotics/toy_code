@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="joy" name="joy_node" type="joy_node" />
+  <node pkg="rviz" name="rviz" type="rviz"  args="-d $(find sim_drone)/test_kaka.rviz"/>
+  <node pkg="sim_drone" name="robot_markers_demo" type="robot_markers_demo" output="screen">
+  </node>
+</launch>

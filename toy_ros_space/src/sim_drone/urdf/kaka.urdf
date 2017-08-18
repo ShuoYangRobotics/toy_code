@@ -8,8 +8,6 @@
   <!-- end of macro define -->
   <!-- end of macro define -->
   <link name="base_link">
-  </link>
-  <link name="kaka_base_link">
     <visual>
       <geometry>
         <cylinder length="0.04" radius="0.04"/>
@@ -28,11 +26,6 @@
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
   </link>
-  <joint name="dummy_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="kaka_base_link"/>
-    <origin xyz="0 0 0"/>
-  </joint>
   <link name="right_arm">
     <visual>
       <geometry>
@@ -57,7 +50,7 @@
   <joint name="base_to_right_arm" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="1000.0" lower="-1.57075" upper="1.57075" velocity="0.5"/>
-    <parent link="kaka_base_link"/>
+    <parent link="base_link"/>
     <child link="right_arm"/>
     <origin xyz="0.06 0 0"/>
   </joint>
@@ -111,7 +104,7 @@
   <joint name="base_to_left_arm" type="revolute">
     <axis xyz="-1 0 0"/>
     <limit effort="1000.0" lower="-1.57075" upper="1.57075" velocity="0.5"/>
-    <parent link="kaka_base_link"/>
+    <parent link="base_link"/>
     <child link="left_arm"/>
     <origin xyz="-0.06 0 0"/>
   </joint>

@@ -161,7 +161,7 @@ add_executable(sim_test_quad
 
 # test robot_markers
 add_executable(robot_markers_demo src/test_robot_markers.cpp)
-set_target_properties(robot_markers_demo PROPERTIES OUTPUT_NAME demo PREFIX "")
+#set_target_properties(robot_markers_demo PROPERTIES OUTPUT_NAME demo PREFIX "")
 add_dependencies(robot_markers_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(robot_markers_demo
   robot_markers_builder
