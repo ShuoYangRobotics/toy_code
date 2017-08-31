@@ -159,6 +159,13 @@ add_executable(sim_test_quad
 	src/Drone.cpp
 )
 
+add_executable(sim_test_kaka 
+  src/test_kaka.cpp 
+  src/rigidBody.cpp
+  src/utils.cpp 
+  src/kaka.cpp
+)
+
 # test robot_markers
 add_executable(robot_markers_demo src/test_robot_markers.cpp)
 #set_target_properties(robot_markers_demo PROPERTIES OUTPUT_NAME demo PREFIX "")
@@ -178,6 +185,11 @@ target_link_libraries(sim_test_body
    ${Boost_LIBRARIES}
 )
 target_link_libraries(sim_test_quad
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+)
+
+target_link_libraries(sim_test_kaka
    ${catkin_LIBRARIES}
    ${Boost_LIBRARIES}
 )
