@@ -8,6 +8,7 @@ Panels:
         - /MarkerArray1
         - /TF1
         - /TF1/Frames1
+        - /Axes1
       Splitter Ratio: 0.5
     Tree Height: 565
   - Class: rviz/Selection
@@ -71,6 +72,13 @@ Visualization Manager:
       Tree:
         {}
       Update Interval: 0
+      Value: true
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 1
+      Name: Axes
+      Radius: 0.00999999978
+      Reference Frame: <Fixed Frame>
       Value: true
   Enabled: true
   Global Options:

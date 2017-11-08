@@ -7,6 +7,8 @@ rosrun joy joy\_node
 other dependency:
 ros-indigo-desktop-full, eigen3, boost
 
+--2017-10-Nov--
+working on KAKA now. You will know what KAKA is by checking urdf/kaka.xacro
 
 --2016-10-Feb--
 
@@ -29,3 +31,10 @@ Install robot markers to display moving parts on the drone
 https://github.com/jstnhuang/robot_markers
 
 Since ROS kinetic does not contrain robot_markers and robot_markers' dependency transform_graph, we have to instll transform_graph outside in toy_ros_space manually
+
+
+### Note
+
+The command to test urdf joint angles (be careful with command pwd)
+
+toy_code/toy_ros_space/src/sim_drone/urdf$ roslaunch urdf_tutorial display.launch model:=kaka.urdf

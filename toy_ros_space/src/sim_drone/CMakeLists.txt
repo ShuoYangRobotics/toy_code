@@ -164,6 +164,11 @@ add_executable(sim_test_kaka
   src/rigidBody.cpp
   src/utils.cpp 
   src/kaka.cpp
+  src/KAKADrone.cpp
+)
+target_link_libraries(sim_test_kaka
+  robot_markers_builder
+  ${catkin_LIBRARIES}
 )
 
 # test robot_markers

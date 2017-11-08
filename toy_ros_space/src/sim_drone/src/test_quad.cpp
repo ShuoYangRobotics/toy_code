@@ -13,7 +13,7 @@ void updateVizMarker(int id, Eigen::Vector3d _pose, Eigen::Quaterniond _attitude
 void obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg);
 Drone *a, *b;
 
-int main ( int argc, char** argv)
+int main (int argc, char** argv)
 {
 	/* set up ROS */
 	ros::init(argc, argv, "sim_test_quad");

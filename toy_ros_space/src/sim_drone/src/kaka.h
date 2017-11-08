@@ -3,12 +3,15 @@
 
 #include <Eigen/Core>
 #include "rigidBody.h"
+#include <ros/ros.h> // to use ROS_INFO to debug
 
 class KAKA
 {
 	private:
 		RigidBody physics;
 
+		// convention: 0 is left
+		//             1 is right
 		Eigen::Array2d motor_rpm;
 		Eigen::Array2d tgt_motor_rpm;
 
@@ -50,6 +53,9 @@ class KAKA
 		double get_mass();
 		Eigen::Vector3d get_angularVelocity() const;
 		Eigen::Matrix3d get_inertia() const;
+		double get_propeller_thrust_coefficient(void) const;
+		double get_propeller_moment_coefficient(void) const; 
+		double get_arm_length(void) const;
 
     	// get arm angles in order to control urdf model
 		Eigen::Array2d get_arm_angles() const;
