@@ -14,8 +14,8 @@ KAKADrone::KAKADrone(int _id)
 	ctrl_target_horiz_tilt = Eigen::Vector2d::Zero();
 	error_vel_ground_prev = Eigen::Vector2d::Zero();
 
-	k_p_atti = Eigen::Vector3d(0.5, 0.5, 0.5);
-	k_p_omega = Eigen::Vector3d(0.05, 0.05, 0.08);
+	k_p_atti = Eigen::Vector3d(0.5, 0.5, 0.005);
+	k_p_omega = Eigen::Vector3d(0.05, 0.05, 0.008);
 	k_p_vert_pos = Eigen::Vector3d(1.5, 1.5, 1.5);
 	k_p_vert_vel = Eigen::Vector3d(1.5, 1.5, 1.5);
 }

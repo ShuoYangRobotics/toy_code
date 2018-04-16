@@ -27,7 +27,7 @@ void Drone::sim_step(double dt)
 	Eigen::Vector3d pos = quad.get_position();
 	Eigen::Vector3d vel = quad.get_velocity();
 
-	ctrl_target_height = pos(2);
+	
 
 	/* debug print */
 	//Eigen::Vector4d q = Eigen::Vector4d(quad.get_attitude().w(), quad.get_attitude().x(),quad.get_attitude().y(),quad.get_attitude().z());
@@ -36,6 +36,8 @@ void Drone::sim_step(double dt)
 	//ROS_INFO("yaw %4.3f (%4.3f), pitch %4.3f, roll %4.3f", atan2(2*(q(0)*q(3)+q(1)*q(2)), 1-2*(q(2)*q(2)+q(3)*q(3))) , ypr(0), ypr(1), ypr(2));
 
 	/* use height controller to get thrust */
+	ctrl_target_height = lock_height;
+
 	double des_force_z = height_ctrl(ctrl_target_height, ctrl_target_vertical_z, pos(2), vel(2)); 
 
 	/* pos vel controller */
@@ -56,7 +58,7 @@ void Drone::sim_step(double dt)
 		
 		
 		Eigen::Vector3d tilt_atti_cmd = error_vel_body; 
-		target_attitude = ctrl_sub_func1(tilt_atti_cmd, ctrl_target_yaw);
+		target_attitude = ctrl_sub_func1(tilt_atti_cmd, yaw);
 
 		error_vel_ground_prev = error_vel_ground;
 	}
@@ -69,9 +71,14 @@ void Drone::sim_step(double dt)
 
 void Drone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 {
+	Eigen::Vector3d pos = quad.get_position();
 	/* height command */
 	ctrl_target_vertical_z = joy_msg->axes[1]*3; //-3m/s - 3m/s 
 
+	// here we need a mechanism to stablize the height of the drone
+	if (fabs(ctrl_target_vertical_z) > 1e-2)
+		lock_height = pos(2);
+	
 	/* attitude command */
 	/*
 		x - axes[4] forward 1.0 backward -1.0
@@ -183,6 +190,9 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 
 	/* no d control yet */
 	Eigen::Vector3d ctrl_torque = error_term1 - 0.0*(e_w-e_w_prev) - error_term2 + w.cross(J*w);
+	/* yaw rate control */
+	if (fabs(ctrl_target_yaw)>1e-2)
+		ctrl_torque += Eigen::Vector3d(0,0,0.1*ctrl_target_yaw);
 	// limit ctrl_torque
 	// ctrl_torque(0) = double_limit(ctrl_torque(0), -0.5, 0.5);
 	// ctrl_torque(1) = double_limit(ctrl_torque(1), -0.5, 0.5);

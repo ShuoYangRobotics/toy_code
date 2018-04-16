@@ -48,11 +48,11 @@
     </inertial>
   </link>
   <joint name="base_to_right_arm" type="revolute">
-    <axis xyz="1 0 0"/>
+    <axis xyz="0 -1 0"/>
     <limit effort="1000.0" lower="-1.57075" upper="1.57075" velocity="0.5"/>
     <parent link="base_link"/>
     <child link="right_arm"/>
-    <origin xyz="0.06 0 0"/>
+    <origin xyz="0 -0.06  0"/>
   </joint>
   <link name="right_disk">
     <visual>
@@ -78,7 +78,7 @@
   <joint name="right_disk_arm_joint" type="fixed">
     <parent link="right_arm"/>
     <child link="right_disk"/>
-    <origin xyz="0.085 0 0.019"/>
+    <origin xyz="0 -0.085 0.019"/>
   </joint>
   <link name="left_arm">
     <visual>
@@ -102,11 +102,11 @@
     </inertial>
   </link>
   <joint name="base_to_left_arm" type="revolute">
-    <axis xyz="-1 0 0"/>
+    <axis xyz="0 1 0"/>
     <limit effort="1000.0" lower="-1.57075" upper="1.57075" velocity="0.5"/>
     <parent link="base_link"/>
     <child link="left_arm"/>
-    <origin xyz="-0.06 0 0"/>
+    <origin xyz="0 0.06  0"/>
   </joint>
   <link name="left_disk">
     <visual>
@@ -132,6 +132,7 @@
   <joint name="left_disk_arm_joint" type="fixed">
     <parent link="left_arm"/>
     <child link="left_disk"/>
-    <origin xyz="-0.085 0 0.019"/>
+    <origin xyz="0 0.085 0.019"/>
   </joint>
 </robot>
+

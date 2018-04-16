@@ -80,8 +80,8 @@ void KAKA::sim_step(double dt)
 	// tau = F x r
 	// ROS_INFO("thrust_left_b(%4.3f,%4.3f,%4.3f)", thrust_left_b(0),thrust_left_b(1),thrust_left_b(2));
 	// ROS_INFO("thrust_right_b(%4.3f,%4.3f,%4.3f)", thrust_right_b(0),thrust_right_b(1),thrust_right_b(2));
-	Eigen::Vector3d left_tau = thrust_left_b.cross(Eigen::Vector3d(-arm_length,0,0));
-	Eigen::Vector3d right_tau = thrust_right_b.cross(Eigen::Vector3d(arm_length,0,0));
+	Eigen::Vector3d left_tau = thrust_left_b.cross(Eigen::Vector3d(0,arm_length,0));
+	Eigen::Vector3d right_tau = thrust_right_b.cross(Eigen::Vector3d(0,-arm_length,0));
 	// ROS_INFO("left_tau(%4.3f,%4.3f,%4.3f)", left_tau(0),left_tau(1),left_tau(2));
 	// ROS_INFO("right_tau(%4.3f,%4.3f,%4.3f)", right_tau(0),right_tau(1),right_tau(2));
 
@@ -97,10 +97,12 @@ void KAKA::sim_step(double dt)
 	Eigen::Array2d motor_rpm_dot = (tgt_motor_rpm - motor_rpm)/motor_time_constant;
 	motor_rpm += motor_rpm_dot*dt;
 
-	Eigen::Array2d arm_angle_dot = tgt_arm_angle - arm_angle;
-	arm_angle_dot(0) = double_limit(arm_angle_dot(0), -arm_angular_vel*dt, arm_angular_vel*dt);
-	arm_angle_dot(1) = double_limit(arm_angle_dot(1), -arm_angular_vel*dt, arm_angular_vel*dt);
-	arm_angle += arm_angle_dot;
+	// Eigen::Array2d arm_angle_dot = 10.0*(tgt_arm_angle - arm_angle);
+	// arm_angle_dot(0) = double_limit(arm_angle_dot(0), -arm_angular_vel*dt, arm_angular_vel*dt);
+	// arm_angle_dot(1) = double_limit(arm_angle_dot(1), -arm_angular_vel*dt, arm_angular_vel*dt);
+	// arm_angle += arm_angle_dot;
+	arm_angle(0) = tgt_arm_angle(0);
+	arm_angle(1) = tgt_arm_angle(1);
 }
 
 

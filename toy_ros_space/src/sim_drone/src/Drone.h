@@ -23,6 +23,7 @@ class Drone
 		/* target variables */
 		/* first we only deal with attitude and height control */
 		double ctrl_target_height;
+		double lock_height;
 		double ctrl_target_vertical_z;
 		double ctrl_target_yaw;
 		Eigen::Vector2d ctrl_target_horiz_tilt;

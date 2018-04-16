@@ -44,11 +44,11 @@
       <xacro:default_inertial mass="0.07"/>
     </link>
     <joint name="base_to_${prefix}_arm" type="revolute">
-      <axis xyz="${reflect} 0 0"/>
+      <axis xyz="0 ${reflect} 0"/>
       <limit effort="1000.0" lower="-${pi/2}" upper="${pi/2}" velocity="0.5"/>
       <parent link="base_link"/>
       <child link="${prefix}_arm"/>
-      <origin xyz="${reflect*(width+.02)} 0 0" />
+      <origin xyz="0 ${reflect*(width+.02)}  0" />
     </joint>
 
 
@@ -73,7 +73,7 @@
     <joint name="${prefix}_disk_arm_joint" type="fixed">
       <parent link="${prefix}_arm"/>
       <child link="${prefix}_disk"/>
-      <origin xyz="${reflect*armlen/2} 0 0.019" />
+      <origin xyz="0 ${reflect*armlen/2} 0.019" />
     </joint>
 
   </xacro:macro>
@@ -101,8 +101,8 @@
   </link>
 
 
-  <xacro:arm prefix="right" reflect="1" />
-  <xacro:arm prefix="left" reflect="-1" />
+  <xacro:arm prefix="right" reflect="-1" />
+  <xacro:arm prefix="left" reflect="1" />
 
 
 
