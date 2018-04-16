@@ -12,7 +12,7 @@ class KAKADrone
 {
 	private:
 		int id;
-		KAKA quad;
+		KAKA kaka;
 
 		/* target variables */
 		/* first we only deal with attitude and height control */
@@ -35,7 +35,7 @@ class KAKADrone
 		
 
 		double height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z);
-		void attitude_ctrl(Eigen::Quaterniond target_attitude, double des_force_ze);
+		void force_torque_ctrl(Eigen::Quaterniond target_attitude, Eigen::Vector3d target_force);
 		
 	public:
 		KAKADrone(int _id);

@@ -42,6 +42,9 @@ int main ( int argc, char** argv)
 	// // only to test basic function
 	// a->set_motor_rpms(2000,2000);
 
+	//to debug
+	int cnt = 0;
+
 	  /* ROS loop */
     for (int publish_count = 0; nh.ok(); publish_count++)
   	{
@@ -52,8 +55,9 @@ int main ( int argc, char** argv)
 		Eigen::Quaterniond quaternion = a->get_attitude();
 		Eigen::Vector3d position = a->get_position();
 		Eigen::Array2d arm_angle = a->get_arm_angles();
+		// kaka arm angles are in navigation frame, here we need to convert them into urdf frame
 		joint_positions["base_to_left_arm"] = arm_angle[0];
-		joint_positions["base_to_right_arm"] = arm_angle[1];
+		joint_positions["base_to_right_arm"] = -arm_angle[1];
 
 		// pose.position.x = 0;
 		// pose.position.y = 0;
@@ -76,6 +80,10 @@ int main ( int argc, char** argv)
 	    kaka_vis.markers.clear();
 	    ros::spinOnce();
 	    loop_rate.sleep();
+	    
+	    // to debug
+	    cnt ++;
+	    //if (cnt > 30) break;
   	}
 
 	return 0;

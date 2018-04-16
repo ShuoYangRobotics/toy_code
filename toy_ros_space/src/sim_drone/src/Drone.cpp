@@ -203,13 +203,13 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 	if (quad.get_type() == QUAD_MOTOR_CROSS)
 	{
 		/*
-			   1
+			   0
 			   |
 			   |
 		2 ----------- 3
 			   |
                |
-               0
+               1
 		*/
   		w_sq[0] = des_force_body/(4*kf) - ctrl_torque(1)/(2*d*kf) + ctrl_torque(2)/(4*km);
   		w_sq[1] = des_force_body/(4*kf) + ctrl_torque(1)/(2*d*kf) + ctrl_torque(2)/(4*km);
