@@ -7,9 +7,6 @@ rosrun joy joy\_node
 other dependency:
 ros-indigo-desktop-full, eigen3, boost
 
---2017-10-Nov--
-working on KAKA now. You will know what KAKA is by checking urdf/kaka.xacro
-
 --2016-10-Feb--
 
 add roslaunch file 
@@ -39,6 +36,11 @@ The command to test urdf joint angles (be careful with command pwd)
 
 toy_code/toy_ros_space/src/sim_drone/urdf$ roslaunch urdf_tutorial display.launch model:=kaka.urdf
 
+
+
+--2017-10-Nov--
+
+working on KAKA now. You will know what KAKA is by checking urdf/kaka.xacro
 
 --2018-17-Apr--
 
