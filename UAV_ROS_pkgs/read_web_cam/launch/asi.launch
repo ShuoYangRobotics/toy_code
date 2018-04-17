@@ -1,0 +1,70 @@
+<launch>
+	<param name="is_debug_on" value="false" />
+
+	<!-- Camera parameters -->
+	<param name="set_gain" value="40" />
+	<param name="set_exposure" value="3700" />
+	<param name="set_height" value="240" />
+	<param name="set_width" value="320" />
+	<param name="set_bright" value="10" />
+	<node name="ASIRead" pkg="read_web_cam" type="ASIRead"/>
+
+	<param name="markerSize" value="18.39" />  
+	<!-- <param name="markerSize" value="12.83" />  marker on the small table -->
+	<node name="aruco_tracker" pkg="irobot_tracker" type="aruco_tracker"/>
+
+    <!-- KF parameters -->
+	<param name="UKF_posStd_r" value="10" /> <!-- processs errorCov -->
+	<param name="UKF_ortStd_r" value="5" /> <!-- processs errorCov -->
+	<param name="UKF_imuStd_r" value="1" /> <!-- processs errorCov -->
+
+	<param name="UKF_posStd_q" value="2" />
+	<param name="UKF_ortStd_q" value="0.8" />
+	<param name="UKF_imuStd_q" value="5" />
+
+	<!-- PID parameters -->
+	<param name="Kp_pos" value="0.8" />
+	<param name="Ki_pos" value="0.15" />
+	<param name="Kd_pos" value="0.45" />
+
+	<param name="Kp_vel" value="1.80" />
+	<param name="Ki_vel" value="0.00" />
+	<param name="Kd_vel" value="0.34" />
+
+	<param name="Kp_acc" value="0.27" />
+	<param name="Ki_acc" value="0.20" />
+	<param name="Kd_acc" value="0.06" />
+    <!--
+	<param name="Ki_acc" value="0.15" />
+	<param name="Kd_acc" value="0.08" />
+    -->
+
+	<param name="dFilter_gain" value="0.15" />
+	<param name="feedforward_gain" value="0.00" />  <!-- 7m/s ==> 30degree -->
+	<param name="feedforward_gain" value="0.00074799" />  <!-- 7m/s ==> 30degree -->
+
+    <!-- best parameters got at 1:25am 04-11-2014
+        <param name="Kp_pos" value="0.50" />
+        <param name="Ki_pos" value="0.00" />
+        <param name="Kd_pos" value="0.22" />
+
+        <param name="Kp_vel" value="1.50" />
+        <param name="Ki_vel" value="0.00" />
+        <param name="Kd_vel" value="0.12" />
+
+        <param name="Kp_acc" value="0.10" />
+        <param name="Ki_acc" value="0.10" />
+        <param name="Kd_acc" value="0.03" />
+    -->
+
+	<param name="pid_gain" value="1.0" />
+	<param name="controlLimit" value="8.0" />
+
+	<node name="SRUKF_controller" pkg="irobot_tracker" type="SRUKF_controller" output="screen"/>
+
+	<node name="serial_to_uav_node" pkg="serial_to_uav" type="serial_to_uav_node"/>
+	<param name="is_write_on" value="true" />
+    <!--
+    -->
+	
+</launch>
