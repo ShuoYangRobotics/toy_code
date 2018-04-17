@@ -37,7 +37,7 @@ int main ( int argc, char** argv)
 
 	/* set up KAKA */
 	a = new KAKADrone(0);
-	a->set_position(Eigen::Vector3d(0,0,0));
+	a->set_position(Eigen::Vector3d(0,0,2.0));
 
 	// // only to test basic function
 	// a->set_motor_rpms(2000,2000);

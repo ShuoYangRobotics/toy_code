@@ -97,12 +97,12 @@ void KAKA::sim_step(double dt)
 	Eigen::Array2d motor_rpm_dot = (tgt_motor_rpm - motor_rpm)/motor_time_constant;
 	motor_rpm += motor_rpm_dot*dt;
 
-	// Eigen::Array2d arm_angle_dot = 10.0*(tgt_arm_angle - arm_angle);
-	// arm_angle_dot(0) = double_limit(arm_angle_dot(0), -arm_angular_vel*dt, arm_angular_vel*dt);
-	// arm_angle_dot(1) = double_limit(arm_angle_dot(1), -arm_angular_vel*dt, arm_angular_vel*dt);
-	// arm_angle += arm_angle_dot;
-	arm_angle(0) = tgt_arm_angle(0);
-	arm_angle(1) = tgt_arm_angle(1);
+	Eigen::Array2d arm_angle_dot = 0.3*(tgt_arm_angle - arm_angle);
+	arm_angle_dot(0) = double_limit(arm_angle_dot(0), -arm_angular_vel*dt, arm_angular_vel*dt);
+	arm_angle_dot(1) = double_limit(arm_angle_dot(1), -arm_angular_vel*dt, arm_angular_vel*dt);
+	arm_angle += arm_angle_dot;
+	// arm_angle(0) = tgt_arm_angle(0);
+	// arm_angle(1) = tgt_arm_angle(1);
 }
 
 

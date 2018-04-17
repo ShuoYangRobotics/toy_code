@@ -17,13 +17,14 @@ class KAKADrone
 		/* target variables */
 		/* first we only deal with attitude and height control */
 		double ctrl_target_height;
+		double lock_height;
 		double ctrl_target_vertical_z;
 		double ctrl_target_yaw;
 		Eigen::Vector2d ctrl_target_horiz_tilt;
 		Eigen::Quaterniond target_attitude;
 
 		/* helper variable for control */
-		Eigen::Vector2d error_vel_ground_prev;
+		Eigen::Vector2d error_vel_prev;
 
 		/* some parameters */
 		double gravity;
@@ -32,6 +33,8 @@ class KAKADrone
 		Eigen::Vector3d k_p_omega;
 		Eigen::Vector3d k_p_vert_pos;
 		Eigen::Vector3d k_p_vert_vel;
+		double tau_limit;
+		double force_limit;
 		
 
 		double height_ctrl(double target_vertical_pos_z, double target_vertical_vel_z, double pos_z, double vel_z);

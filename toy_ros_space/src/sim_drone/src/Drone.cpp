@@ -192,7 +192,7 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
 	Eigen::Vector3d ctrl_torque = error_term1 - 0.0*(e_w-e_w_prev) - error_term2 + w.cross(J*w);
 	/* yaw rate control */
 	if (fabs(ctrl_target_yaw)>1e-2)
-		ctrl_torque += Eigen::Vector3d(0,0,0.1*ctrl_target_yaw);
+		ctrl_torque += Eigen::Vector3d(0,0,0.1*(ctrl_target_yaw-w(2)));
 	// limit ctrl_torque
 	// ctrl_torque(0) = double_limit(ctrl_torque(0), -0.5, 0.5);
 	// ctrl_torque(1) = double_limit(ctrl_torque(1), -0.5, 0.5);

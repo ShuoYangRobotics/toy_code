@@ -5,27 +5,36 @@ KAKADrone::KAKADrone(int _id)
 {
 	id = _id;
 	kaka = KAKA();	
+	kaka.set_position(Eigen::Vector3d::Zero());
 	/* init parameters */
 	gravity = 9.81;
 	angle_limit = 35;
 	ctrl_target_height = 1.0;
 	ctrl_target_vertical_z = 0.0;
 	ctrl_target_yaw = 0.0;
+	lock_height = 0.0;	// 2018-04-17 forgot to init this variable results in strange value in height
 	ctrl_target_horiz_tilt = Eigen::Vector2d::Zero();
-	error_vel_ground_prev = Eigen::Vector2d::Zero();
+	error_vel_prev = Eigen::Vector2d::Zero();
 
-	k_p_atti = Eigen::Vector3d(0.5, 0.5, 0.005);
-	k_p_omega = Eigen::Vector3d(0.05, 0.05, 0.008);
-	k_p_vert_pos = Eigen::Vector3d(1.5, 1.5, 1.5);
+	k_p_atti     = Eigen::Vector3d(0.5, 0.5, 0.005);
+	k_p_omega    = Eigen::Vector3d(0.05, 0.05, 0.008);
+	k_p_vert_pos = Eigen::Vector3d(3.5, 3.5, 3.5);
 	k_p_vert_vel = Eigen::Vector3d(1.5, 1.5, 1.5);
+	
+	tau_limit = 5.0;
+	force_limit = 5.0;
 }
 
 void KAKADrone::obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 {
+	Eigen::Vector3d pos = kaka.get_position();
 	/* height command */
 	ctrl_target_vertical_z = joy_msg->axes[1]*3; //-3m/s - 3m/s 
 	ROS_INFO("ctrl_target_vertical_z %4.3f", ctrl_target_vertical_z);
 
+	if (fabs(ctrl_target_vertical_z) > 1e-2)
+		lock_height = pos(2);
+	
 	/* attitude command */
 	/*	
 		yaw - axes[0] left 1.0 right -1.0
@@ -67,20 +76,21 @@ void KAKADrone::sim_step(double dt)
 	ROS_INFO("2 yaw %4.3f (%4.3f), pitch %4.3f, roll %4.3f", atan2(2*(q(0)*q(3)+q(1)*q(2)), 1-2*(q(2)*q(2)+q(3)*q(3))) , ypr(0), ypr(1), ypr(2));
 
 	/* use height controller to get thrust */
+	ctrl_target_height = lock_height;
 	double des_force_ze = height_ctrl(ctrl_target_height, ctrl_target_vertical_z, pos(2), vel(2)); 
 
 	/* horiz velocity controller */
-	Eigen::Vector2d error_vel_ground = 
-		0.6*0.35*(ctrl_target_horiz_tilt - 
-				  Eigen::Vector2d(vel(0), vel(1))) + 0.4*error_vel_ground_prev;
-	error_vel_ground(0) = double_limit(error_vel_ground(0), -6, 6);
-	error_vel_ground(1) = double_limit(error_vel_ground(1), -6, 6);
-	error_vel_ground_prev = error_vel_ground;
+	Eigen::Vector2d error_vel = 
+		0.4*0.25*(ctrl_target_horiz_tilt - 
+				  Eigen::Vector2d(vel(0), vel(1))) + 0.6*error_vel_prev;
+	error_vel(0) = double_limit(error_vel(0), -6, 6);
+	error_vel(1) = double_limit(error_vel(1), -6, 6);
+	error_vel_prev = error_vel;
 
 	/* convert ground velocity to body level velocity (notice body level is not equal to body*/
-	Eigen::Vector3d error_vel_body = Eigen::Vector3d(error_vel_ground(0), error_vel_ground(1), 0);
+	Eigen::Vector3d error_vel_body = Eigen::Vector3d(error_vel(0), error_vel(1), 0);
 	double yaw = atan2(2*(q(0)*q(3)+q(1)*q(2)), 1-2*(q(2)*q(2)+q(3)*q(3)));
-	error_vel_body = AngleAxisd(yaw, Vector3d::UnitZ())*error_vel_body;
+	//error_vel_body = AngleAxisd(yaw, Vector3d::UnitZ())*error_vel_body;
 
 	
 	/* get desired attitute and force */
@@ -98,7 +108,7 @@ void KAKADrone::sim_step(double dt)
 	ROS_INFO("angle: %4.3f|axis: %4.3f %4.3f %4.3f", tilt_angle, angle_axis(0), angle_axis(1), angle_axis(2));
 
 	target_attitude = Eigen::Quaterniond(
-		Eigen::AngleAxisd(ctrl_target_yaw, Eigen::Vector3d::UnitZ())*
+		Eigen::AngleAxisd(yaw, Eigen::Vector3d::UnitZ())*  
 		Eigen::AngleAxisd(-tilt_angle, angle_axis)
 	);	
 	// tilt_cmd and des_force_ze are desired force 
@@ -153,6 +163,10 @@ void KAKADrone::force_torque_ctrl(const Eigen::Quaterniond target_attitude,
 	/* no d control yet */
 	Eigen::Vector3d ctrl_torque = error_term1 - 0.0*(e_w-e_w_prev) - error_term2 + w.cross(J*w);
 	e_w_prev = e_w;
+	/* yaw rate control */
+	ctrl_torque += Eigen::Vector3d(0,0,0.01*(ctrl_target_yaw-w(2)));
+
+	ROS_INFO("ctrl_target_yaw %4.3f", ctrl_target_yaw);
 	ROS_INFO("------------- e_w %4.3f %4.3f %4.3f ------------", e_w(0), e_w(1), e_w(2));
 	ROS_INFO("------------- w %4.3f %4.3f %4.3f ------------", w(0), w(1), w(2));
 	ROS_INFO("tor1 %4.3f, tor2 %4.3f, tor3 %4.3f", ctrl_torque(0), ctrl_torque(1), ctrl_torque(2));
@@ -171,10 +185,16 @@ void KAKADrone::force_torque_ctrl(const Eigen::Quaterniond target_attitude,
 	des_force_zb = target_force(2)/cos(dev_angle);
 	ROS_INFO("1 dev_angle %4.3f, des_force_body %4.3f, des_force_z %4.3f", dev_angle, target_force(2), des_force_zb);
 
-	double tau_x = ctrl_torque(0);
-	double tau_z = ctrl_torque(2);
+	double tau_x = -ctrl_torque(0);
+	double tau_z = -ctrl_torque(2);  
 	double F_x = target_force(0);
 	double F_z = des_force_zb;
+
+	// ensure smooth movements, limit torque and forces
+	tau_x = double_limit(tau_x, -tau_limit, tau_limit);
+	tau_z = double_limit(tau_z, -tau_limit, tau_limit);
+	F_x = double_limit(F_x, -force_limit, force_limit);
+	F_z = double_limit(F_z, -10*force_limit, 10*force_limit);
 
 	ROS_INFO("------------- F_x F_z %4.3f %4.3f ------------", F_x, F_z);
 	// from manual calculation
