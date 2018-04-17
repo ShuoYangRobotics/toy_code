@@ -38,3 +38,10 @@ Since ROS kinetic does not contrain robot_markers and robot_markers' dependency 
 The command to test urdf joint angles (be careful with command pwd)
 
 toy_code/toy_ros_space/src/sim_drone/urdf$ roslaunch urdf_tutorial display.launch model:=kaka.urdf
+
+
+--2018-17-Apr--
+
+Finally KAKA drone works. Use this launch file to test it (be careful with command pwd)
+
+toy_code/toy_ros_space/src/sim_drone/launch$ roslaunch test_kaka.launch
