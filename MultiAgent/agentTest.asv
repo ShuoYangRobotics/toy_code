@@ -1,0 +1,37 @@
+%% simulation setup
+% simulation time interval
+dt = 0.05;
+% simulation step
+totalStep = 500;
+currStep = 0;
+
+% simulation area setup
+xbound = [-20;20];
+ybound = [-20;20];
+
+% agent init
+agentList = [];
+totalAgent = 50;
+for i=1:totalAgent
+    pos = 1 + 2.*randn(2,1);
+    vel = 0.2.*randn(2,1);
+    agentList = [agentList BasicAgent(pos, vel)];
+end
+
+% visualization figure
+fig = figure('name', 'Simulation of Agents');
+currAxis = axis([xbound(1) xbound(2) ybound(1) ybound(2)]);
+grid on;
+
+visxdata = []
+
+h = plot( ,'*');
+
+%% simulate
+for i=1:totalStep
+    for j=1:totalAgent
+        agentList(j).sim(dt);
+    end
+    
+    waitforbuttonpress
+end

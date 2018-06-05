@@ -2,20 +2,31 @@
 
 This is a collection of my recent coding practices. Most of them depends on Eigen3 and gnuplot. The code in `toy_ros_space` requires ROS installed, and they can only be compiled by `catkin_make`.
 
-##Update Log
-2017-01-21-
+## Update Log 
+
+2018-06-05 
+
+    Begin to study "consensus problem of network of dynamic agents" using MATLAB
+
+2018-04-15
+  
+    Kaka drone simulator
+
+
+2017-01-21
 
     During past few months, I have been reading "legged robots that balance". Following the instruction in the book, I created a hopper robot and a quadruped robot using Simulink.
 
-2016-04-26-
+2016-04-26
 
     The nonliear optimization framework: NonLinearOpt has a working demo now. 
     
-2016-04-06-
+2016-04-06
 
     I am working on a nonliear optimization framework now. 
 
-##Code explanation
+## Code explanation
+
 * **Hopper**
     
     Some Simulink models to study dynamical locomotion
