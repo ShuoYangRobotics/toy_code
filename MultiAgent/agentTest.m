@@ -31,12 +31,20 @@ bumph = 0.2;
 fig = figure('name', 'Simulation of Agents');
 
 visXData = []; visYData = [];
+visLineXData = []; visLineYData = [];
 for i=1:totalAgent
     visXData = [visXData agentList(i).px];
     visYData = [visYData agentList(i).py];
+    if i ~= totalAgent
+        % visLineXData should contain proximity net's edge
+        % here I only list these lines to test basic structure
+        visLineXData = [visLineXData; [agentList(i).px agentList(i+1).px]];
+        visLineYData = [visLineYData; [agentList(i).py agentList(i+1).py]];
+    end
 end
 
-h = plot(visXData, visYData,'*');
+h = plot(visXData, visYData,'*'); hold on;
+h2 = plot(visLineXData, visLineYData,'g');
 axis([xbound(1) xbound(2) ybound(1) ybound(2)]);
 grid on;
 
@@ -49,10 +57,22 @@ for i=1:totalStep
         
         visXData(j) = agentList(j).px;
         visYData(j) = agentList(j).py;
+        if j ~= totalAgent
+            visLineXData(j,:) = [agentList(j).px agentList(j+1).px];
+            visLineYData(j,:) = [agentList(j).py agentList(j+1).py];
+        end
     end
     
     set(h,'Xdata', visXData);
     set(h,'Ydata', visYData);
+%     delete(h2)
+%     h2 = plot(visLineXData, visLineYData);
+    h2(1).XData = visLineXData(:,1);
+    h2(1).YData = visLineYData(:,1);
+    h2(2).XData = visLineXData(:,2);
+    h2(2).YData = visLineYData(:,2);
+    
+    % close Figure to stop the simulation
     refreshdata; 
     pause(0.001)
     %waitforbuttonpress
