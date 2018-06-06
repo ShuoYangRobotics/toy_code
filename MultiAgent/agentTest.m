@@ -19,13 +19,14 @@ for i=1:totalAgent
 end
 
 % flocking relate variables (From Reza-Olifati paper Section 8)
-d = 7;
-r = 1.2*d;
-dp = 0.6*d;
-rp = 1.2*dp;
-epsilon = 0.1;
-phia = 5; phib = 5;
-bumph = 0.2;
+param = {};
+param.d = 7;
+param.r = 1.2*d;
+param.dp = 0.6*d;
+param.rp = 1.2*dp;
+param.epsilon = 0.1;
+param.phia = 5; param.phib = 5;
+param.bumph = 0.2;
 
 % visualization figure
 fig = figure('name', 'Simulation of Agents');
