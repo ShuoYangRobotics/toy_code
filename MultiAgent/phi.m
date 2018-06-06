@@ -5,9 +5,10 @@ function [ out ] = phi( z, param )
     b = param.b;
     c = abs(a-b)/sqrt(4*a*b);
     
-    zc = z + c;
+    % if z is negative, potential is wrong. Make it always nonnegative
+    zc = abs(z) + c;
+    % delta1 = deltaNorm(zc, param)/(sqrt(1+zc*zc));
     delta1 = zc/(sqrt(1+zc*zc));
-    
     out = 0.5*((a+b)*delta1+(a-b));
 end
 
