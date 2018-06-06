@@ -1,3 +1,10 @@
+%
+% This piece of code is based on paper:
+% Flocking for Multi-Agent Dynamic Systems:
+% Algorithms and Theory
+%
+
+
 %% simulation setup
 % simulation time interval
 dt = 0.05;
@@ -6,32 +13,98 @@ totalStep = 500;
 currStep = 0;
 
 % simulation area setup
-xbound = [-20;20];
-ybound = [-20;20];
+xbound = [-30;30];
+ybound = [-30;30];
 
 % agent init
 agentList = [];
-totalAgent = 50;
+totalAgent = 10;
 for i=1:totalAgent
-    pos = 1 + 2.*randn(2,1);
-    vel = 0.2.*randn(2,1);
+    pos = 1 + 6.*randn(2,1);
+    vel = 0.4.*randn(2,1);
     agentList = [agentList BasicAgent(pos, vel)];
 end
 
+% flocking relate variables (From Reza-Olifati paper Section 8)
+param = {};
+param.d = 7;        % interaction distance
+param.r = 1.2*param.d;    % interaction range
+param.dp = 0.6*param.d;
+param.rp = 1.2*param.dp;
+param.epsilon = 0.1;
+param.a = 5; param.b = 5;
+param.bumph = 0.2;
+
+% proximity net (spatial induced graph) generation
+agentNeighList = getNeighList(agentList, param);
+
+%%
 % visualization figure
 fig = figure('name', 'Simulation of Agents');
-currAxis = axis([xbound(1) xbound(2) ybound(1) ybound(2)]);
+
+visXData = []; visYData = [];
+visLineXData = []; visLineYData = [];
+% visualize node
+for i=1:totalAgent
+    visXData = [visXData agentList(i).px];
+    visYData = [visYData agentList(i).py];
+end    
+% visualize proximity net's edge
+for i=1:totalAgent
+    for j=i:totalAgent
+        if agentNeighList(i,j) == 1
+            %                                       location of this ;
+            %                                      is very important..
+            visLineXData = [visLineXData [agentList(i).px; agentList(j).px]];
+            visLineYData = [visLineYData [agentList(i).py; agentList(j).py]];
+        end
+    end
+end
+
+h = plot(visXData, visYData,'*'); hold on;
+h2 = plot(visLineXData, visLineYData,'g');
+axis([xbound(1) xbound(2) ybound(1) ybound(2)]);
 grid on;
 
-visxdata = []
-
-h = plot( ,'*');
-
-%% simulate
+%% simulate free moving
+fprintf('\nSimulation Counter: ')
 for i=1:totalStep
+    fprintf('%d/%d\n', i, totalStep);
     for j=1:totalAgent
-        agentList(j).sim(dt);
+        agentList(j) = agentList(j).sim(dt);
     end
     
-    waitforbuttonpress
+    % neighbour update 
+    agentNeighList = getNeighList(agentList, param);
+    visXData = []; visYData = [];
+    visLineXData = []; visLineYData = [];
+    % visualize node
+    for j=1:totalAgent
+        visXData = [visXData agentList(j).px];
+        visYData = [visYData agentList(j).py];
+    end    
+    % visualize proximity net's edge
+    for j=1:totalAgent
+        for k=j:totalAgent
+            if agentNeighList(j,k) == 1
+                visLineXData = [visLineXData [agentList(j).px; agentList(k).px]];
+                visLineYData = [visLineYData [agentList(j).py; agentList(k).py]];
+            end
+        end
+    end
+    size(visLineXData)
+    
+    set(h,'Xdata', visXData);
+    set(h,'Ydata', visYData);
+    delete(h2)
+    h2 = plot(visLineXData, visLineYData,'g');
+%     h2(1).XData = visLineXData(:,1);
+%     h2(1).YData = visLineYData(:,1);
+%     h2(2).XData = visLineXData(:,2);
+%     h2(2).YData = visLineYData(:,2);
+    
+    % close Figure to stop the simulation
+    refreshdata; 
+    pause(0.001)
+    %waitforbuttonpress
 end

@@ -1,8 +1,0 @@
-function [ a ] = spatialAdjacency( qi,qj,param )
-%spatialAdjacency calculate spatial adjacency of two node value
-%   Reza paper Equation 11
-
-a = bump( deltaNorm(qj-qi,param.epsilon)/deltaNorm(r,param.epsilon), param);
-
-end
-
