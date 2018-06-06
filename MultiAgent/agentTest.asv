@@ -18,10 +18,10 @@ ybound = [-30;30];
 
 % agent init
 agentList = [];
-totalAgent = 10;
+totalAgent = 30;
 for i=1:totalAgent
-    pos = 1 + 6.*randn(2,1);
-    vel = 0.4.*randn(2,1);
+    pos = 1 + 10.*randn(2,1);
+    vel = 3 + 0.4.*randn(2,1);
     agentList = [agentList BasicAgent(pos, vel)];
 end
 
@@ -36,30 +36,13 @@ param.a = 5; param.b = 5;
 param.bumph = 0.2;
 
 % proximity net (spatial induced graph) generation
-agentNeighList = getNeighList(agentList, param);
+[agentNeighList, spatialAdjacenyMtx]  = getNeighList(agentList, param);
 
 %%
 % visualization figure
 fig = figure('name', 'Simulation of Agents');
 
-visXData = []; visYData = [];
-visLineXData = []; visLineYData = [];
-% visualize node
-for i=1:totalAgent
-    visXData = [visXData agentList(i).px];
-    visYData = [visYData agentList(i).py];
-end    
-% visualize proximity net's edge
-for i=1:totalAgent
-    for j=i:totalAgent
-        if agentNeighList(i,j) == 1
-            %                                       location of this ;
-            %                                      is very important..
-            visLineXData = [visLineXData [agentList(i).px; agentList(j).px]];
-            visLineYData = [visLineYData [agentList(i).py; agentList(j).py]];
-        end
-    end
-end
+visNodeEdge; % a script used to shorten code size
 
 h = plot(visXData, visYData,'*'); hold on;
 h2 = plot(visLineXData, visLineYData,'g');
@@ -68,41 +51,37 @@ grid on;
 
 %% simulate free moving
 fprintf('\nSimulation Counter: ')
-for i=1:totalStep
-    fprintf('%d/%d\n', i, totalStep);
-    for j=1:totalAgent
-        agentList(j) = agentList(j).sim(dt);
+for sim_step=1:totalStep
+    fprintf('%d/%d\n', sim_step, totalStep);
+    for i=1:totalAgent
+        agentList(i) = agentList(i).sim(dt);
     end
-    
+     
     % neighbour update 
-    agentNeighList = getNeighList(agentList, param);
-    visXData = []; visYData = [];
-    visLineXData = []; visLineYData = [];
-    % visualize node
-    for j=1:totalAgent
-        visXData = [visXData agentList(j).px];
-        visYData = [visYData agentList(j).py];
-    end    
-    % visualize proximity net's edge
-    for j=1:totalAgent
-        for k=j:totalAgent
-            if agentNeighList(j,k) == 1
-                visLineXData = [visLineXData [agentList(j).px; agentList(k).px]];
-                visLineYData = [visLineYData [agentList(j).py; agentList(k).py]];
+    [agentNeighList, spatialAdjacenyMtx] = getNeighList(agentList, param);
+    
+    % control protocol TODO
+    for i=1:totalAgent
+        u = [0;0];
+        for j=1:totalAgent
+            if agentNeighList(i,j) == 1
+                pos_i = [agentList(i).px;agentList(i).py];
+                pos_j = [agentList(j).px;agentList(j).py];
+                vel_i = [agentList(i).vx;agentList(i).vy];
+                vel_j = [agentList(j).vx;agentList(j).vy];
+                u = u + actionFuc(deltaNorm(pos_i-p),param);
+                u = u + spatialAdjacenyMtx(i,j)* vel_j-vel_i;
             end
         end
+        agentList(i) = agentList(i).setCtrl(u);
     end
-    size(visLineXData)
     
+    % update visualization
+    visNodeEdge; % a script used to shorten code size
     set(h,'Xdata', visXData);
     set(h,'Ydata', visYData);
     delete(h2)
     h2 = plot(visLineXData, visLineYData,'g');
-%     h2(1).XData = visLineXData(:,1);
-%     h2(1).YData = visLineYData(:,1);
-%     h2(2).XData = visLineXData(:,2);
-%     h2(2).YData = visLineYData(:,2);
-    
     % close Figure to stop the simulation
     refreshdata; 
     pause(0.001)

@@ -27,17 +27,17 @@ classdef BasicAgent
           obj.vy = obj.vy + obj.uy*dt;
       end
       
-      function setPos(obj, pos)
+      function obj = setPos(obj, pos)
           obj.px = pos(1);
           obj.py = pos(2);
       end
       
-      function setVel(obj, vel)
+      function obj = setVel(obj, vel)
           obj.vx = vel(1);
           obj.vy = vel(2);
       end
       
-      function setCtrl(obj, u)
+      function obj = setCtrl(obj, u)
           obj.ux = u(1);
           obj.uy = u(2);
       end
