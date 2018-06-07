@@ -40,3 +40,25 @@ for i = 1:size(z,2)
     out(i) = attractivePotential(z(i), param);
 end
 plot(z, out)
+%%
+figure
+z = 0:0.05:25;
+out = z;
+for i = 1:size(z,2)
+    ra = deltaNorm(param.r,param);
+    da = deltaNorm(param.d,param);
+
+    out(i) = bump(z(i)/ra, param)*phi(z(i)-da, param);
+end
+plot(z, out)
+%%
+figure
+z = 0:0.05:25;
+out = z;
+for i = 1:size(z,2)
+    ra = deltaNorm(param.r,param);
+    da = deltaNorm(param.d,param);
+
+    out(i) = bump(z(i)/ra, param)*phi(z(i)-da, param)*gradientDeltaNorm(z(i), param);
+end
+plot(z, out)

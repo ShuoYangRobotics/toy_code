@@ -6,6 +6,7 @@ function [ out ] = actionFuc( z, param )
     da = deltaNorm(param.d,param);
     % originally in Reza's paper it is just like this, but I think we need
     % to add a norm of z-da? to prevent it from having negative values
+    %out = bump(z/ra, param)*phi(abs(z-da), param);
     out = bump(z/ra, param)*phi(z-da, param);
 
 end
