@@ -18,7 +18,7 @@ totalAgent = 50;
 for i=1:totalAgent
     pos = 1 + 40.*randn(2,1);
     vel = 0.*randn(2,1);
-    agentList = [agentList BasicAgent(pos, vel)];
+    agentList = [agentList KFAgent(pos, vel)];
 end
 
 % a moving agent to be observed
