@@ -7,28 +7,28 @@
 
 %% simulation setup
 % simulation time interval
-dt = 0.02;
+dt = 0.05;
 % simulation step
 totalStep = 500;
 currStep = 0;
 
 % simulation area setup
-xbound = [-100;100];
-ybound = [-100;100];
+xbound = [-150;150];
+ybound = [-150;150];
 
 % agent init
 agentList = [];
-totalAgent = 20;
+totalAgent = 80;
 for i=1:totalAgent
-    pos = 1 + 3.*randn(2,1);
-    vel = -2 + 3.*randn(2,1);
+    pos = 1 + 0.3.*randn(2,1);
+    vel = -4 + 3.*randn(2,1);
     agentList = [agentList BasicAgent(pos, vel)];
 end
 
 % a gamma agent
-gammaAgent = BasicAgent([30;0], [0;-20]);
+gammaAgent = BasicAgent([40;0], [0;-20]);
 gammaR = [gammaAgent.px;gammaAgent.py;0];
-gammaV = 5;
+gammaV = 7;
 gammaW = [0;0;gammaV/gammaR(1)];
 gammaAcc = cross(gammaW,cross(gammaW,gammaR));
 
@@ -41,8 +41,8 @@ param.rp = 1.2*param.dp;
 param.epsilon = 0.1;
 param.a = 5; param.b = 5;
 param.bumph = 0.2;
-param.c1 = 0;
-param.c2 = 0.6;
+param.c1 = 0.002;
+param.c2 = 0.3;
 
 % proximity net (spatial induced graph) generation
 [agentNeighList, spatialAdjacenyMtx]  = getNeighList(agentList, param);
@@ -56,7 +56,7 @@ visNodeEdge; % a script used to shorten code size
 h = plot(visXData, visYData,'*'); hold on;
 h2 = plot(visLineXData, visLineYData,'g');
 %h = plot(gammaAgent.px, gammaAgent.py,'+'); hold on;
-axis([xbound(1) xbound(2) ybound(1) ybound(2)]);axis equal;
+axis([xbound(1) xbound(2) ybound(1) ybound(2)]);
 grid on;
 
 %% simulate free moving
