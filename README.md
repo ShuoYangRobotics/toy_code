@@ -4,6 +4,10 @@ This is a collection of my recent coding practices. Most of them depends on Eige
 
 ## Update Log 
 
+2018-07-07
+
+    Begin to study Distributed Kalman Filter. A very interesting topic
+
 2018-06-05 
 
     Begin to study "consensus problem of network of dynamic agents" using MATLAB
