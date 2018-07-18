@@ -18,7 +18,6 @@ classdef KFAgent < BasicAgent
         is_in_view = 0;
         is_filter_init = 0;
         is_CF_filter_init = 0;
-        can_update_KF = 0;
         
         percept_d = 0;  % perception distance, beyond this distance KFAgent cannot see percepted_agent
         
@@ -44,7 +43,7 @@ classdef KFAgent < BasicAgent
           obj.total_agent = total_agent;
           
           obj.R = obj.r*eye(4);
-          obj.P = eye(4);
+          obj.P = obj.total_agent*eye(4);
           
           obj.data_CF = zeros(4,1);
           obj.input_data_CF = zeros(4,1);
@@ -76,7 +75,6 @@ classdef KFAgent < BasicAgent
           covariance_sum = 0;
           obj.state_sum = 0;
           obj.num_neighbour = 0;
-          obj.can_update_KF = 0;
           for i = 1:size(neighborMsg,2)
 %               if neighborMsg{i}{5} == 1
 %                 data_sum = data_sum + neighborMsg{i}{1} - obj.data_CF + neighborMsg{i}{3} - obj.input_data_CF;
@@ -87,7 +85,6 @@ classdef KFAgent < BasicAgent
                     covariance_sum = covariance_sum + neighborMsg{i}{2};
                     obj.state_sum = obj.state_sum + neighborMsg{i}{3};
                     obj.num_neighbour = obj.num_neighbour + 1;
-                    obj.can_update_KF = 1;
                 end
           end
           
@@ -96,7 +93,6 @@ classdef KFAgent < BasicAgent
           if obj.is_filter_init == 1
             obj.data_CF = obj.input_data_CF + data_sum;
             obj.covariance_CF = obj.input_covariance_CF + covariance_sum;
-            obj.can_update_KF = 1;
           else
             obj.data_CF = data_sum;
             obj.covariance_CF = covariance_sum;  
@@ -126,19 +122,14 @@ classdef KFAgent < BasicAgent
                         0 1  0 dt;
                         0 0  1  0;
                         0 0  0  1];
-              if obj.can_update_KF == 1
+              if obj.num_neighbour > 0
               	S = obj.covariance_CF;% + obj.input_covariance_CF;
                 y = obj.data_CF;% + obj.input_data_CF;
                 M = inv(inv(obj.P) + S);
-                % according to Kalman Consensus Filter: optimality, stablity and performance
-                % epsilon: choose to be of the order of integration time
-                % step in discretization of a continuous time process
-                epsilon = 0.065;
-                gamma = epsilon / (1 + sqrt(trace(obj.P'*obj.P)));
-                obj.update_ix =  obj.ix + M * (y - S *obj.ix) + gamma*obj.P*(obj.state_sum - obj.num_neighbour*obj.ix);
+                obj.update_ix =  obj.ix + M * (y - M *obj.ix) + 0.1*M*(obj.state_sum - obj.num_neighbour*obj.ix);
                 obj.P = obj.A * M * obj.A';               
                 obj.ix = obj.A * obj.update_ix;      % does not exactly follow the KF I have learnt before
-              end
+              else
               
               %obj.update_P = obj.A * obj.P * obj.A';
                
@@ -165,7 +156,7 @@ classdef KFAgent < BasicAgent
                             percepted_agent.py;
                             percepted_agent.vx;
                             percepted_agent.vy] + obj.r*randn(4,1);  
-                  obj.P = eye(4);
+                  obj.P = obj.total_agent*eye(4);
               else
                   obj.z = [percepted_agent.px;
                             percepted_agent.py;

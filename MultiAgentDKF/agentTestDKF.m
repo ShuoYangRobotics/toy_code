@@ -2,11 +2,17 @@
 
 
 %% simulation setup
+rng(13)
 % simulation time interval
 dt = 0.02;
 % simulation step
-totalStep = 500;
+totalStep = 1000;
 currStep = 0;
+
+% filtering relate variables 
+param = {};
+param.r = 80;
+param.percept_d = 40; % within this distance, KFAgent can see gammaAgent
 
 % simulation area setup
 xbound = [-160;160];
@@ -14,23 +20,22 @@ ybound = [-160;160];
 
 % agent init
 agentList = [];
-totalAgent = 50;
+totalAgent = 20;
 for i=1:totalAgent
-    pos = 1 + 40.*randn(2,1);
+    pos = 0 + 40.*randn(2,1);
     vel = 0.*randn(2,1);
-    agentList = [agentList KFAgent(pos, vel)];
+    orient = 0;
+    agentList = [agentList KFAgent(pos, vel, orient, param.percept_d, totalAgent)];
 end
 
 % a moving agent to be observed
-gammaAgent = BasicAgent([40;0], [0;-20]);
+gammaV = 10;
+gammaAgent = BasicAgent([40;0], [0;-gammaV]);
 gammaR = [gammaAgent.px;gammaAgent.py;0];
-gammaV = 440;
 gammaW = [0;0;gammaV/gammaR(1)];
 gammaAcc = cross(gammaW,cross(gammaW,gammaR));
 
-% filterting relate variables 
-param = {};
-param.r = 40;
+
 
 % proximity net (spatial induced graph) generation
 [agentNeighList, spatialAdjacenyMtx]  = getNeighList(agentList,param);
@@ -61,12 +66,40 @@ for sim_step=1:totalStep
     gammaAgent = gammaAgent.setCtrl(gammaAcc(1:2));
     
     for i=1:totalAgent
+        % move, then observe
         agentList(i) = agentList(i).sim(dt);
+        
+        agentList(i) = agentList(i).observe(gammaAgent);
     end
-     
+    
+    
     % neighbour update 
     [agentNeighList, spatialAdjacenyMtx] = getNeighList(agentList,param);
     
+    % update CF
+    for i=1:totalAgent
+        msgList = {};
+        idx = 1;
+        for j=1:totalAgent
+            if agentNeighList(i,j) == 1
+                msgList{idx} = agentList(j).getCFMsg();
+                idx = idx + 1;
+            end
+        end
+        agentList(i) = agentList(i).updateCF(msgList);
+    end
+    views = zeros(1, totalAgent);
+    for i=1:totalAgent
+        views(1,i) = agentList(i).is_in_view;
+    end
+    views 
+    % get estimation information entropy
+    states = zeros(4,totalAgent);
+    for i=1:totalAgent
+        states(:,i) = agentList(i).ix;
+    end
+    states
+    e = entropy(states)
     
     % update visualization
     visNodeEdge; % a script used to shorten code size
