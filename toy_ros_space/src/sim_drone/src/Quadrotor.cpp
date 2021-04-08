@@ -1,5 +1,6 @@
 #include "Quadrotor.h"
 #include "utils.h"
+#include <ros/ros.h>
 #include <Eigen/Geometry>
 
 Quadrotor::Quadrotor()
@@ -15,6 +16,7 @@ Quadrotor::Quadrotor()
 
 	type = QUAD_MOTOR_CROSS;
 	/* bug record: does not initialize here */
+	motor_rpm = 	Eigen::Array4d::Zero();
 	external_force = Eigen::Vector3d::Zero();
 	external_torque = Eigen::Vector3d::Zero();
 }
@@ -23,6 +25,7 @@ void Quadrotor::sim_step(double dt)
 {
 	Eigen::Array4d motor_rpm_dot;
 	Eigen::Array4d motor_rpm_sq = motor_rpm.array().square();
+	// std::cout << "motor_rpm_sq" << motor_rpm_sq << std::endl;
 
 	double thrust = kf*motor_rpm_sq.sum();
 	Eigen::Vector3d force;
@@ -64,9 +67,13 @@ void Quadrotor::sim_step(double dt)
 	torque = torque + external_torque;
 
 	/* physics simulation */
+	// std::cout << "pforce" << force << std::endl;
+	// std::cout << "ptorque" << torque << std::endl;
 	physics.set_force(force);
 	physics.set_torque(torque);
+	// std::cout << "physics.get_velocity() " << physics.get_velocity() << std::endl;
 	physics.sim_step(dt);
+	// std::cout << "physics.get_velocity() " << physics.get_velocity() << std::endl;
 
 	motor_rpm_dot = (target_motor_rpm - motor_rpm)/motor_time_constant;
 	motor_rpm += motor_rpm_dot*dt;

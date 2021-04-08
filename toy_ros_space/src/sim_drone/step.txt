@@ -1,0 +1,22 @@
+cd ~
+mkdir tmp_code
+cd tmp_code
+git clone https://github.com/paulyang1990/toy_code.git
+ls
+mkdir -p ~/drone_ws/src
+cd ~/drone_ws
+catkin_make
+ls
+cd src
+ls
+cp -r ~/tmp_code/toy_code/toy_ros_space/src/transform_graph .
+ls
+cd ..
+catkin_make
+ls
+cd src
+cp -r ~/tmp_code/toy_code/toy_ros_space/src/sim_drone .
+cd ..
+catkin_make
+source devel/setup.zsh
+roslaunch sim_drone test_quad.launch

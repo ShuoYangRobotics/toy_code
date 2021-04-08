@@ -239,7 +239,7 @@ void Drone::attitude_ctrl(Eigen::Quaterniond target_attitude, const double des_f
       		w_sq[i] = 0;
 		}
 	}
-	//ROS_INFO("w0 %4.3f w1 %4.3f, w2 %4.3f, w3 %4.3f", sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
+	// ROS_INFO("w0 %4.3f w1 %4.3f, w2 %4.3f, w3 %4.3f", sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
 	//ROS_INFO("tor1 %4.3f, tor2 %4.3f, tor3 %4.3f", ctrl_torque(0)/(2*d*kf), ctrl_torque(1)/(2*d*kf), ctrl_torque(2)/(4*km));
 
 	quad.set_motor_rpms(sqrtf(w_sq[0]), sqrtf(w_sq[1]), sqrtf(w_sq[2]),sqrtf(w_sq[3]));
@@ -254,7 +254,8 @@ Eigen::Quaterniond Drone::ctrl_sub_func1(Eigen::Vector3d tilt_cmd, double target
 	tilt_angle = double_limit(tilt_angle, 0.0, angle_limit/180.0*M_PI);
 
 	// 2017-8-16 I found that previously I missed this. tilt_angle is limited, but tilt_cmd does not normalize
-	tilt_cmd = tilt_cmd/tilt_cmd_norm;
+	if (tilt_cmd_norm>1e-5)
+		tilt_cmd = tilt_cmd/tilt_cmd_norm;
 	Eigen::Vector3d angle_axis = tilt_cmd.cross(Eigen::Vector3d::UnitZ());
 	//ROS_INFO("angle: %4.3f|axis: %4.3f %4.3f %4.3f", tilt_angle, angle_axis(0), angle_axis(1), angle_axis(2));
 	/* get final target attitude */
@@ -305,4 +306,5 @@ void Drone::set_k_p_vert_vel(Eigen::Vector3d setting_vec)
 void Drone::set_position(Eigen::Vector3d setting_vec)
 {
 	quad.set_position(setting_vec);
+	lock_height = setting_vec(2);
 }

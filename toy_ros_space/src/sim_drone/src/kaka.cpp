@@ -21,6 +21,9 @@ KAKA::KAKA()
 	external_torque = Eigen::Vector3d::Zero();	
 
 	motor_rpm = Eigen::Array2d::Zero();	 // added this in kaka not in quadrotor, 
+	tgt_motor_rpm = Eigen::Array2d::Zero();
+	arm_angle = Eigen::Array2d::Zero();
+	tgt_arm_angle = Eigen::Array2d::Zero();
 	// because without it kaka will nan for thrust.
 	// so strange...
 }

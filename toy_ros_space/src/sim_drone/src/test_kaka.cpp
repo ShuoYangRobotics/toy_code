@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <Eigen/Dense>
 #include <urdf/model.h>
 #include <sensor_msgs/Joy.h>
@@ -30,7 +31,7 @@ int main ( int argc, char** argv)
 	joint_positions["base_to_right_arm"] = 0.0;
 
 	urdf::Model model;
-	model.initFile(std::string("/home/shuo/Desktop/toy_code/toy_ros_space/src/sim_drone/urdf/kaka.urdf"));
+	model.initFile(ros::package::getPath("sim_drone") + "/urdf/kaka.urdf");
 	robot_markers::Builder builder(model);
 	visualization_msgs::MarkerArray kaka_vis;
 	builder.Init();

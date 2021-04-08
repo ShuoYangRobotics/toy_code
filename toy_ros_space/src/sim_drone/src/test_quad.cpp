@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <tf/transform_broadcaster.h>
 #include <visualization_msgs/Marker.h>
 #include "Drone.h"
@@ -28,8 +29,8 @@ int main (int argc, char** argv)
 	// because line 98 cannot find right a
 	a = new Drone(0);
 	a->set_position(Eigen::Vector3d(0,-1,1));
-	b = new Drone(1);
-	b->set_position(Eigen::Vector3d(0,1,1));
+	// b = new Drone(1);
+	// b->set_position(Eigen::Vector3d(0,1,1));
 	ros::Subscriber sub = n.subscribe("/joy", 1000, obtain_joy);
 	setVizMarker(0);
 	//setVizMarker(1);
@@ -45,14 +46,14 @@ int main (int argc, char** argv)
 
 		/* simulation step */
 		a->sim_step(0.02);
-		b->sim_step(0.02);
+		// b->sim_step(0.02);
 	
 		/* update visualization */
 		Eigen::Quaterniond quaternion = a->get_attitude();
 		Eigen::Vector3d position = a->get_position();
 		updateVizMarker(0,position, quaternion);
-		quaternion = b->get_attitude();
-		position = b->get_position();
+		// quaternion = b->get_attitude();
+		// position = b->get_position();
 		//updateVizMarker(1,position, quaternion);
 
 		/* test only, use tf to display rotation */
@@ -81,7 +82,8 @@ void setVizMarker(int id)
 	marker[id].id = id;
 	marker[id].type = visualization_msgs::Marker::MESH_RESOURCE;
 	marker[id].action = visualization_msgs::Marker::ADD;
-  	marker[id].mesh_resource = std::string("package://sim_drone/meshes/hummingbird.mesh");
+  	marker[id].mesh_resource = "package://sim_drone/meshes/hummingbird.mesh";
+	
 	marker[id].scale.x = 0.5;
 	marker[id].scale.y = 0.5;
 	marker[id].scale.z = 0.2;
@@ -106,5 +108,5 @@ void updateVizMarker(int id, Eigen::Vector3d _pose, Eigen::Quaterniond _attitude
 void obtain_joy(const sensor_msgs::Joy::ConstPtr& joy_msg)
 {
 	a->obtain_joy(joy_msg);
-	b->obtain_joy(joy_msg);
+	// b->obtain_joy(joy_msg);
 }
